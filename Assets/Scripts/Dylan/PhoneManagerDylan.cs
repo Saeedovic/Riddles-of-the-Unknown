@@ -97,6 +97,11 @@ public class PhoneManagerDylan : MonoBehaviour
             PhoneCamera.SetActive(false);
             PhoneCamFollow.SetActive(false);
         }
+
+        if (Input.GetKey(KeyCode.Backspace))
+        {
+            BackButton();
+        }
     }
 
 
