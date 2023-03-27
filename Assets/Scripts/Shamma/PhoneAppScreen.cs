@@ -1,18 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class PhoneAppScreen : MonoBehaviour
+public abstract class PhoneAppScreen : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] protected GameObject firstHighlightedButton;
+    [SerializeField] protected Button backButton;
+
+    public virtual void OnOpenApp()
     {
-        
+        //PhoneMainMenu.onAppClose += OnCloseApp;
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(firstHighlightedButton);
+
+        backButton.onClick.AddListener(OnCloseApp);
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual void OnCloseApp()
     {
-        
+        PhoneMainMenu.onAppClose();
+        gameObject.SetActive(false);
     }
+
 }

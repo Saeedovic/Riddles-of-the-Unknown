@@ -1,16 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PhoneManager : MonoBehaviour
 {
     [SerializeField] GameObject phoneScreen;
-    bool phoneIsOut = false;
+    [SerializeField] List<GameObject> mainPhoneButtons;
+    bool phoneIsOut = true;
 
     void Start()
     {
-        SetPhoneState(phoneIsOut);
-        PhoneMainMenu.InitPhone(phoneScreen);
+        SetPhoneState(phoneIsOut); // close phone.
+        PhoneMainMenu.InitPhone(phoneScreen); // pass the given phone screen to PhoneMainMenu for it to load app components into its list
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(mainPhoneButtons[0]);
     }
 
     void Update()
@@ -23,7 +27,8 @@ public class PhoneManager : MonoBehaviour
 
     void SetPhoneState(bool phoneActive)
     {
-        if (phoneActive)
+        // when phone is inactive, make it active, and vice versa.
+        if (!phoneActive)
         {
             phoneScreen.SetActive(true);
         }
@@ -32,6 +37,6 @@ public class PhoneManager : MonoBehaviour
             phoneScreen.SetActive(false);
         }
 
-        phoneIsOut = !phoneIsOut;
+        phoneIsOut = !phoneIsOut; // flip the bool so we know we're in the other state
     }
 }
