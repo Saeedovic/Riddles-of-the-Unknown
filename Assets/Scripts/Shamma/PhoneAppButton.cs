@@ -2,38 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
-
 
 public class PhoneAppButton : MonoBehaviour
 {
-    [SerializeField] protected GameObject appScreenObj; // the app that we'll be opening with this button
-    protected PhoneAppScreen appScreen;
-    protected Button appButton;
+    [SerializeField] PhoneAppScreen appScreen;
+    Button appButton;
 
     private void Awake()
     {
-        //appScreen = transform.GetChild(0).gameObject;
-        if (appScreenObj == null)
+        if (appScreen == null)
         {
-            Debug.LogWarning($"The screen variable on {this.name} is not set. \n" +
-                $"Ensure that you have the corresponding screen to activate set in the App Screen field.");
-        }
-        else
-        {
-            appScreen = appScreenObj.GetComponent<PhoneAppScreen>();
+            Debug.LogError($"The screen variable on {this.name} is not set. \n" +
+            $"Please ensure that you have the corresponding screen to activate set in the App Screen field.");
         }
 
-        // subscribe our function to the button component's OnClick wihout having to set it via inspector.
         appButton = GetComponent<Button>();
-        appButton.onClick.AddListener(OnAppClicked); 
+        appButton.onClick.AddListener(OnAppClicked);
     }
 
     public void OnAppClicked()
     {
         Debug.Log("you clicked " + name + "!");
 
-        if (!appScreenObj.activeInHierarchy)
+        if (!appScreen.gameObject.activeInHierarchy)
         {
             PhoneMainMenu.onAppOpen(this);
         }
@@ -41,7 +32,7 @@ public class PhoneAppButton : MonoBehaviour
     }
 
     /*
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData data)
     {
         Debug.Log("you clicked " + name + "!");
 
@@ -50,7 +41,7 @@ public class PhoneAppButton : MonoBehaviour
             PhoneMainMenu.onAppOpen(this);
         }
         return;
-        
+
 
     }
     */
@@ -60,7 +51,7 @@ public class PhoneAppButton : MonoBehaviour
         //menu = mainMenu;
         //menu.gameObject.SetActive(false);
         // pull up the relevant ui and other objs to activate.
-        appScreenObj.SetActive(true);
+        appScreen.gameObject.SetActive(true);
         appScreen.OnOpenApp();
 
         /*
@@ -80,9 +71,8 @@ public class PhoneAppButton : MonoBehaviour
         //eventData.
     }
 
-
-    // call the onappclose delegate, which will call refreshphone, in turn calling this app's closeapp
-    /*public void OnCloseButtonClicked()
+    /*
+    public void OnCloseButtonClicked()
     {
         PhoneMainMenu.onAppClose(this);
     }
@@ -91,8 +81,11 @@ public class PhoneAppButton : MonoBehaviour
     {
         // processes involved in closing.
         // send event to call RefreshPhone
-        appScreenObj.SetActive(false);
-        
+        appScreen.SetActive(false);
+
     }*/
 
 }
+
+
+    
