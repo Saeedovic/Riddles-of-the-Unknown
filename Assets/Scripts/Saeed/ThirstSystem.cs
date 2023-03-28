@@ -5,39 +5,59 @@ using UnityEngine.UI;
 
 public class ThirstSystem : MonoBehaviour
 {
-    public float thirstLevel = 100f;
-    public float maxThirstLevel = 100f;
-    public float thirstThreshold = 30f;
-    public float thirstDepletionRate = 1f;
-    public float thirstPenaltyRate = 0.5f;
-    public Slider thirstSlider;
 
-    private void Start()
+    public float maxThirst = 100f; 
+    public float decreaseAmount = 1f; 
+    public float refillAmount = 100f; 
+    public float interactionDistance = 2f; 
+    public LayerMask interactionLayer; 
+
+    public float currentThirst; 
+
+    void Start()
     {
-        UpdateThirstLevelUI();
+        currentThirst = maxThirst; 
+        InvokeRepeating("DecreaseThirst", 5f, 5f); 
     }
 
-    private void Update()
+    void Update()
     {
-        float penaltyMultiplier = 1f;
-        if (thirstLevel <= thirstThreshold)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            penaltyMultiplier = thirstPenaltyRate;
+            Interact();
         }
-        thirstLevel -= thirstDepletionRate * penaltyMultiplier * Time.deltaTime;
-        thirstLevel = Mathf.Clamp(thirstLevel, 0f, maxThirstLevel);
-        UpdateThirstLevelUI();
     }
 
-    public void DrinkWater(float amount)
+    void DecreaseThirst()
     {
-        thirstLevel += amount;
-        thirstLevel = Mathf.Clamp(thirstLevel, 0f, maxThirstLevel);
-        UpdateThirstLevelUI();
+        currentThirst -= decreaseAmount; 
+        UpdateThirstBar(); 
+        Debug.Log("Current thirst level: " + currentThirst); 
     }
 
-    private void UpdateThirstLevelUI()
+    void Interact()
     {
-        thirstSlider.value = thirstLevel / maxThirstLevel;
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, interactionDistance, interactionLayer))
+        {
+            if (hit.collider.CompareTag("Water"))
+            {
+                RefillThirst();
+                Destroy(hit.collider.gameObject);
+            }
+        }
+    }
+
+    void RefillThirst()
+    {
+        currentThirst = Mathf.Min(currentThirst + refillAmount, maxThirst); 
+        UpdateThirstBar(); 
+        Debug.Log("Current thirst level: " + currentThirst); 
+    }
+
+    void UpdateThirstBar()
+    {
+        // idk how to do ittttttttttt the slider
+        
     }
 }
