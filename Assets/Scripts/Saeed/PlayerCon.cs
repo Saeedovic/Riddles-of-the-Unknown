@@ -2,79 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
 public class PlayerCon : MonoBehaviour
 {
-    public float movementSpeed = 5f;
-    public float jumpForce = 5f;
+    public float speed = 5f;
+    public float jumpForce = 10f;
+    public float gravity = -20f;
 
-    public ThirstSystem thirstSystem;
-    public StaminaSystem staminaSystem;
-
-    public CharacterController characterController;
-
-    private Vector3 moveDirection;
-    private bool isJumping;
+    private CharacterController controller;
+    private Vector3 playerVelocity;
 
     private void Start()
     {
-        characterController = GetComponent<CharacterController>();
-        moveDirection = Vector3.zero;
-        isJumping = false;
+        controller = GetComponent<CharacterController>();
     }
-
     private void Update()
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-        bool jump = Input.GetButtonDown("Jump");
 
-        Vector3 forward = transform.forward;
-        Vector3 right = transform.right;
-        forward.y = 0f;
-        right.y = 0f;
-        forward.Normalize();
-        right.Normalize();
-        moveDirection = forward * vertical + right * horizontal;
-        moveDirection *= movementSpeed;
-
-        if (!characterController.isGrounded)
+        Vector3 move = transform.right * horizontal + transform.forward * vertical;
+        controller.Move(move * speed * Time.deltaTime);
+        playerVelocity.y += gravity * Time.deltaTime;
+        controller.Move(playerVelocity * Time.deltaTime);
+        if (controller.isGrounded && Input.GetButtonDown("Jump"))
         {
-            moveDirection.y -= Physics.gravity.magnitude * Time.deltaTime;
-        }
-
-        if (jump && characterController.isGrounded && !isJumping && staminaSystem.HasStamina(20f))
-        {
-            moveDirection.y = jumpForce;
-            isJumping = true;
-            staminaSystem.UseStamina(20f);
-        }
-
-        if (moveDirection.magnitude > 0 && Input.GetKey(KeyCode.LeftShift) && staminaSystem.HasStamina(10f))
-        {
-            moveDirection *= staminaSystem.sprintSpeedMultiplier;
-            staminaSystem.UseStamina(10f);
-        }
-
-        characterController.Move(moveDirection * Time.deltaTime);
-
-       // thirstSystem.DrinkWater(5f * Time.deltaTime);
-
-        if (isJumping)
-        {
-          //  staminaSystem.RestoreStamina(2f * Time.deltaTime);
-        }
-        else
-        {
-           // staminaSystem.RestoreStamina(5f * Time.deltaTime);
-        }
-    }
-
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        if (characterController.isGrounded && isJumping)
-        {
-            isJumping = false;
+            playerVelocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
         }
     }
 }

@@ -6,70 +6,74 @@ using UnityEngine.UI;
 public class StaminaSystem : MonoBehaviour
 {
     public float maxStamina = 100f;
-    public float currentStamina;
-    public float sprintSpeedMultiplier = 2f;
-    public float staminaReductionRate = 10f;
-    public float staminaRegenerationRate = 10f;
-    public Slider staminaSlider;
+    public float staminaDecreaseRate = 10f;
+    public float staminaIncreaseRate = 20f;
 
-    private bool isSprinting = false;
+    public float currentStamina;
+    private bool isMoving;
+    private CharacterController controller;
+    public Slider staminaBar;
 
     private void Start()
     {
         currentStamina = maxStamina;
-        staminaSlider.maxValue = maxStamina;
-        staminaSlider.value = currentStamina;
+        controller = GetComponent<CharacterController>();
+        staminaBar = FindObjectOfType<Slider>();
+       // UpdateStaminaBar();
     }
 
     private void Update()
     {
-        if (isSprinting && currentStamina > 0f)
+        isMoving = (Mathf.Abs(Input.GetAxis("Horizontal")) > 0f || Mathf.Abs(Input.GetAxis("Vertical")) > 0f);
+
+        if (isMoving && currentStamina > 0f)
         {
-            float sprintReductionRate = staminaReductionRate * sprintSpeedMultiplier * Time.deltaTime;
-            currentStamina -= sprintReductionRate;
+            currentStamina -= staminaDecreaseRate * Time.deltaTime;
+            if (currentStamina <= 0f)
+            {
+                currentStamina = 0f;
+                isMoving = false;
+            }
+            UpdateStaminaBar();
         }
-        else
+        else if (!isMoving && currentStamina < maxStamina)
+        {       
+            currentStamina += staminaIncreaseRate * Time.deltaTime;
+            if (currentStamina > maxStamina)
+            {
+                currentStamina = maxStamina;
+            }
+
+          
+            UpdateStaminaBar();
+        }
+
+        
+        if (isMoving && currentStamina > 0f)
         {
-            float reductionRate = staminaReductionRate * Time.deltaTime;
-            currentStamina += reductionRate;
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
+
+            Vector3 move = transform.right * horizontal + transform.forward * vertical;
+            controller.Move(move * Time.deltaTime);
+
+           
+            currentStamina -= move.magnitude * staminaDecreaseRate * Time.deltaTime;
+
+            if (currentStamina <= 0f)
+            {
+                currentStamina = 0f;
+                isMoving = false;
+            }
+
+         
+            UpdateStaminaBar();
         }
-
-        currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
-
-        if (currentStamina < maxStamina && !isSprinting)
-        {
-            float regeneration = staminaRegenerationRate * Time.deltaTime;
-            currentStamina += regeneration;
-            currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
-        }
-
-        staminaSlider.value = currentStamina;
+        Debug.Log("current stamina:" + currentStamina);
     }
 
-    public void StartSprinting()
+    public void UpdateStaminaBar()
     {
-        isSprinting = true;
-    }
-
-    public void StopSprinting()
-    {
-        isSprinting = false;
-    }
-
-    public bool HasStamina(float amount)
-    {
-        return currentStamina >= amount;
-    }
-
-    public void UseStamina(float amount)
-    {
-        currentStamina -= amount;
-        currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
-        staminaSlider.value = currentStamina;
-    }
-
-    public float GetCurrentStamina()
-    {
-        return currentStamina;
+        staminaBar.value = currentStamina / maxStamina;
     }
 }
