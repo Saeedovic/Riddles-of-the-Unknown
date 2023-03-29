@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.UI;
 
 public class XPManager : MonoBehaviour
 {
@@ -11,7 +11,15 @@ public class XPManager : MonoBehaviour
     public TextMeshProUGUI maxHealthText, maxstaminaText,maxHungerText,maxThristText;
 
     public float currentXp, requiredXp, level, maxHealth, maxStamina, maxHunger, maxThrist, maxlevel;
-  
+
+
+    public Button upgradeHP;
+    public Button upgradeStamina;
+    public Button upgradeHunger;
+    public Button upgradeThrist;
+
+
+
 
     //public bool statHealth;
 
@@ -79,12 +87,58 @@ public class XPManager : MonoBehaviour
 
 
         cS.PlayerStatPoint = stat.currentPlayerStatPoint;
+
+
+
+        //Check if Stat Point is = 0, IF not then allow to upgrade 
+        if (cS.PlayerStatPoint == 0)
+        {
+            upgradeHP.interactable = false;
+            upgradeStamina.interactable = false;
+            upgradeHunger.interactable = false;
+            upgradeThrist.interactable = false;
+
+        }else if(cS.PlayerStatPoint >= 1)
+        {
+            upgradeHP.interactable = true;
+            upgradeStamina.interactable = true;
+            upgradeHunger.interactable = true;
+            upgradeThrist.interactable = true;
+        }
+
+
+        //Dont allow player current Attribute levels to exceed Max Values  
+        if(stat.currentHealth >= cS.MaxPlayerHealth)
+        {
+            stat.currentHealth = cS.MaxPlayerHealth;
+        }
+
+        if(stat.currentStamina >= cS.MaxPlayerStamina)
+        {
+            stat.currentStamina = cS.MaxPlayerStamina;
+        }
+
+        if (stat.currentHunger >= cS.MaxPlayerHunger)
+        {
+            stat.currentHunger = cS.MaxPlayerHunger;
+        }
+
+        if (stat.currentThrist >= cS.MaxPlayerThrist)
+        {
+            stat.currentThrist = cS.MaxPlayerThrist;
+        }
+
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            stat.currentHealth += 1;
+        }
+
     }
 
 
     public void AddXp(int xp)
     {
-        currentXp += xp * Time.deltaTime;
+        currentXp += xp;
 
         while(currentXp >= requiredXp) 
         {
@@ -103,10 +157,10 @@ public class XPManager : MonoBehaviour
             requiredXp = requiredXp * 10;
 
             //Level increased , REWARD PLAYER WITH 10+ ON THEIR STATS
-            stat.currentHealth += 10;
-            stat.currentStamina += 10;
+            //stat.currentHealth += 10;
+            //stat.currentStamina += 10;
 
-            if(cS.PlayerLevel == 2)
+           /* if(cS.PlayerLevel == 2)
             {
                 stat.currentHunger += 20;
                 stat.currentThrist += 20;
@@ -117,7 +171,7 @@ public class XPManager : MonoBehaviour
 
                 cS.MaxPlayerHunger += 50;
                 cS.MaxPlayerThrist += 50;
-            }
+            }*/
             
 
             stat.health.text = stat.currentHealth.ToString("0");
@@ -146,7 +200,10 @@ public class XPManager : MonoBehaviour
     {
         Debug.Log("dog");
         stat.currentPlayerStatPoint -= 1;
-        stat.currentHealth += cS.healthStatPointInc;
+        cS.MaxPlayerHealth += 10;
+        maxHealthText.text = cS.MaxPlayerHealth.ToString("0");
+
+       // stat.currentHealth += cS.healthStatPointInc;
         cS.PlayerStatPoint = stat.currentPlayerStatPoint;
         currentPlayerStatPointText.text = cS.PlayerStatPoint.ToString("0");
     }
@@ -155,7 +212,10 @@ public class XPManager : MonoBehaviour
     public void InceaseStatStamina()
     {
         stat.currentPlayerStatPoint -= 1;
-        stat.currentStamina += cS.staminaStatPointInc;
+        cS.MaxPlayerStamina += 10;
+        maxstaminaText.text = cS.MaxPlayerStamina.ToString("0");
+
+       // stat.currentStamina += cS.staminaStatPointInc;
         cS.PlayerStatPoint = stat.currentPlayerStatPoint;
         currentPlayerStatPointText.text = cS.PlayerStatPoint.ToString("0");
     }
@@ -163,7 +223,11 @@ public class XPManager : MonoBehaviour
     public void InceaseStatHunger()
     {
         stat.currentPlayerStatPoint -= 1;
-        stat.currentHunger += cS.hungerStatPointInc;
+        cS.MaxPlayerHunger += 10;
+        
+        maxHungerText.text = cS.MaxPlayerHunger.ToString("0");
+
+        //stat.currentHunger += cS.hungerStatPointInc;
         cS.PlayerStatPoint = stat.currentPlayerStatPoint;
         currentPlayerStatPointText.text = cS.PlayerStatPoint.ToString("0");
     }
@@ -172,7 +236,11 @@ public class XPManager : MonoBehaviour
     public void InceaseStatThrist()
     {
         stat.currentPlayerStatPoint -= 1;
-        stat.currentThrist += cS.thristStatPointInc;
+        cS.MaxPlayerThrist += 10;
+      
+        maxThristText.text = cS.MaxPlayerThrist.ToString("0");
+
+        //stat.currentThrist += cS.thristStatPointInc;
         cS.PlayerStatPoint = stat.currentPlayerStatPoint;
         currentPlayerStatPointText.text = cS.PlayerStatPoint.ToString("0");
     }
