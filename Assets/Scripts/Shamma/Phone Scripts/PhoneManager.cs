@@ -7,12 +7,14 @@ public class PhoneManager : MonoBehaviour
 {
     [SerializeField] GameObject phoneScreen;
     [SerializeField] List<GameObject> mainPhoneButtons;
-    bool phoneIsOut = true;
+    public static bool phoneIsOut { get; private set; }
 
     void Start()
     {
+        phoneIsOut = true;
         SetPhoneState(phoneIsOut); // close phone.
         PhoneMainMenu.InitPhone(phoneScreen); // pass the given phone screen to PhoneMainMenu for it to load app components into its list
+
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(mainPhoneButtons[0]);
     }
