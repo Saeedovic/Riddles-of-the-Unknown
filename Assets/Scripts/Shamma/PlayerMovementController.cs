@@ -21,7 +21,7 @@ public class PlayerMovementController : MonoBehaviour
         //-----Dylan------//
 
         //TO ADD XP to Player's Xp variable
-        if (Input.GetKey(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L))
         {
             xP.AddXp(10);
         }
