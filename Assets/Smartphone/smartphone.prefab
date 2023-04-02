@@ -744,6 +744,13 @@ MonoBehaviour:
   _App5: {fileID: 9143030411103046599}
   _App6: {fileID: 2903966961068082468}
   backButton: {fileID: 2803853992845990481}
+  MainCamera: {fileID: 0}
+  MainCamFollow: {fileID: 0}
+  PhoneCamera: {fileID: 0}
+  PhoneCamFollow: {fileID: 0}
+  camPoint: {fileID: 0}
+  phone: {fileID: 0}
+  OriginalPhonePos: {fileID: 0}
 --- !u!1 &2535463298462898410
 GameObject:
   m_ObjectHideFlags: 0
