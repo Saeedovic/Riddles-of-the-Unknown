@@ -16,15 +16,15 @@ MonoBehaviour:
   description: 
   PlayerHealth: 100
   PlayerStamina: 100
-  PlayerHunger: 96.481865
-  PlayerThrist: 96.481865
+  PlayerHunger: 98.78286
+  PlayerThrist: 98.78286
   PlayerLevel: 1
-  PlayerXP: 50
-  PlayerStatPoint: 2
-  MaxPlayerHealth: 120
-  MaxPlayerStamina: 120
-  MaxPlayerHunger: 120
-  MaxPlayerThrist: 120
+  PlayerXP: 0
+  PlayerStatPoint: 10
+  MaxPlayerHealth: 100
+  MaxPlayerStamina: 100
+  MaxPlayerHunger: 100
+  MaxPlayerThrist: 100
   MaxPlayerLevel: 10
   staminaUpRate: 1
   healthUpRate: 0
