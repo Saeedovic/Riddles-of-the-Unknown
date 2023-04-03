@@ -6,6 +6,8 @@ public class PlayerInteractor : MonoBehaviour
 {
     [SerializeField] float rayRange;
     [SerializeField] LayerMask interactablesLayer;
+    [SerializeField] Color highlightColor = Color.yellow;
+
     public bool interactableIsInRange { get; private set; }
     public bool interactionActive { get; private set; } // have these visible for other scripts to be able to
                                                         // do things depending on whether the player's in an interaction.
@@ -27,7 +29,6 @@ public class PlayerInteractor : MonoBehaviour
             interactableIsInRange = CheckForInteractable();
 
             if (interactableIsInRange 
-                && currentObject.IsInteractable() 
                 && Input.GetMouseButtonDown(0))
             {
                 interactionActive = true;
@@ -52,31 +53,54 @@ public class PlayerInteractor : MonoBehaviour
         {
             IInteractableObject newObject = hit.collider.GetComponent<IInteractableObject>();
 
-            // if we don't have an interactable in sight already, make it this one
-            if (currentObject == null)
+            if (newObject.IsInteractable())
             {
-                currentObject = newObject;
-                currentObject.OnHighlight();
-            }
+                // if we don't have an interactable in sight already, make it this one
+                if (currentObject == null)
+                {
+                    OnObjectSelect(newObject);
+                }
 
-            // if we do have an interactable, switch the previous one for the new one
-            if (newObject != currentObject)
-            {
-                currentObject.OnDeHighlight();
-                currentObject = newObject;
-                currentObject.OnHighlight();
+                // if we do have an interactable, switch the previous one for the new one
+                if (newObject != currentObject)
+                {
+                    OnObjectDeselect();
+                    OnObjectSelect(newObject);
+                }
+
+                return true;
             }
-            
-            return true;
+            return false;
         }
         else
         {
             if (currentObject != null)
             {
-                currentObject.OnDeHighlight();
+                OnObjectDeselect();
                 currentObject = null;
             }
             return false;
         }
     }
+
+    void OnObjectSelect(IInteractableObject newObj)
+    {
+        currentObject = newObj;
+        currentObject.OnHighlight();
+
+        
+        Outline outline = currentObject.gameObject.AddComponent<Outline>();
+        outline.OutlineMode = Outline.Mode.OutlineVisible;
+        outline.OutlineColor = highlightColor;
+        outline.OutlineWidth = 5f;
+    }
+
+    void OnObjectDeselect()
+    {
+        currentObject.OnDeHighlight();
+
+        Destroy(currentObject.gameObject.GetComponent<Outline>());
+    }
+
+
 }
