@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public interface IInteractableObject
 {
+    public GameObject gameObject { get; }
+
     public void Interact(GameObject user); // self explanatory. use the player passed in if needed
     public void OnHighlight();
     public void OnDeHighlight();
