@@ -1,49 +1,63 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HungerSystem : MonoBehaviour
 {
-    public DisplayStats stats;
 
-    [SerializeField] private float decreaseRate = 10f;
-    [SerializeField] private float increaseAmount = 100f;
+    public float maxHunger = 100f;
+    public float decreaseAmount = 1f;
+    public float refillAmount = 100f;
+    public float interactionDistance = 2f;
+    public LayerMask interactionLayer;
 
-    private bool isInteracting = false;
+    public float currentHunger;
+    public Slider hungerBar;
 
-    private void Start()
+    void Start()
     {
-        StartCoroutine(DecreaseHunger());
+        currentHunger = maxHunger;
+        InvokeRepeating("DecreaseHunger", 5f, 5f);
     }
 
-    private IEnumerator DecreaseHunger()
+    void Update()
     {
-        while (true)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            if (!isInteracting)
+            Interact();
+        }
+    }
+
+    void DecreaseHunger()
+    {
+        currentHunger -= decreaseAmount;
+        UpdateHungerBar();
+        Debug.Log("Current hunger level: " + currentHunger);
+    }
+
+    void Interact()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, interactionDistance, interactionLayer))
+        {
+            if (hit.collider.CompareTag("Food"))
             {
-                stats.currentHunger -= decreaseRate;
-                stats.UpdateUI();
+                RefillHunger();
+                Destroy(hit.collider.gameObject);
             }
-
-            yield return new WaitForSeconds(1f);
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    void RefillHunger()
     {
-        if (other.gameObject.CompareTag("Food"))
-        {
-            isInteracting = true;
-            stats.currentHunger = increaseAmount;
-            stats.UpdateUI();
-
-            StartCoroutine(ResetInteracting());
-        }
+        currentHunger = Mathf.Min(currentHunger + refillAmount, maxHunger);
+        UpdateHungerBar();
+        Debug.Log("Current hunger level: " + currentHunger);
     }
 
-    private IEnumerator ResetInteracting()
+    void UpdateHungerBar()
     {
-        yield return new WaitForSeconds(1f);
-        isInteracting = false;
+        hungerBar.value = currentHunger;
     }
 }

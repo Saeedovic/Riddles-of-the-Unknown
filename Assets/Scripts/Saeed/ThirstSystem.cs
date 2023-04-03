@@ -6,18 +6,19 @@ using UnityEngine.UI;
 public class ThirstSystem : MonoBehaviour
 {
 
-    public float maxThirst = 100f; 
-    public float decreaseAmount = 1f; 
-    public float refillAmount = 100f; 
-    public float interactionDistance = 2f; 
-    public LayerMask interactionLayer; 
+    public float maxThirst = 100f;
+    public float decreaseAmount = 1f;
+    public float refillAmount = 100f;
+    public float interactionDistance = 2f;
+    public LayerMask interactionLayer;
 
-    public float currentThirst; 
+    public float currentThirst;
+    public Slider thirstBar;
 
     void Start()
     {
-        currentThirst = maxThirst; 
-        InvokeRepeating("DecreaseThirst", 5f, 5f); 
+        currentThirst = maxThirst;
+        InvokeRepeating("DecreaseThirst", 5f, 5f);
     }
 
     void Update()
@@ -30,9 +31,9 @@ public class ThirstSystem : MonoBehaviour
 
     void DecreaseThirst()
     {
-        currentThirst -= decreaseAmount; 
-        UpdateThirstBar(); 
-        Debug.Log("Current thirst level: " + currentThirst); 
+        currentThirst -= decreaseAmount;
+        UpdateThirstBar();
+        Debug.Log("Current thirst level: " + currentThirst);
     }
 
     void Interact()
@@ -50,14 +51,14 @@ public class ThirstSystem : MonoBehaviour
 
     void RefillThirst()
     {
-        currentThirst = Mathf.Min(currentThirst + refillAmount, maxThirst); 
-        UpdateThirstBar(); 
-        Debug.Log("Current thirst level: " + currentThirst); 
+        currentThirst = Mathf.Min(currentThirst + refillAmount, maxThirst);
+        UpdateThirstBar();
+        Debug.Log("Current thirst level: " + currentThirst);
     }
 
     void UpdateThirstBar()
     {
-        // idk how to do ittttttttttt the slider
-        
+        thirstBar.value = currentThirst;
+
     }
 }
