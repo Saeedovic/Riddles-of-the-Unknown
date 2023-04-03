@@ -8,7 +8,7 @@ public class PlayerInteractor : MonoBehaviour
     [SerializeField] LayerMask interactablesLayer;
     [SerializeField] Color highlightColor = Color.yellow;
 
-    public bool interactableIsInRange { get; private set; }
+    public bool interactableAvailable { get; private set; }
     public bool interactionActive { get; private set; } // have these visible for other scripts to be able to
                                                         // do things depending on whether the player's in an interaction.
 
@@ -17,7 +17,7 @@ public class PlayerInteractor : MonoBehaviour
     private void Start()
     {
         interactionActive = false;
-        interactableIsInRange = false;
+        interactableAvailable = false;
     }
 
     private void FixedUpdate()
@@ -26,9 +26,9 @@ public class PlayerInteractor : MonoBehaviour
 
         if (!interactionActive)
         {
-            interactableIsInRange = CheckForInteractable();
+            interactableAvailable = CheckForInteractable();
 
-            if (interactableIsInRange 
+            if (interactableAvailable 
                 && Input.GetMouseButtonDown(0))
             {
                 interactionActive = true;
