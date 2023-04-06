@@ -12,12 +12,17 @@ public class PlayerInteractor : MonoBehaviour
     public bool interactionActive { get; private set; } // have these visible for other scripts to be able to
                                                         // do things depending on whether the player's in an interaction.
 
-    IInteractableObject currentObject;
+    public IInteractableObject currentObject { get; private set; }
+
+    [HideInInspector] public XPManager xP;
+
 
     private void Start()
     {
         interactionActive = false;
         interactableAvailable = false;
+
+        xP = GetComponent<XPManager>();
     }
 
     private void FixedUpdate()
@@ -34,7 +39,7 @@ public class PlayerInteractor : MonoBehaviour
                 interactionActive = true;
                 //interactableIsInRange = false;
 
-                currentObject.Interact(this.gameObject);
+                currentObject.Interact(this);
 
                 interactionActive = false;
             }

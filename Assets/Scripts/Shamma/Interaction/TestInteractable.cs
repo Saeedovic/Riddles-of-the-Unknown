@@ -5,16 +5,20 @@ using UnityEngine;
 public class TestInteractable : MonoBehaviour, IInteractableObject
 {
     [SerializeField] bool isInteractable = true;
+    [SerializeField] int xpGiven;
 
-    public void Interact(GameObject user)
+    public void Interact(PlayerInteractor user)
     {
         Debug.Log("hello! you just clicked me");
 
         // spawn a cube and set this mesh off (just to visually show something happened)
         MeshRenderer mesh = GetComponent<MeshRenderer>();
+        //GameObject.CreatePrimitive(PrimitiveType.Cube);
+
         mesh.enabled = false;
 
-        GameObject.CreatePrimitive(PrimitiveType.Cube);
+        user.xP.AddXp(xpGiven);
+        Debug.Log($"you got {xpGiven} XP!");
 
         isInteractable = false;
     }
