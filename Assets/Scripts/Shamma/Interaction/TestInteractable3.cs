@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestInteractable : MonoBehaviour, IInteractableObject
+public class TestInteractable3 : MonoBehaviour, IInteractableObject
 {
     [SerializeField] bool isInteractable = true;
     [SerializeField] int xpGiven;
@@ -11,9 +11,11 @@ public class TestInteractable : MonoBehaviour, IInteractableObject
     {
         Debug.Log("hello! you just clicked me");
 
-        // set this mesh off (just to visually show something happened)
+        // spawn a cube and set this mesh off (just to visually show something happened)
         MeshRenderer mesh = GetComponent<MeshRenderer>();
-
+        //GameObject.CreatePrimitive(PrimitiveType.Cube);
+        var test = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        test.transform.position = this.transform.position;
         mesh.enabled = false;
 
         user.xP.AddXp(xpGiven);
