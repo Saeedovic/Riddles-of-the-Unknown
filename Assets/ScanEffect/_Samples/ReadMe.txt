@@ -1,0 +1,1 @@
+This samples uses the old Input System, so if you have any input errors enable the old Input System or both Inputs System.
