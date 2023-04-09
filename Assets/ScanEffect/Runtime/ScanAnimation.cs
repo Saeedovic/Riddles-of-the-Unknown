@@ -17,6 +17,10 @@ namespace OD.Effect.HDRP {
         
         [Tooltip("Scan Radius Move Speed")]
         public float scanSpeed = 180;
+        public float cooldownTime = 7f;
+        float initialCooldownTime = 0f;
+        bool cooldownActive = false;
+
         [Tooltip("Enable this to use custom inputs. Call these function in your custom inputs: StartScan() | StartStealthVision(), EndStealthVision()")]
         public bool customInput = false;
         [Tooltip("Key used to start scan animation. StealthVision Mode need to hold the input key")]
@@ -54,8 +58,27 @@ namespace OD.Effect.HDRP {
 
         public CurState CurrentState => curState;
 
+
+        private void Start()
+        {
+            initialCooldownTime = cooldownTime;
+        }
+
         void Update(){
-            InputHandle();
+
+            cooldownTime += Time.deltaTime;
+
+            if (cooldownTime > initialCooldownTime)
+            {
+                cooldownTime = initialCooldownTime;
+                cooldownActive = false;
+            }
+
+            if (!cooldownActive)
+            {
+                InputHandle();
+            }
+
             HandleScanAnim();
         }
 
@@ -198,6 +221,8 @@ namespace OD.Effect.HDRP {
             if(mode == Mode.Scan){
                 if(Input.GetKeyDown(inputKey)){
                     StartScan();
+                    cooldownTime = 0f;
+                    cooldownActive = true;
                 }
             } else {
                 if(Input.GetKey(inputKey) && curState == CurState.End){

@@ -9,8 +9,8 @@ public class HungerSystem : MonoBehaviour
     public float maxHunger = 100f;
     public float decreaseAmount = 1f;
     public float refillAmount = 100f;
-    public float interactionDistance = 2f;
-    public LayerMask interactionLayer;
+    //public float interactionDistance = 2f;
+    //public LayerMask interactionLayer;
 
     public float currentHunger;
     public Slider hungerBar;
@@ -21,13 +21,13 @@ public class HungerSystem : MonoBehaviour
         InvokeRepeating("DecreaseHunger", 5f, 5f);
     }
 
-    void Update()
+    /*void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
             Interact();
         }
-    }
+    }*/
 
     void DecreaseHunger()
     {
@@ -36,7 +36,7 @@ public class HungerSystem : MonoBehaviour
         Debug.Log("Current hunger level: " + currentHunger);
     }
 
-    void Interact()
+    /*void Interact()
     {
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, interactionDistance, interactionLayer))
@@ -47,9 +47,9 @@ public class HungerSystem : MonoBehaviour
                 Destroy(hit.collider.gameObject);
             }
         }
-    }
+    }*/
 
-    void RefillHunger()
+    public void RefillHunger()
     {
         currentHunger = Mathf.Min(currentHunger + refillAmount, maxHunger);
         UpdateHungerBar();
