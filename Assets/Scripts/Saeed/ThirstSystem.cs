@@ -49,7 +49,7 @@ public class ThirstSystem : MonoBehaviour
         }
     }
 
-    void RefillThirst()
+    public void RefillThirst()
     {
         currentThirst = Mathf.Min(currentThirst + refillAmount, maxThirst);
         UpdateThirstBar();
