@@ -6,7 +6,8 @@ public class PlayerInteractor : MonoBehaviour
 {
     [SerializeField] float rayRange;
     [SerializeField] LayerMask interactablesLayer;
-    [SerializeField] Color highlightColor = Color.yellow;
+    //[SerializeField] Color highlightColor = Color.yellow;
+    [SerializeField] Material highlightMaterial;
 
     public bool interactableAvailable { get; private set; }
     public bool interactionActive { get; private set; } // have these visible for other scripts to be able to
@@ -93,18 +94,39 @@ public class PlayerInteractor : MonoBehaviour
         currentObject = newObj;
         currentObject.OnHighlight();
 
+        // manually add outline material by creating a new material array and putting outline at the end.
+        Renderer meshRenderer = currentObject.gameObject.GetComponent<Renderer>();
+        Material[] matArray = new Material[meshRenderer.materials.Length + 1];
+
+        for (int i = 0; i < meshRenderer.materials.Length; i++)
+        {
+            matArray[i] = meshRenderer.materials[i];
+        }
+
+        matArray[matArray.Length - 1] = highlightMaterial;
+        meshRenderer.materials = matArray;
         
-        Outline outline = currentObject.gameObject.AddComponent<Outline>();
+        /*Outline outline = currentObject.gameObject.AddComponent<Outline>();
         outline.OutlineMode = Outline.Mode.OutlineVisible;
         outline.OutlineColor = highlightColor;
-        outline.OutlineWidth = 5f;
+        outline.OutlineWidth = 5f;*/
     }
 
     void OnObjectDeselect()
     {
+        MeshRenderer meshRenderer = currentObject.gameObject.GetComponent<MeshRenderer>();
+        Material[] matArray = new Material[meshRenderer.materials.Length - 1];
+
+        for (int i = 0; i < matArray.Length; i++)
+        {
+            matArray[i] = meshRenderer.materials[i];
+        }
+
+        meshRenderer.materials = matArray;
+
         currentObject.OnDeHighlight();
 
-        Destroy(currentObject.gameObject.GetComponent<Outline>());
+        //Destroy(currentObject.gameObject.GetComponent<Outline>());
     }
 
 
