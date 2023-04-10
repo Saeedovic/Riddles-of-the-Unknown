@@ -11,12 +11,13 @@ public class PhoneManager : MonoBehaviour
 
     void Start()
     {
-        phoneIsOut = true;
-        SetPhoneState(phoneIsOut); // close phone.
         PhoneMainMenu.InitPhone(phoneScreen); // pass the given phone screen to PhoneMainMenu for it to load app components into its list
 
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(mainPhoneButtons[0]);
+
+        phoneIsOut = true;
+        SetPhoneState(phoneIsOut); // close phone.
     }
 
     void Update()
