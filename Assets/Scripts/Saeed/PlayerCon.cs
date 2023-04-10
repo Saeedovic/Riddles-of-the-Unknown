@@ -9,14 +9,14 @@ public class PlayerCon : MonoBehaviour
     public float runSpeed = 10f;
     public float jumpForce = 10f;
     public float gravity = -20f;
-    public float sensitivity = 100f;
-    public Transform cameraTransform;
+    //public float sensitivity = 100f;
+    //public Transform cameraTransform;
     public KeyCode runKey = KeyCode.LeftShift;
 
     private CharacterController controller;
     private Vector3 playerVelocity;
-    private float mouseX = 0f;
-    private float mouseY = 0f;
+    //private float mouseX = 0f;
+    //private float mouseY = 0f;
     public bool isRunning = false;
 
     private void Start()
@@ -29,12 +29,12 @@ public class PlayerCon : MonoBehaviour
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-        mouseX += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
-        mouseY -= Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
-        mouseY = Mathf.Clamp(mouseY, -90f, 90f);
+        //mouseX += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
+        //mouseY -= Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
+        //mouseY = Mathf.Clamp(mouseY, -90f, 90f);
 
-        cameraTransform.localRotation = Quaternion.Euler(mouseY, 0f, 0f);
-        transform.rotation = Quaternion.Euler(0f, mouseX, 0f);
+        //cameraTransform.localRotation = Quaternion.Euler(mouseY, 0f, 0f);
+        //transform.rotation = Quaternion.Euler(0f, mouseX, 0f);
 
         Vector3 move = transform.right * horizontal + transform.forward * vertical;
 
