@@ -35,4 +35,9 @@ public class PhoneCameraApp : PhoneAppScreen
         return tex;
     }
 
+    public override void OnCloseApp()
+    {
+        base.OnCloseApp();
+        picTakingButton?.onClick.RemoveListener(TakeSnapshot);
+    }
 }
