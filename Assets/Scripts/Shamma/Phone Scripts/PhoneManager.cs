@@ -31,6 +31,11 @@ public class PhoneManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
         {
             SetPhoneState(phoneIsOut);
+            if (phoneIsOut)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(mainPhoneButtons[0]);
+            }
         }
     }
 

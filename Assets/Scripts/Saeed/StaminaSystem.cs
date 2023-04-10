@@ -12,6 +12,7 @@ public class StaminaSystem : MonoBehaviour
     public float currentStamina;
     private CharacterController controller;
     public Slider staminaBar;
+    public Slider secondStaminaBar;
     private PlayerCon playerCon;
 
     private void Start()
@@ -72,5 +73,10 @@ public class StaminaSystem : MonoBehaviour
     public void UpdateStaminaBar()
     {
         staminaBar.value = currentStamina;
+
+        if (secondStaminaBar != null)
+        {
+            secondStaminaBar.value = currentStamina;
+        }
     }
 }

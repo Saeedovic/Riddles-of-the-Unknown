@@ -14,6 +14,7 @@ public class HungerSystem : MonoBehaviour
 
     public float currentHunger;
     public Slider hungerBar;
+    public Slider secondHungerBar;
 
     void Start()
     {
@@ -59,5 +60,10 @@ public class HungerSystem : MonoBehaviour
     void UpdateHungerBar()
     {
         hungerBar.value = currentHunger;
+
+        if (secondHungerBar != null)
+        {
+            secondHungerBar.value = currentHunger;
+        }
     }
 }

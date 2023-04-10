@@ -14,6 +14,7 @@ public class ThirstSystem : MonoBehaviour
 
     public float currentThirst;
     public Slider thirstBar;
+    public Slider secondThirstBar;
 
     void Start()
     {
@@ -60,5 +61,9 @@ public class ThirstSystem : MonoBehaviour
     {
         thirstBar.value = currentThirst;
 
+        if (secondThirstBar != null)
+        {
+            secondThirstBar.value = currentThirst;
+        }
     }
 }
