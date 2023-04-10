@@ -96,15 +96,18 @@ public class PlayerInteractor : MonoBehaviour
 
         // manually add outline material by creating a new material array and putting outline at the end.
         Renderer meshRenderer = currentObject.gameObject.GetComponent<Renderer>();
-        Material[] matArray = new Material[meshRenderer.materials.Length + 1];
-
-        for (int i = 0; i < meshRenderer.materials.Length; i++)
+        if (meshRenderer != null)
         {
-            matArray[i] = meshRenderer.materials[i];
-        }
+            Material[] matArray = new Material[meshRenderer.materials.Length + 1];
 
-        matArray[matArray.Length - 1] = highlightMaterial;
-        meshRenderer.materials = matArray;
+            for (int i = 0; i < meshRenderer.materials.Length; i++)
+            {
+                matArray[i] = meshRenderer.materials[i];
+            }
+
+            matArray[matArray.Length - 1] = highlightMaterial;
+            meshRenderer.materials = matArray;
+        }
         
         /*Outline outline = currentObject.gameObject.AddComponent<Outline>();
         outline.OutlineMode = Outline.Mode.OutlineVisible;
@@ -115,16 +118,19 @@ public class PlayerInteractor : MonoBehaviour
     void OnObjectDeselect()
     {
         MeshRenderer meshRenderer = currentObject.gameObject.GetComponent<MeshRenderer>();
-        Material[] matArray = new Material[meshRenderer.materials.Length - 1];
-
-        for (int i = 0; i < matArray.Length; i++)
+        if (meshRenderer != null)
         {
-            matArray[i] = meshRenderer.materials[i];
+            Material[] matArray = new Material[meshRenderer.materials.Length - 1];
+
+            for (int i = 0; i < matArray.Length; i++)
+            {
+                matArray[i] = meshRenderer.materials[i];
+            }
+
+            meshRenderer.materials = matArray;
+
+            currentObject.OnDeHighlight();
         }
-
-        meshRenderer.materials = matArray;
-
-        currentObject.OnDeHighlight();
 
         //Destroy(currentObject.gameObject.GetComponent<Outline>());
     }

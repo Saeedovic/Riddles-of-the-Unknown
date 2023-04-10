@@ -18,7 +18,7 @@ public class StaminaSystem : MonoBehaviour
     {
         currentStamina = maxStamina;
         controller = GetComponent<CharacterController>();
-        staminaBar = FindObjectOfType<Slider>();
+        //staminaBar = FindObjectOfType<Slider>();
         playerCon = GetComponent<PlayerCon>();
         UpdateStaminaBar();
     }
