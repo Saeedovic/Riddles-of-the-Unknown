@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 261.9017, g: 324.45706, b: 429.4361, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6826,6 +6826,26 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8320547773193115710, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
+      propertyPath: m_Value
+      value: 82
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320547773847821151, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
+      propertyPath: m_Value
+      value: 56.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320547773847821151, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
+      propertyPath: m_Transition
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320547773847821151, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320547773985711027, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8320547774010552852, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -6837,6 +6857,10 @@ PrefabInstance:
     - target: {fileID: 8320547774010552852, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320547774439022646, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
+      propertyPath: m_Value
+      value: 29.3
       objectReference: {fileID: 0}
     - target: {fileID: 8320547774451473026, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
       propertyPath: m_AnchorMax.x
@@ -7708,7 +7732,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &964814793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9755,6 +9779,7 @@ MonoBehaviour:
   phoneScreen: {fileID: 141360991}
   mainPhoneButtons:
   - {fileID: 1982639900}
+  playerUI: {fileID: 0}
 --- !u!114 &1415426842
 MonoBehaviour:
   m_ObjectHideFlags: 0
