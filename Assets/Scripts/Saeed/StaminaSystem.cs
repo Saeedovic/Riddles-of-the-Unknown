@@ -15,11 +15,11 @@ public class StaminaSystem : MonoBehaviour
     public Slider secondStaminaBar;
     private PlayerCon playerCon;
 
-    private void Start()
+    public void Start()
     {
         currentStamina = maxStamina;
         controller = GetComponent<CharacterController>();
-        //staminaBar = FindObjectOfType<Slider>();
+        staminaBar = FindObjectOfType<Slider>();
         playerCon = GetComponent<PlayerCon>();
         UpdateStaminaBar();
     }
