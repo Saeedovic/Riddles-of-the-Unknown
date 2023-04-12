@@ -9,26 +9,47 @@ public class HungerSystem : MonoBehaviour
     public float maxHunger = 100f;
     public float decreaseAmount = 1f;
     public float refillAmount = 100f;
-    //public float interactionDistance = 2f;
-    //public LayerMask interactionLayer;
-
+    public float interactionDistance = 2f;
+    public LayerMask interactionLayer;
+    private QuestManager questManager;
+    public bool ate;
     public float currentHunger;
     public Slider hungerBar;
     public Slider secondHungerBar;
 
-    void Start()
+    public void Start()
     {
         currentHunger = maxHunger;
+        questManager = GetComponent<QuestManager>();
         InvokeRepeating("DecreaseHunger", 5f, 5f);
     }
 
-    /*void Update()
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Interact();
+            if (!ate)
+            {
+                Interact();
+            }
+            else // the player can eat after the quest is completed 
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, transform.forward, out hit, interactionDistance, interactionLayer))
+                {
+                    if (hit.collider.CompareTag("Food"))
+                    {
+                        RefillHunger();
+                        Destroy(hit.collider.gameObject);
+                        questManager.CompleteCurrentQuest();
+                        ate = true;
+
+                    }
+                }
+            }
+
         }
-    }*/
+    }
 
     void DecreaseHunger()
     {
@@ -37,18 +58,23 @@ public class HungerSystem : MonoBehaviour
         Debug.Log("Current hunger level: " + currentHunger);
     }
 
-    /*void Interact()
+    void Interact()
     {
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, interactionDistance, interactionLayer))
         {
             if (hit.collider.CompareTag("Food"))
             {
-                RefillHunger();
-                Destroy(hit.collider.gameObject);
+                if (questManager != null && questManager.quests[questManager.currentQuestIndex] == "Find some food")
+                {
+                    RefillHunger();
+                    Destroy(hit.collider.gameObject);
+                    questManager.CompleteCurrentQuest();
+                    ate = true;
+                }
             }
         }
-    }*/
+    }
 
     public void RefillHunger()
     {
