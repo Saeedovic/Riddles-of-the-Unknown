@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PhoneAppButton : MonoBehaviour
 {
     [SerializeField] PhoneAppScreen appScreen;
+    public PhoneAppScreen phoneAppScreen { get { return appScreen; } }
     Button appButton;
 
     private void Awake()
@@ -22,7 +23,7 @@ public class PhoneAppButton : MonoBehaviour
 
     public void OnAppClicked()
     {
-        Debug.Log("you clicked " + name + "!");
+        //Debug.Log("you clicked " + name + "!");
 
         if (!appScreen.gameObject.activeInHierarchy)
         {

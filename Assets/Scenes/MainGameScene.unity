@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 262.3369, g: 325.0498, b: 430.21924, a: 1}
+  m_IndirectSpecularColor: {r: 261.9017, g: 324.45706, b: 429.4361, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -351,6 +351,17 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &53494895 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8320547774439022646, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
+  m_PrefabInstance: {fileID: 1759321266}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &73788182
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,6 +487,57 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 80474637}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &86493148
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 86493149}
+  - component: {fileID: 86493150}
+  m_Layer: 0
+  m_Name: Phone Object
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &86493149
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86493148}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1576260077}
+  m_Father: {fileID: 257791967}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &86493150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86493148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d10b39500160c045ac0758514e560e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  phoneScreen: {fileID: 1396987563}
+  mainPhoneButtons:
+  - {fileID: 1868766458}
+  regularScreenPos: {fileID: 257791967}
+  fullscreenScreenPos: {fileID: 1326314782}
+  playerUI: {fileID: 441364989}
 --- !u!1 &91807993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1476,6 +1538,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 246813183}
   m_CullTransparentMesh: 1
+--- !u!1 &257791966
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 257791967}
+  m_Layer: 0
+  m_Name: Phone State Handler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &257791967
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 257791966}
+  m_LocalRotation: {x: 0.0754392, y: 0.12644105, z: 0.00562433, w: 0.98908544}
+  m_LocalPosition: {x: 0.45, y: -0.29, z: 1.32}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 86493149}
+  - {fileID: 1326314782}
+  m_Father: {fileID: 296764976}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 8.5, y: 14.7, z: 1.75}
 --- !u!1 &269963889
 GameObject:
   m_ObjectHideFlags: 0
@@ -1950,7 +2045,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1576260077}
+  - {fileID: 257791967}
   m_Father: {fileID: 2130560591}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4653,7 +4748,7 @@ GameObject:
   - component: {fileID: 637404713}
   - component: {fileID: 637404712}
   m_Layer: 3
-  m_Name: Test Interactable (2)
+  m_Name: 1st Test Interactable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5337,7 +5432,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281874488
+    rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -5422,8 +5517,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.000061035156}
-  m_SizeDelta: {x: 427.2, y: 335.8}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 427.2, y: 73}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!1 &767479000
 GameObject:
@@ -6050,7 +6145,7 @@ GameObject:
   - component: {fileID: 858866196}
   - component: {fileID: 858866195}
   m_Layer: 3
-  m_Name: Second Test Interactable
+  m_Name: 3rd Test Interactable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6277,8 +6372,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -19.4, y: -266.1}
-  m_SizeDelta: {x: 427.2, y: 335.8}
+  m_AnchoredPosition: {x: -19.4, y: -93.6}
+  m_SizeDelta: {x: 427.2, y: 97.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &878084251
 MonoBehaviour:
@@ -6293,7 +6388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6453,6 +6548,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 894207602}
   m_CullTransparentMesh: 1
+--- !u!114 &939980099 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8320547773847821151, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
+  m_PrefabInstance: {fileID: 1759321266}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &941235166
 GameObject:
   m_ObjectHideFlags: 0
@@ -8797,7 +8903,7 @@ GameObject:
   - component: {fileID: 1264071844}
   - component: {fileID: 1264071843}
   m_Layer: 3
-  m_Name: Third Test Interactable
+  m_Name: 4th Test Interactable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9214,6 +9320,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1326314781
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1326314782}
+  m_Layer: 0
+  m_Name: Fullscreen Pos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1326314782
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326314781}
+  m_LocalRotation: {x: -0.05304716, y: -0.14714944, z: 0.00088343665, w: 0.98769045}
+  m_LocalPosition: {x: -0.27476722, y: 0.19120382, z: -0.7393539}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 257791967}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: -6, y: -17, z: 1}
 --- !u!1 &1333556092
 GameObject:
   m_ObjectHideFlags: 0
@@ -10986,7 +11123,6 @@ GameObject:
   - component: {fileID: 1576260081}
   - component: {fileID: 1576260080}
   - component: {fileID: 1576260079}
-  - component: {fileID: 1576260078}
   m_Layer: 5
   m_Name: Phone UI
   m_TagString: Untagged
@@ -11001,36 +11137,20 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1576260076}
-  m_LocalRotation: {x: 0.04621411, y: 0.12914932, z: 0.0042392053, w: 0.9905386}
-  m_LocalPosition: {x: 0, y: 0, z: 1.29}
-  m_LocalScale: {x: 0.10000003, y: 0.100000024, z: 0.09999998}
+  m_LocalRotation: {x: -0.005689762, y: 0.029492203, z: -0.0054716277, w: 0.99953383}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.10000003, y: 0.100000024, z: 0.09999997}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1396987564}
-  m_Father: {fileID: 296764976}
+  m_Father: {fileID: 86493149}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 5.19, y: 14.91, z: 1.17}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.47, y: -0.31000006}
-  m_SizeDelta: {x: 11.94, y: 19.07}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 11.94, y: 14.89}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1576260078
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1576260076}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d10b39500160c045ac0758514e560e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  phoneScreen: {fileID: 1396987563}
-  mainPhoneButtons:
-  - {fileID: 1868766458}
-  playerUI: {fileID: 441364989}
 --- !u!114 &1576260079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11579,7 +11699,7 @@ GameObject:
   - component: {fileID: 1642163290}
   - component: {fileID: 1642163289}
   m_Layer: 3
-  m_Name: Test Interactable (1)
+  m_Name: 2nd Test Interactable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15256,7 +15376,7 @@ MonoBehaviour:
   refillAmount: 100
   currentHunger: 0
   hungerBar: {fileID: 1692630472}
-  secondHungerBar: {fileID: 0}
+  secondHungerBar: {fileID: 53494895}
 --- !u!114 &2130560594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15274,7 +15394,7 @@ MonoBehaviour:
   staminaIncreaseRate: 1
   currentStamina: 100
   staminaBar: {fileID: 44203501}
-  secondStaminaBar: {fileID: 0}
+  secondStaminaBar: {fileID: 2146188263}
 --- !u!114 &2130560595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15292,7 +15412,7 @@ MonoBehaviour:
   refillAmount: 50
   currentThirst: 0
   thirstBar: {fileID: 861300431}
-  secondThirstBar: {fileID: 0}
+  secondThirstBar: {fileID: 939980099}
 --- !u!114 &2130560596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15521,3 +15641,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   watchObj: {fileID: 1591798622}
+--- !u!114 &2146188263 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8320547773193115710, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
+  m_PrefabInstance: {fileID: 1759321266}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

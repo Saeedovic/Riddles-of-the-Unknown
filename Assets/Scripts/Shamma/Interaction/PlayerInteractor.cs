@@ -28,7 +28,7 @@ public class PlayerInteractor : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(currentObject);
+        //Debug.Log(currentObject);
 
         if (!interactionActive)
         {
