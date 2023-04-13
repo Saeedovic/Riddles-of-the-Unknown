@@ -10,10 +10,19 @@ public class PhoneCameraApp : PhoneAppScreen
     [SerializeField] RawImage lastPicTaken;
     [SerializeField] Button picTakingButton;
 
+
+    protected override void Start() { hasFullscreenAsOption = false; }
+
     public override void OnOpenApp()
     {
         base.OnOpenApp();
         picTakingButton.onClick.AddListener(TakeSnapshot);
+    }
+
+    public override void OnCloseApp()
+    {
+        base.OnCloseApp();
+        picTakingButton?.onClick.RemoveListener(TakeSnapshot);
     }
 
     void TakeSnapshot()
@@ -35,9 +44,4 @@ public class PhoneCameraApp : PhoneAppScreen
         return tex;
     }
 
-    public override void OnCloseApp()
-    {
-        base.OnCloseApp();
-        picTakingButton?.onClick.RemoveListener(TakeSnapshot);
-    }
 }

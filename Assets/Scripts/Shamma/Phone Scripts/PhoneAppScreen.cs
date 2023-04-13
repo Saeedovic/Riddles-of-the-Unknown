@@ -10,6 +10,12 @@ public abstract class PhoneAppScreen : MonoBehaviour
     [SerializeField] protected Button backButton;
 
     PhoneManager phoneManager;
+    public bool hasFullscreenAsOption { get; protected set; }
+
+    protected virtual void Start()
+    {
+        hasFullscreenAsOption = true;
+    }
 
     public virtual void OnOpenApp()
     {

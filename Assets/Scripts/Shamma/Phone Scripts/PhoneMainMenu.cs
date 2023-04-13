@@ -11,6 +11,7 @@ public static class PhoneMainMenu
     static GameObject mainScreen;
 
     public static bool appIsOpen;
+    public static PhoneAppScreen activeAppScreen { get; private set; }
 
     public delegate void OnAppOpen(PhoneAppButton app);
     public static OnAppOpen onAppOpen;
@@ -53,6 +54,7 @@ public static class PhoneMainMenu
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(activeApp.gameObject);
 
+        activeAppScreen = null;
         appIsOpen = false;
     }
 
@@ -75,9 +77,12 @@ public static class PhoneMainMenu
         }
 
         //app.gameObject.SetActive(true);
-
+        activeAppScreen = activeApp.phoneAppScreen;
         appIsOpen = true;
         //mainScreen.SetActive(false);
     }
+
+
+    
 
 }
