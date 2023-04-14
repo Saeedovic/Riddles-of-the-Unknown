@@ -11,6 +11,7 @@ public class WaterSource : PointOfInterest, IInteractableObject
 
     public void Interact(PlayerInteractor user)
     {
+        Debug.Log("Interact Now");
         if (userThirst == null)
             userThirst = user.GetComponent<ThirstSystem>();
             
@@ -21,7 +22,7 @@ public class WaterSource : PointOfInterest, IInteractableObject
         userThirst.questManager.CompleteCurrentQuest();
 
         user.xP.AddXp(xpGiven);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     public bool IsInteractable()

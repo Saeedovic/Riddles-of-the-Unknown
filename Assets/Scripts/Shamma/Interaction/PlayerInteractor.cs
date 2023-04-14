@@ -25,7 +25,7 @@ public class PlayerInteractor : MonoBehaviour
     [HideInInspector] public XPManager xP;
 
 
-     void Start()
+    void Start()
     {
         interactionActive = false;
         interactableAvailable = false;
@@ -34,17 +34,17 @@ public class PlayerInteractor : MonoBehaviour
         //Button btn = GameControlScreen.GetComponent<Button>();
 
         //btn.onClick.AddListener(ActivateGameControlScreen);
-}
+    }
 
     private void FixedUpdate()
     {
-        //Debug.Log(currentObject);
+        Debug.Log(currentObject);
 
         if (!interactionActive)
         {
             interactableAvailable = CheckForInteractable();
 
-            if (interactableAvailable 
+            if (interactableAvailable
                 && Input.GetMouseButtonDown(0))
             {
                 interactionActive = true;
@@ -118,7 +118,7 @@ public class PlayerInteractor : MonoBehaviour
             matArray[matArray.Length - 1] = highlightMaterial;
             meshRenderer.materials = matArray;
         }
-        
+
         /*Outline outline = currentObject.gameObject.AddComponent<Outline>();
         outline.OutlineMode = Outline.Mode.OutlineVisible;
         outline.OutlineColor = highlightColor;
@@ -127,19 +127,24 @@ public class PlayerInteractor : MonoBehaviour
 
     void OnObjectDeselect()
     {
-        MeshRenderer meshRenderer = currentObject.gameObject.GetComponent<MeshRenderer>();
-        if (meshRenderer != null)
+        if (currentObject != null)
         {
-            Material[] matArray = new Material[meshRenderer.materials.Length - 1];
 
-            for (int i = 0; i < matArray.Length; i++)
+            MeshRenderer meshRenderer = currentObject.gameObject.GetComponent<MeshRenderer>();
+            if (meshRenderer != null)
             {
-                matArray[i] = meshRenderer.materials[i];
+                Material[] matArray = new Material[meshRenderer.materials.Length - 1];
+
+                for (int i = 0; i < matArray.Length; i++)
+                {
+                    matArray[i] = meshRenderer.materials[i];
+                }
+
+                meshRenderer.materials = matArray;
+
+                currentObject.OnDeHighlight();
             }
 
-            meshRenderer.materials = matArray;
-
-            currentObject.OnDeHighlight();
         }
 
         //Destroy(currentObject.gameObject.GetComponent<Outline>());

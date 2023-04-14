@@ -11,7 +11,7 @@ public class QuestManager : MonoBehaviour
 
     public AudioClip AudioForNextQuest;
 
-    public List<string> quests = new List<string> {};
+    public List<string> quests = new List<string> { };
     public int currentQuestIndex = 0;
 
     public void Start()
@@ -21,7 +21,6 @@ public class QuestManager : MonoBehaviour
 
     public void CompleteCurrentQuest()
     {
-        AudioSource.PlayClipAtPoint(AudioForCompletingQuest, transform.position);
         currentQuestIndex++;
 
         if (currentQuestIndex < quests.Count)
@@ -31,6 +30,7 @@ public class QuestManager : MonoBehaviour
         else
         {
             questText.text = "Quests complete!";
+            AudioSource.PlayClipAtPoint(AudioForCompletingQuest, transform.position);
         }
     }
 

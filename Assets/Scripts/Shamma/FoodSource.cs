@@ -13,11 +13,11 @@ public class FoodSource : PointOfInterest, IInteractableObject
     public void Interact(PlayerInteractor user)
     {
         if (userHunger == null)
-          userHunger = user.GetComponent<HungerSystem>(); 
+            userHunger = user.GetComponent<HungerSystem>();
 
         if (!userHunger.ate)
         {
-            if (userHunger.questManager != null && 
+            if (userHunger.questManager != null &&
                 userHunger.questManager.quests[userHunger.questManager.currentQuestIndex] == "Find some food")
             {
                 ProcessInteraction(user);
@@ -29,7 +29,7 @@ public class FoodSource : PointOfInterest, IInteractableObject
         }
     }
 
-        
+
     void ProcessInteraction(PlayerInteractor user)
     {
         userHunger.RefillHunger();
@@ -39,7 +39,7 @@ public class FoodSource : PointOfInterest, IInteractableObject
         userHunger.questManager.CompleteCurrentQuest();
 
         user.xP.AddXp(xpGiven);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     public bool IsInteractable()
