@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInteractor : MonoBehaviour
 {
@@ -8,6 +9,12 @@ public class PlayerInteractor : MonoBehaviour
     [SerializeField] LayerMask interactablesLayer;
     //[SerializeField] Color highlightColor = Color.yellow;
     [SerializeField] Material highlightMaterial;
+    public AudioClip AudioForGoBackButton;
+    public GameObject SettingsApp;
+    public GameObject GameControlScreen;
+
+    //public Button GameControlScreen;
+
 
     public bool interactableAvailable { get; private set; }
     public bool interactionActive { get; private set; } // have these visible for other scripts to be able to
@@ -18,13 +25,16 @@ public class PlayerInteractor : MonoBehaviour
     [HideInInspector] public XPManager xP;
 
 
-    private void Start()
+     void Start()
     {
         interactionActive = false;
         interactableAvailable = false;
 
         xP = GetComponent<XPManager>();
-    }
+        Button btn = GameControlScreen.GetComponent<Button>();
+
+        btn.onClick.AddListener(ActivateGameControlScreen);
+}
 
     private void FixedUpdate()
     {
@@ -45,8 +55,18 @@ public class PlayerInteractor : MonoBehaviour
                 interactionActive = false;
             }
         }
+
+        
+
+
     }
 
+    public void ActivateGameControlScreen()
+    {
+        AudioSource.PlayClipAtPoint(AudioForGoBackButton, transform.position);
+        GameControlScreen.SetActive(true);
+        SettingsApp.SetActive(false);
+    }
 
     public bool CheckForInteractable()
     {
@@ -133,6 +153,19 @@ public class PlayerInteractor : MonoBehaviour
         }
 
         //Destroy(currentObject.gameObject.GetComponent<Outline>());
+    }
+
+    public void BackButton()
+    {
+        AudioSource.PlayClipAtPoint(AudioForGoBackButton, transform.position);
+    }
+
+    public void BackButtonGameControls()
+    {
+        AudioSource.PlayClipAtPoint(AudioForGoBackButton, transform.position);
+        GameControlScreen.SetActive(false);
+        SettingsApp.SetActive(true);
+
     }
 
 

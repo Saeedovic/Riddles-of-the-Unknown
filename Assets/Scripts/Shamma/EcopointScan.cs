@@ -13,6 +13,7 @@ public class EcopointScan : MonoBehaviour
 
     List<PointOfInterest> ecopoints;
 
+
     void Start()
     {
         ecopoints = new List<PointOfInterest>();
@@ -46,9 +47,11 @@ public class EcopointScan : MonoBehaviour
     // add outline, wait, then remove outline.
     IEnumerator DisplayScanEffect()
     {
-        scanIsActive = true; 
+        scanIsActive = true;
+     
 
-        foreach(PointOfInterest pointOfInterest in ecopoints)
+
+        foreach (PointOfInterest pointOfInterest in ecopoints)
         {
             Outline outline = pointOfInterest.gameObject.AddComponent<Outline>();
             outline.OutlineMode = Outline.Mode.OutlineAndSilhouette;
