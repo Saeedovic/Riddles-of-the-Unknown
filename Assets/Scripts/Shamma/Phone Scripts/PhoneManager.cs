@@ -15,6 +15,8 @@ public class PhoneManager : MonoBehaviour
     public static PhoneManager Instance;
 
     public GameObject playerUI;
+
+    public AudioClip AudioForOpeningPhone;
     public static bool phoneIsOut { get; private set; }
 
     void Start()
@@ -45,6 +47,8 @@ public class PhoneManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
+            AudioSource.PlayClipAtPoint(AudioForOpeningPhone, transform.position);
+
             SetPhoneState(phoneIsOut);
 
             // make sure first app button is highlighted

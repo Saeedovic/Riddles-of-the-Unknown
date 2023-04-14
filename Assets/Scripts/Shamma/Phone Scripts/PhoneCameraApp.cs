@@ -9,6 +9,8 @@ public class PhoneCameraApp : PhoneAppScreen
     [SerializeField] RenderTexture cameraDisplayTexture;
     [SerializeField] RawImage lastPicTaken;
     [SerializeField] Button picTakingButton;
+    public AudioClip AudioForSnapShot;
+
 
 
     protected override void Start() { hasFullscreenAsOption = false; }
@@ -27,6 +29,8 @@ public class PhoneCameraApp : PhoneAppScreen
 
     void TakeSnapshot()
     {
+        AudioSource.PlayClipAtPoint(AudioForSnapShot, transform.position);
+
         lastPicTaken.texture = toTexture2D(cameraDisplayTexture);
     }
 

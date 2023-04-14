@@ -19,14 +19,29 @@ public class PlayerCon : MonoBehaviour
     //private float mouseY = 0f;
     public bool isRunning = false;
 
+    public AudioSource audio;
+    public AudioClip AudioClipForGameEnvironment;
+
+    private bool soundPlayed;
+   
+
+
     private void Start()
     {
         controller = GetComponent<CharacterController>();
-       // Cursor.lockState = CursorLockMode.Locked;
+        soundPlayed = false;
+        // Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
     {
+        if (!soundPlayed)
+        {
+            audio.PlayOneShot(AudioClipForGameEnvironment);
+            soundPlayed = true;
+        }
+
+        // AudioSource.PlayClipAtPoint(AudioForGameEnvironment, this.transform.position);
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         //mouseX += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;

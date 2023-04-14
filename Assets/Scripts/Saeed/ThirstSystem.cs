@@ -18,6 +18,11 @@ public class ThirstSystem : MonoBehaviour
     public Slider secondThirstBar;
     public bool drankwater;
 
+    public AudioClip AudioForDrinking;
+    public AudioClip AudioForFillingwater;
+
+
+
     public void Start()
     {
         currentThirst = maxThirst;
@@ -32,7 +37,7 @@ public class ThirstSystem : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButton(0))
         {
             Interact();
         }
@@ -53,6 +58,8 @@ public class ThirstSystem : MonoBehaviour
             if (hit.collider.CompareTag("Water"))
             {
                 RefillThirst();
+                AudioSource.PlayClipAtPoint(AudioForDrinking, transform.position);
+
                 Destroy(hit.collider.gameObject);
                 questManager.CompleteCurrentQuest();
                 drankwater = true;
@@ -64,7 +71,9 @@ public class ThirstSystem : MonoBehaviour
     public void RefillThirst()
     {
         currentThirst = Mathf.Min(currentThirst + refillAmount, maxThirst);
+
         UpdateThirstBar();
+        AudioSource.PlayClipAtPoint(AudioForFillingwater, transform.position);
         Debug.Log("Current thirst level: " + currentThirst);
     }
 

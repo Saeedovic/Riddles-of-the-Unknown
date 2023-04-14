@@ -18,6 +18,12 @@ public class XPManager : MonoBehaviour
     public Button upgradeHunger;
     public Button upgradeThrist;
 
+    public AudioClip AudioForLevelingUp;
+    //public AudioClip AudioForUnlockingStats;
+    public AudioClip AudioForAddingXp;
+
+
+
 
 
 
@@ -100,6 +106,8 @@ public class XPManager : MonoBehaviour
 
         }else if(cS.PlayerStatPoint >= 1)
         {
+           // AudioSource.PlayClipAtPoint(AudioForUnlockingStats, transform.position);
+
             upgradeHP.interactable = true;
             upgradeStamina.interactable = true;
             upgradeHunger.interactable = true;
@@ -139,9 +147,12 @@ public class XPManager : MonoBehaviour
     public void AddXp(int xp)
     {
         currentXp += xp;
+         AudioSource.PlayClipAtPoint(AudioForAddingXp, transform.position);
 
-        while(currentXp >= requiredXp) 
+        while (currentXp >= requiredXp) 
         {
+            AudioSource.PlayClipAtPoint(AudioForLevelingUp, transform.position);
+
             currentXp = currentXp - requiredXp;
             cS.PlayerLevel++;
 

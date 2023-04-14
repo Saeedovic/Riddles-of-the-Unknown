@@ -16,6 +16,7 @@ public class HungerSystem : MonoBehaviour
     public float currentHunger;
     public Slider hungerBar;
     public Slider secondHungerBar;
+    public AudioClip AudioForEating;
 
     public void Start()
     {
@@ -26,7 +27,7 @@ public class HungerSystem : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButton(0))
         {
             if (!ate)
             {
@@ -65,9 +66,11 @@ public class HungerSystem : MonoBehaviour
         {
             if (hit.collider.CompareTag("Food"))
             {
+
                 if (questManager != null && questManager.quests[questManager.currentQuestIndex] == "Find some food")
                 {
                     RefillHunger();
+                    AudioSource.PlayClipAtPoint(AudioForEating, transform.position);
                     Destroy(hit.collider.gameObject);
                     questManager.CompleteCurrentQuest();
                     ate = true;

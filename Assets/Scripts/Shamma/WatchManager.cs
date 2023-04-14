@@ -5,6 +5,8 @@ using UnityEngine;
 public class WatchManager : MonoBehaviour
 {
     [SerializeField] GameObject watchObj;
+    public AudioClip AudioForWatch;
+
     public static bool watchIsOut { get; private set; }
 
     void Start()
@@ -26,10 +28,12 @@ public class WatchManager : MonoBehaviour
         // when phone is inactive, make it active, and vice versa.
         if (!watchActive)
         {
+            AudioSource.PlayClipAtPoint(AudioForWatch, transform.position);
             watchObj.SetActive(true);
         }
         else
         {
+            AudioSource.PlayClipAtPoint(AudioForWatch, transform.position);
             watchObj.SetActive(false);
         }
 

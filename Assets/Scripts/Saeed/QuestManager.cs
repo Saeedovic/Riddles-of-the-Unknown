@@ -7,6 +7,10 @@ public class QuestManager : MonoBehaviour
 {
     public TextMeshProUGUI questText;
 
+    public AudioClip AudioForCompletingQuest;
+
+    public AudioClip AudioForNextQuest;
+
     public List<string> quests = new List<string> {};
     public int currentQuestIndex = 0;
 
@@ -17,6 +21,7 @@ public class QuestManager : MonoBehaviour
 
     public void CompleteCurrentQuest()
     {
+        AudioSource.PlayClipAtPoint(AudioForCompletingQuest, transform.position);
         currentQuestIndex++;
 
         if (currentQuestIndex < quests.Count)
@@ -31,6 +36,9 @@ public class QuestManager : MonoBehaviour
 
     public void UpdateQuestText()
     {
+
+        AudioSource.PlayClipAtPoint(AudioForNextQuest, transform.position);
+
         questText.text = quests[currentQuestIndex];
     }
 }

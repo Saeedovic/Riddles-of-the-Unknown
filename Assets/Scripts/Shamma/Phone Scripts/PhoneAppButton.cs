@@ -9,6 +9,9 @@ public class PhoneAppButton : MonoBehaviour
     public PhoneAppScreen phoneAppScreen { get { return appScreen; } }
     Button appButton;
 
+    public AudioClip AudioForOpeningPhoneApp;
+
+
     private void Awake()
     {
         if (appScreen == null)
@@ -27,6 +30,8 @@ public class PhoneAppButton : MonoBehaviour
 
         if (!appScreen.gameObject.activeInHierarchy)
         {
+            AudioSource.PlayClipAtPoint(AudioForOpeningPhoneApp, transform.position);
+
             PhoneMainMenu.onAppOpen(this);
         }
         return;

@@ -53,6 +53,9 @@ namespace OD.Effect.HDRP {
         [Tooltip("Transition Stealth Vision Volume")]
         public Volume transitionStealthVisionVolume;
 
+        public AudioClip AudioForScan;
+
+
         public enum CurState{End, StarScan, StartSteatlhVision} 
         CurState curState;
 
@@ -221,6 +224,8 @@ namespace OD.Effect.HDRP {
             if(mode == Mode.Scan){
                 if(Input.GetKeyDown(inputKey)){
                     StartScan();
+                    AudioSource.PlayClipAtPoint(AudioForScan, transform.position);
+
                     cooldownTime = 0f;
                     cooldownActive = true;
                 }
