@@ -9,9 +9,9 @@ public class HungerSystem : MonoBehaviour
     public float maxHunger = 100f;
     public float decreaseAmount = 1f;
     public float refillAmount = 100f;
-    public float interactionDistance = 2f;
-    public LayerMask interactionLayer;
-    private QuestManager questManager;
+    //public float interactionDistance = 2f;
+    //public LayerMask interactionLayer;
+    public QuestManager questManager;
     public bool ate;
     public float currentHunger;
     public Slider hungerBar;
@@ -25,6 +25,33 @@ public class HungerSystem : MonoBehaviour
         InvokeRepeating("DecreaseHunger", 5f, 5f);
     }
 
+    void DecreaseHunger()
+    {
+        currentHunger -= decreaseAmount;
+        UpdateHungerBar();
+        //Debug.Log("Current hunger level: " + currentHunger);
+    }
+
+    public void RefillHunger()
+    {
+        currentHunger = Mathf.Min(currentHunger + refillAmount, maxHunger);
+        UpdateHungerBar();
+        //Debug.Log("Current hunger level: " + currentHunger);
+    }
+
+    void UpdateHungerBar()
+    {
+        hungerBar.value = currentHunger;
+
+        if (secondHungerBar != null)
+        {
+            secondHungerBar.value = currentHunger;
+        }
+    }
+
+
+    // moved logic here to the FoodSource script. - Shamma
+    /*
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButton(0))
@@ -52,13 +79,7 @@ public class HungerSystem : MonoBehaviour
         }
     }
 
-    void DecreaseHunger()
-    {
-        currentHunger -= decreaseAmount;
-        UpdateHungerBar();
-        Debug.Log("Current hunger level: " + currentHunger);
-    }
-
+    
     void Interact()
     {
         RaycastHit hit;
@@ -78,21 +99,5 @@ public class HungerSystem : MonoBehaviour
             }
         }
     }
-
-    public void RefillHunger()
-    {
-        currentHunger = Mathf.Min(currentHunger + refillAmount, maxHunger);
-        UpdateHungerBar();
-        Debug.Log("Current hunger level: " + currentHunger);
-    }
-
-    void UpdateHungerBar()
-    {
-        hungerBar.value = currentHunger;
-
-        if (secondHungerBar != null)
-        {
-            secondHungerBar.value = currentHunger;
-        }
-    }
+    */
 }

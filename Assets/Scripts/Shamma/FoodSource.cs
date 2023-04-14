@@ -6,20 +6,44 @@ public class FoodSource : PointOfInterest, IInteractableObject
 {
     public bool isEatable = true;
     [SerializeField] int xpGiven = 5;
-    public AudioClip AudioForHunger;
+
+    static HungerSystem userHunger;
 
 
     public void Interact(PlayerInteractor user)
     {
-        AudioSource.PlayClipAtPoint(AudioForHunger, transform.position);
+        if (userHunger == null)
+          userHunger = user.GetComponent<HungerSystem>(); 
 
-        user.GetComponent<HungerSystem>().RefillHunger();
+        if (!userHunger.ate)
+        {
+            if (userHunger.questManager != null && 
+                userHunger.questManager.quests[userHunger.questManager.currentQuestIndex] == "Find some food")
+            {
+                ProcessInteraction(user);
+            }
+        }
+        else
+        {
+            ProcessInteraction(user);
+        }
+    }
+
+        
+    void ProcessInteraction(PlayerInteractor user)
+    {
+        userHunger.RefillHunger();
+        AudioSource.PlayClipAtPoint(userHunger.AudioForEating, transform.position);
+        userHunger.ate = true;
+
+        userHunger.questManager.CompleteCurrentQuest();
+
         user.xP.AddXp(xpGiven);
+        Destroy(gameObject);
     }
 
     public bool IsInteractable()
     {
-
         return isEatable;
     }
 

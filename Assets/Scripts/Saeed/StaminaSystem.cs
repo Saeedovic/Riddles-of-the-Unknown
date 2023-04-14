@@ -19,7 +19,7 @@ public class StaminaSystem : MonoBehaviour
     {
         currentStamina = maxStamina;
         controller = GetComponent<CharacterController>();
-        staminaBar = FindObjectOfType<Slider>();
+        //staminaBar = FindObjectOfType<Slider>();
         playerCon = GetComponent<PlayerCon>();
         UpdateStaminaBar();
     }
@@ -67,13 +67,14 @@ public class StaminaSystem : MonoBehaviour
             UpdateStaminaBar();
         }
 
-        Debug.Log("current stamina:" + currentStamina);
+        //Debug.Log("current stamina:" + currentStamina);
     }
 
     public void UpdateStaminaBar()
     {
         staminaBar.value = currentStamina;
 
+        // also update second bar if we have one. (used for the watch)
         if (secondStaminaBar != null)
         {
             secondStaminaBar.value = currentStamina;

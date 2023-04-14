@@ -21,19 +21,19 @@ public abstract class PhoneAppScreen : MonoBehaviour
     {
         //PhoneMainMenu.onAppClose += OnCloseApp;
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(firstHighlightedButton);
+        EventSystem.current.SetSelectedGameObject(firstHighlightedButton); // make sure new UI screen is selected properly
 
-        PhoneManager.Instance.playerUI.SetActive(false);
+        PhoneManager.Instance.playerUI.SetActive(false); // switch off stats so they don't cover the app screen
 
-        backButton.onClick.AddListener(OnCloseApp);
+        backButton.onClick.AddListener(OnCloseApp); // make it so back button will automatically close, only setup needed is putting a var in the editor field.
     }
 
     public virtual void OnCloseApp()
     {
-        PhoneManager.Instance.playerUI.SetActive(true);
+        PhoneManager.Instance.playerUI.SetActive(true); // reactivate stats
 
 
-        PhoneMainMenu.onAppClose();
+        PhoneMainMenu.onAppClose(); // notify that this app is now closed
         gameObject.SetActive(false);
     }
 
