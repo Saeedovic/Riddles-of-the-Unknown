@@ -7,10 +7,21 @@ public class WaterSource : PointOfInterest, IInteractableObject
     public bool isDrinkable = true;
     [SerializeField] int xpGiven = 5;
 
+    static ThirstSystem userThirst;
+
     public void Interact(PlayerInteractor user)
     {
-        user.GetComponent<ThirstSystem>().RefillThirst();
+        if (userThirst == null)
+            userThirst = user.GetComponent<ThirstSystem>();
+            
+        userThirst.RefillThirst();
+        AudioSource.PlayClipAtPoint(userThirst.AudioForDrinking, transform.position);
+        userThirst.drankwater = true;
+
+        userThirst.questManager.CompleteCurrentQuest();
+
         user.xP.AddXp(xpGiven);
+        Destroy(gameObject);
     }
 
     public bool IsInteractable()

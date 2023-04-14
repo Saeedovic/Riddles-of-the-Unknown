@@ -9,9 +9,9 @@ public class PlayerInteractor : MonoBehaviour
     [SerializeField] LayerMask interactablesLayer;
     //[SerializeField] Color highlightColor = Color.yellow;
     [SerializeField] Material highlightMaterial;
-    public AudioClip AudioForGoBackButton;
-    public GameObject SettingsApp;
-    public GameObject GameControlScreen;
+    //public AudioClip AudioForGoBackButton;
+    //public GameObject SettingsApp;
+    //public GameObject GameControlScreen;
 
     //public Button GameControlScreen;
 
@@ -31,9 +31,9 @@ public class PlayerInteractor : MonoBehaviour
         interactableAvailable = false;
 
         xP = GetComponent<XPManager>();
-        Button btn = GameControlScreen.GetComponent<Button>();
+        //Button btn = GameControlScreen.GetComponent<Button>();
 
-        btn.onClick.AddListener(ActivateGameControlScreen);
+        //btn.onClick.AddListener(ActivateGameControlScreen);
 }
 
     private void FixedUpdate()
@@ -55,18 +55,8 @@ public class PlayerInteractor : MonoBehaviour
                 interactionActive = false;
             }
         }
-
-        
-
-
     }
 
-    public void ActivateGameControlScreen()
-    {
-        AudioSource.PlayClipAtPoint(AudioForGoBackButton, transform.position);
-        GameControlScreen.SetActive(true);
-        SettingsApp.SetActive(false);
-    }
 
     public bool CheckForInteractable()
     {
@@ -155,7 +145,16 @@ public class PlayerInteractor : MonoBehaviour
         //Destroy(currentObject.gameObject.GetComponent<Outline>());
     }
 
-    public void BackButton()
+    // code has been moved to the new PhoneSettingsApp script. 
+
+    /*public void ActivateGameControlScreen()
+    {
+        AudioSource.PlayClipAtPoint(AudioForGoBackButton, transform.position);
+        GameControlScreen.SetActive(true);
+        SettingsApp.SetActive(false);
+    }*/
+
+    /*public void BackButton()
     {
         AudioSource.PlayClipAtPoint(AudioForGoBackButton, transform.position);
     }
@@ -166,7 +165,7 @@ public class PlayerInteractor : MonoBehaviour
         GameControlScreen.SetActive(false);
         SettingsApp.SetActive(true);
 
-    }
+    }*/
 
 
 }

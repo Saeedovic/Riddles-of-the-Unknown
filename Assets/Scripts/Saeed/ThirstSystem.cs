@@ -9,9 +9,9 @@ public class ThirstSystem : MonoBehaviour
     public float maxThirst = 100f;
     public float decreaseAmount = 1f;
     public float refillAmount = 100f;
-    public float interactionDistance = 2f;
-    public LayerMask interactionLayer;
-    private QuestManager questManager;
+    //public float interactionDistance = 2f;
+    //public LayerMask interactionLayer;
+    public QuestManager questManager;
 
     public float currentThirst;
     public Slider thirstBar;
@@ -35,19 +35,41 @@ public class ThirstSystem : MonoBehaviour
         InvokeRepeating("DecreaseThirst", 5f, 5f);
     }
 
+    void DecreaseThirst()
+    {
+        currentThirst -= decreaseAmount;
+        UpdateThirstBar();
+        //Debug.Log("Current thirst level: " + currentThirst);
+    }
+
+    public void RefillThirst()
+    {
+        currentThirst = Mathf.Min(currentThirst + refillAmount, maxThirst);
+
+        UpdateThirstBar();
+        AudioSource.PlayClipAtPoint(AudioForFillingwater, transform.position);
+        //Debug.Log("Current thirst level: " + currentThirst);
+    }
+
+    void UpdateThirstBar()
+    {
+        thirstBar.value = currentThirst;
+
+        if (secondThirstBar != null)
+        {
+            secondThirstBar.value = currentThirst;
+        }
+    }
+
+
+    // moved logic here to the WaterSource script. - Shamma
+    /*
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButton(0))
         {
             Interact();
         }
-    }
-
-    void DecreaseThirst()
-    {
-        currentThirst -= decreaseAmount;
-        UpdateThirstBar();
-        Debug.Log("Current thirst level: " + currentThirst);
     }
 
     void Interact()
@@ -67,23 +89,5 @@ public class ThirstSystem : MonoBehaviour
             }
         }
     }
-
-    public void RefillThirst()
-    {
-        currentThirst = Mathf.Min(currentThirst + refillAmount, maxThirst);
-
-        UpdateThirstBar();
-        AudioSource.PlayClipAtPoint(AudioForFillingwater, transform.position);
-        Debug.Log("Current thirst level: " + currentThirst);
-    }
-
-    void UpdateThirstBar()
-    {
-        thirstBar.value = currentThirst;
-
-        if (secondThirstBar != null)
-        {
-            secondThirstBar.value = currentThirst;
-        }
-    }
+    */
 }
