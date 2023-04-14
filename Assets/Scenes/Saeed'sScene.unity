@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 262.3369, g: 325.0498, b: 430.21924, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1225,6 +1225,7 @@ GameObject:
   - component: {fileID: 675096284}
   - component: {fileID: 675096283}
   - component: {fileID: 675096286}
+  - component: {fileID: 675096287}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1331,6 +1332,8 @@ MonoBehaviour:
   gravity: -9.81
   runKey: 304
   isRunning: 0
+  audio: {fileID: 0}
+  AudioClipForGameEnvironment: {fileID: 0}
 --- !u!143 &675096282
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1364,10 +1367,7 @@ MonoBehaviour:
   maxHunger: 100
   decreaseAmount: 1
   refillAmount: 100
-  interactionDistance: 2
-  interactionLayer:
-    serializedVersion: 2
-    m_Bits: 64
+  questManager: {fileID: 0}
   ate: 0
   currentHunger: 100
   hungerBar: {fileID: 306018286}
@@ -1406,10 +1406,7 @@ MonoBehaviour:
   maxThirst: 100
   decreaseAmount: 5
   refillAmount: 50
-  interactionDistance: 2
-  interactionLayer:
-    serializedVersion: 2
-    m_Bits: 16
+  questManager: {fileID: 0}
   currentThirst: 100
   thirstBar: {fileID: 341425333}
   secondThirstBar: {fileID: 0}
@@ -1429,12 +1426,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questText: {fileID: 2033279177}
-  AudioForCompletingQuest: {fileID: 0}
-  AudioForNextQuest: {fileID: 0}
+  AudioForCompletingQuest: {fileID: 8300000, guid: 25b9faacc863cbb46b9ca0a70f5927a1, type: 3}
+  AudioForNextQuest: {fileID: 8300000, guid: bf0b9dccd27b0c64bae23d8ce60565f3, type: 3}
   quests:
   - Drink water
   - Find some food
   currentQuestIndex: 0
+--- !u!114 &675096287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675096276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 468d9d9a9b8b03f49b3211138d5ca895, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rayRange: 100
+  interactablesLayer:
+    serializedVersion: 2
+    m_Bits: 88
+  highlightMaterial: {fileID: 2100000, guid: 979aef027a1c86c42a15ce35fce366fa, type: 2}
+  xP: {fileID: 0}
 --- !u!1 &687299626
 GameObject:
   m_ObjectHideFlags: 0
@@ -2305,6 +2320,9 @@ GameObject:
   - component: {fileID: 1022452396}
   - component: {fileID: 1022452395}
   - component: {fileID: 1022452394}
+  - component: {fileID: 1022452400}
+  - component: {fileID: 1022452399}
+  - component: {fileID: 1022452398}
   m_Layer: 4
   m_Name: Cylinder
   m_TagString: Water
@@ -2322,10 +2340,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.0497639
+  m_Radius: 1.2414333
   m_Height: 2.97201
   m_Direction: 1
-  m_Center: {x: 0, y: 0.48600763, z: 0.054423355}
+  m_Center: {x: 0, y: 0.48600763, z: -0.137246}
 --- !u!23 &1022452395
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2391,6 +2409,56 @@ Transform:
   m_Father: {fileID: 2104538490}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1022452398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022452393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 033eafea01faa6c41a62075687fc91ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDrinkable: 1
+  xpGiven: 5
+--- !u!114 &1022452399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022452393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4aef1867ab8f0e4aa7b67d7472260de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 0
+  highlightMaterial: {fileID: 0}
+  defaultLayer: 0
+  highlightLayer: 0
+--- !u!114 &1022452400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022452393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfaae75b53194a54fa624d47c132a837, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onInScan:
+    m_PersistentCalls:
+      m_Calls: []
+  onOffScan:
+    m_PersistentCalls:
+      m_Calls: []
+  offBy: 0
+  timeToOff: 3
 --- !u!1 &1041871710
 GameObject:
   m_ObjectHideFlags: 0
