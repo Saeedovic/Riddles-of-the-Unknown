@@ -24,7 +24,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 4
+  m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 262.3369, g: 325.0498, b: 430.21924, a: 1}
+  m_IndirectSpecularColor: {r: 261.9017, g: 324.45706, b: 429.4361, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -352,17 +352,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &53494895 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8320547774439022646, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
-  m_PrefabInstance: {fileID: 1759321266}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &73788182
 GameObject:
   m_ObjectHideFlags: 0
@@ -1605,6 +1594,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 246813183}
   m_CullTransparentMesh: 1
+--- !u!114 &252192711 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4317460131304780828, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
+  m_PrefabInstance: {fileID: 1759321266}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &257791966
 GameObject:
   m_ObjectHideFlags: 0
@@ -4327,8 +4327,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
+  m_HorizontalAxis: Horizontal UI
+  m_VerticalAxis: Vertical UI
   m_SubmitButton: Submit
   m_CancelButton: Cancel
   m_InputActionsPerSecond: 10
@@ -16458,6 +16458,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4478137630786734015, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4478137630786734015, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433007858741587722, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433007858741587722, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963232175183696310, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8320547773020108497, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -16509,6 +16529,10 @@ PrefabInstance:
     - target: {fileID: 8320547774723422218, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320547774949293698, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8320547774949293699, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
       propertyPath: m_AnchorMax.x
@@ -19668,7 +19692,7 @@ MonoBehaviour:
   ate: 0
   currentHunger: 0
   hungerBar: {fileID: 1692630472}
-  secondHungerBar: {fileID: 53494895}
+  secondHungerBar: {fileID: 252192711}
   AudioForEating: {fileID: 8300000, guid: b6461a82bd3ba4b4096c897058f7fd0f, type: 3}
 --- !u!114 &2130560594
 MonoBehaviour:
@@ -19687,7 +19711,7 @@ MonoBehaviour:
   staminaIncreaseRate: 1
   currentStamina: 100
   staminaBar: {fileID: 44203501}
-  secondStaminaBar: {fileID: 2146188263}
+  secondStaminaBar: {fileID: 939980099}
 --- !u!114 &2130560595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19706,7 +19730,7 @@ MonoBehaviour:
   questManager: {fileID: 0}
   currentThirst: 0
   thirstBar: {fileID: 861300431}
-  secondThirstBar: {fileID: 939980099}
+  secondThirstBar: {fileID: 2138132825}
   drankwater: 0
   AudioForDrinking: {fileID: 8300000, guid: 85c2566abebc41646a9e683114f7cde3, type: 3}
   AudioForFillingwater: {fileID: 8300000, guid: 72ce26de8ede02040be3196b2de3d0d5, type: 3}
@@ -20366,6 +20390,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2138132825 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2063396851150734679, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
+  m_PrefabInstance: {fileID: 1759321266}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2141182825
 GameObject:
   m_ObjectHideFlags: 0
@@ -20501,14 +20536,3 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141182825}
   m_CullTransparentMesh: 1
---- !u!114 &2146188263 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8320547773193115710, guid: 978d4d6d32183ff4fa003cd25b0e43ee, type: 3}
-  m_PrefabInstance: {fileID: 1759321266}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
