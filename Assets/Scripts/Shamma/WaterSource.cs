@@ -11,15 +11,28 @@ public class WaterSource : PointOfInterest, IInteractableObject
 
     public void Interact(PlayerInteractor user)
     {
-        Debug.Log("Interact Now");
+        //Debug.Log("Interact Now");
         if (userThirst == null)
             userThirst = user.GetComponent<ThirstSystem>();
-            
+
+
+        if (userThirst.questManager != null &&
+            userThirst.questManager.quests[userThirst.questManager.currentQuestIndex] == "Drink water")
+        {
+            ProcessInteraction(user);
+            userThirst.questManager.CompleteCurrentQuest();
+        }
+        else
+        {
+            ProcessInteraction(user);
+        }
+    }
+
+    void ProcessInteraction(PlayerInteractor user)
+    {
         userThirst.RefillThirst();
         AudioSource.PlayClipAtPoint(userThirst.AudioForDrinking, transform.position);
         userThirst.drankwater = true;
-
-        userThirst.questManager.CompleteCurrentQuest();
 
         user.xP.AddXp(xpGiven);
         gameObject.SetActive(false);

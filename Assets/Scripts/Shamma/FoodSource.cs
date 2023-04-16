@@ -21,6 +21,7 @@ public class FoodSource : PointOfInterest, IInteractableObject
                 userHunger.questManager.quests[userHunger.questManager.currentQuestIndex] == "Find some food")
             {
                 ProcessInteraction(user);
+                userHunger.questManager.CompleteCurrentQuest();
             }
         }
         else
@@ -35,8 +36,6 @@ public class FoodSource : PointOfInterest, IInteractableObject
         userHunger.RefillHunger();
         AudioSource.PlayClipAtPoint(userHunger.AudioForEating, transform.position);
         userHunger.ate = true;
-
-        userHunger.questManager.CompleteCurrentQuest();
 
         user.xP.AddXp(xpGiven);
         gameObject.SetActive(false);
