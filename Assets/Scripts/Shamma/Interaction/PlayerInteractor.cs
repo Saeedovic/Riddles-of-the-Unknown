@@ -36,7 +36,7 @@ public class PlayerInteractor : MonoBehaviour
         //btn.onClick.AddListener(ActivateGameControlScreen);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         Debug.Log(currentObject);
 
