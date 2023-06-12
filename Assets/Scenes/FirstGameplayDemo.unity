@@ -775,6 +775,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 468d9d9a9b8b03f49b3211138d5ca895, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &441461291 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6752302732002452976, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+  m_PrefabInstance: {fileID: 1583956422}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a5bdcf00010eac41abfa5f4d645d279, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &480382340
 GameObject:
   m_ObjectHideFlags: 0
@@ -6693,6 +6704,30 @@ PrefabInstance:
       propertyPath: health
       value: 
       objectReference: {fileID: 360913669}
+    - target: {fileID: 6752302732002452976, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+      propertyPath: maxHunger
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6752302732002452976, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+      propertyPath: maxThirst
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6752302732002452976, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+      propertyPath: maxStamina
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6752302732002452976, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+      propertyPath: currentHunger
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6752302732002452976, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+      propertyPath: currentThirst
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6752302732002452980, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 441461291}
     - target: {fileID: 6752302732002452981, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
       propertyPath: gravity
       value: -10
@@ -6701,6 +6736,14 @@ PrefabInstance:
       propertyPath: runSpeed
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 6752302732002452982, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 441461291}
+    - target: {fileID: 6752302732002452983, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 441461291}
     - target: {fileID: 6752302732002452986, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
       propertyPath: questText
       value: 

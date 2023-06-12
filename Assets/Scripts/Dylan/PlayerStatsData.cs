@@ -13,7 +13,7 @@ public class PlayerStatsData : ScriptableObject
     [Header("[Player Stats]")]
     [Space(5)]
   
-    public float PlayerHealth = 100;
+  //  public float PlayerHealth = 100;
  
     public float PlayerStamina = 100;
 
@@ -35,11 +35,11 @@ public class PlayerStatsData : ScriptableObject
 
     #endregion
 
-    #region Player Stats
-    [Header("[Player Stats]")]
+    #region Max Player Stats
+    [Header("[Max Player Stats]")]
     [Space(5)]
 
-    public float MaxPlayerHealth = 100;
+   // public float MaxPlayerHealth = 100;
 
     public float MaxPlayerStamina = 100;
 
@@ -47,7 +47,7 @@ public class PlayerStatsData : ScriptableObject
 
     public float MaxPlayerThrist = 100;
 
-    public float MaxPlayerLevel = 1;
+    public float MaxPlayerLevel = 10;
 
     //public float PlayerXP;
 
