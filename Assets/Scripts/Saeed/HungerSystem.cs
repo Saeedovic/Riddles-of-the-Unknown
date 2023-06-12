@@ -6,46 +6,48 @@ using UnityEngine.UI;
 public class HungerSystem : MonoBehaviour
 {
 
-    public float maxHunger = 100f;
+   // public float maxHunger = 100f;
     public float decreaseAmount = 1f;
     public float refillAmount = 100f;
     //public float interactionDistance = 2f;
     //public LayerMask interactionLayer;
     public QuestManager questManager;
     public bool ate;
-    public float currentHunger;
+   // public float currentHunger;
     public Slider hungerBar;
     public Slider secondHungerBar;
     public AudioClip AudioForEating;
 
+   public DisplayStats stats;
+
     public void Start()
     {
-        currentHunger = maxHunger;
+        stats.currentHunger = stats.maxHunger;
         questManager = GetComponent<QuestManager>();
         InvokeRepeating("DecreaseHunger", 5f, 5f);
     }
 
     void DecreaseHunger()
     {
-        currentHunger -= decreaseAmount;
+        stats.currentHunger -= decreaseAmount;
         UpdateHungerBar();
         //Debug.Log("Current hunger level: " + currentHunger);
     }
 
     public void RefillHunger()
     {
-        currentHunger = Mathf.Min(currentHunger + refillAmount, maxHunger);
+        stats.currentHunger = Mathf.Min(stats.currentHunger + refillAmount, stats.maxHunger);
         UpdateHungerBar();
         //Debug.Log("Current hunger level: " + currentHunger);
     }
 
     void UpdateHungerBar()
     {
-        hungerBar.value = currentHunger;
+        hungerBar.value = stats.currentHunger;
 
         if (secondHungerBar != null)
         {
-            secondHungerBar.value = currentHunger;
+            secondHungerBar.value = stats.currentHunger;
         }
     }
 

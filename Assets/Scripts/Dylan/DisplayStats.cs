@@ -15,10 +15,15 @@ public class DisplayStats : MonoBehaviour
     [Header("[Health & Stamina Text Holders]")]
     [Space(5)]
 
-    public float currentHealth;
+    //public float currentHealth;
     public float currentStamina;
     public float currentHunger;
-    public float currentThrist;
+    public float currentThirst;
+
+    //public float maxHealth;
+    public float maxStamina;
+    public float maxHunger;
+    public float maxThirst;
 
 
     public float currentPlayerStatPoint;
@@ -34,10 +39,15 @@ public class DisplayStats : MonoBehaviour
     private void Awake()
     {
  
-        currentHealth = stat.PlayerHealth;
+       // currentHealth = stat.PlayerHealth;
         currentStamina = stat.PlayerStamina;
         currentHunger = stat.PlayerHunger;
-        currentThrist = stat.PlayerThrist;
+        currentThirst = stat.PlayerThrist;
+
+        //maxHealth
+        maxStamina = stat.MaxPlayerStamina;
+        maxHunger = stat.MaxPlayerHunger;
+        maxThirst = stat.MaxPlayerThrist;
 
 
     }
@@ -45,9 +55,9 @@ public class DisplayStats : MonoBehaviour
     {
         #region Stats Equal Max-Values
        currentStamina = 100;
-       currentHealth = 100;
+      // currentHealth = 100;
         currentHunger = 100;
-        currentThrist = 100;
+        currentThirst = 100;
 
 
         #endregion
@@ -60,10 +70,10 @@ public class DisplayStats : MonoBehaviour
 
         #region Bar Max Value-start
 
-        health.text = currentHealth.ToString("0");
+      //  health.text = currentHealth.ToString("0");
         stamina.text = currentStamina.ToString("0");
         hunger.text = currentHunger.ToString("0");
-        thrist.text = currentThrist.ToString("0");
+        thrist.text = currentThirst.ToString("0");
 
 
         #endregion
@@ -110,10 +120,10 @@ public class DisplayStats : MonoBehaviour
         #endregion
 
         #region If Alive
-        if (currentHunger >= 0 || currentThrist >= 0)
+        if (currentHunger >= 0 || currentThirst >= 0)
         {
             currentHunger -= stat.hungerDownRate * Time.deltaTime;
-            currentThrist -= stat.thristDownRate * Time.deltaTime;
+            currentThirst -= stat.thristDownRate * Time.deltaTime;
 
 
 
@@ -129,7 +139,7 @@ public class DisplayStats : MonoBehaviour
         #endregion
 
         #region If Health Is Less Or Equal To 0 
-        if (currentHealth <= 0 || currentHunger <= 0 || currentThrist <= 0)
+        if (currentHunger <= 0 || currentThirst <= 0) //Needs to be Revised accoding to new values
         {
             Die();
         }
@@ -143,20 +153,20 @@ public class DisplayStats : MonoBehaviour
     {
 
         #region Math Clamps
-        currentHealth = Mathf.Clamp(currentHealth, 0, 190);
+       // currentHealth = Mathf.Clamp(currentHealth, 0, 190);
         currentStamina = Mathf.Clamp(currentStamina, 0, 190);
         currentHunger = Mathf.Clamp(currentHunger, 0, 190);
-        currentThrist = Mathf.Clamp(currentThrist, 0, 190);
+        currentThirst = Mathf.Clamp(currentThirst, 0, 190);
 
 
         #endregion
 
         #region Health & Stamina Values
 
-        health.text = currentHealth.ToString("0");
+       // health.text = currentHealth.ToString("0");
         stamina.text = currentStamina.ToString("0");
         hunger.text = currentHunger.ToString("0");
-        thrist.text = currentThrist.ToString("0");
+        thrist.text = currentThirst.ToString("0");
 
 
 
@@ -165,7 +175,7 @@ public class DisplayStats : MonoBehaviour
 
     public void GetDamaged(int amount) //take dmg and specify amt
     {
-        currentHealth -= amount;
+      //  currentHealth -= amount;
         UpdateUI();
     }
 

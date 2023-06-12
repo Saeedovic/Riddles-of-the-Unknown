@@ -39,7 +39,7 @@ public class XPManager : MonoBehaviour
             requiredXp = 100;
             cS.PlayerXP = 0;
             cS.PlayerStatPoint = 0;
-            cS.PlayerHealth = 100;
+            //cS.PlayerHealth = 100;
             cS.PlayerStamina = 100;
             cS.PlayerHunger = 100;
             cS.PlayerThrist = 100;
@@ -48,7 +48,7 @@ public class XPManager : MonoBehaviour
 
 
 
-            cS.MaxPlayerHealth = 100;
+            //cS.MaxPlayerHealth = 100;
             cS.MaxPlayerStamina = 100;
             cS.MaxPlayerHunger = 100;
             cS.MaxPlayerThrist = 100;
@@ -65,7 +65,7 @@ public class XPManager : MonoBehaviour
 
         requiredXpText.text = requiredXp.ToString("0");
 
-        maxHealthText.text= cS.MaxPlayerHealth.ToString("0");
+       // maxHealthText.text= cS.MaxPlayerHealth.ToString("0");
         maxstaminaText.text = cS.MaxPlayerStamina.ToString("0");
         maxHungerText.text= cS.MaxPlayerHunger.ToString("0");
         maxThristText.text= cS.MaxPlayerThrist.ToString("0");
@@ -86,10 +86,10 @@ public class XPManager : MonoBehaviour
 
     private void Update()
     {
-        cS.PlayerHealth = stat.currentHealth;
+        //cS.PlayerHealth = stat.currentHealth;
         cS.PlayerStamina = stat.currentStamina;
         cS.PlayerHunger = stat.currentHunger;
-        cS.PlayerThrist = stat.currentThrist;
+        cS.PlayerThrist = stat.currentThirst;
 
 
         cS.PlayerStatPoint = stat.currentPlayerStatPoint;
@@ -116,10 +116,7 @@ public class XPManager : MonoBehaviour
 
 
         //Dont allow player current Attribute levels to exceed Max Values  
-        if(stat.currentHealth >= cS.MaxPlayerHealth)
-        {
-            stat.currentHealth = cS.MaxPlayerHealth;
-        }
+       
 
         if(stat.currentStamina >= cS.MaxPlayerStamina)
         {
@@ -131,14 +128,9 @@ public class XPManager : MonoBehaviour
             stat.currentHunger = cS.MaxPlayerHunger;
         }
 
-        if (stat.currentThrist >= cS.MaxPlayerThrist)
+        if (stat.currentThirst >= cS.MaxPlayerThrist)
         {
-            stat.currentThrist = cS.MaxPlayerThrist;
-        }
-
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            stat.currentHealth += 1;
+            stat.currentThirst = cS.MaxPlayerThrist;
         }
 
     }
@@ -185,15 +177,15 @@ public class XPManager : MonoBehaviour
             }*/
             
 
-            stat.health.text = stat.currentHealth.ToString("0");
+         //   stat.health.text = stat.currentHealth.ToString("0");
             stat.stamina.text = stat.currentStamina.ToString("0");
             stat.hunger.text = stat.currentHunger.ToString("0");
-            stat.thrist.text= stat.currentThrist.ToString("0");
+            stat.thrist.text= stat.currentThirst.ToString("0");
 
             levelText.text = cS.PlayerLevel.ToString("0");
             requiredXpText.text = requiredXp.ToString("0");
 
-            maxHealthText.text = cS.MaxPlayerHealth.ToString("0");
+          //  maxHealthText.text = cS.MaxPlayerHealth.ToString("0");
             maxstaminaText.text = cS.MaxPlayerStamina.ToString("0");
             maxHungerText.text = cS.MaxPlayerHunger.ToString("0");
             maxThristText.text = cS.MaxPlayerThrist.ToString("0");
@@ -211,8 +203,8 @@ public class XPManager : MonoBehaviour
     {
         Debug.Log("dog");
         stat.currentPlayerStatPoint -= 1;
-        cS.MaxPlayerHealth += 10;
-        maxHealthText.text = cS.MaxPlayerHealth.ToString("0");
+     //   cS.MaxPlayerHealth += 10;
+     //   maxHealthText.text = cS.MaxPlayerHealth.ToString("0");
 
        // stat.currentHealth += cS.healthStatPointInc;
         cS.PlayerStatPoint = stat.currentPlayerStatPoint;
@@ -255,8 +247,4 @@ public class XPManager : MonoBehaviour
         cS.PlayerStatPoint = stat.currentPlayerStatPoint;
         currentPlayerStatPointText.text = cS.PlayerStatPoint.ToString("0");
     }
-
-
-
-
 }

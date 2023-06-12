@@ -6,14 +6,14 @@ using UnityEngine.UI;
 public class ThirstSystem : MonoBehaviour
 {
 
-    public float maxThirst = 100f;
+  //  public float maxThirst = 100f;
     public float decreaseAmount = 1f;
     public float refillAmount = 100f;
     //public float interactionDistance = 2f;
     //public LayerMask interactionLayer;
     public QuestManager questManager;
 
-    public float currentThirst;
+   //public float currentThirst;
     public Slider thirstBar;
     public Slider secondThirstBar;
     public bool drankwater;
@@ -21,11 +21,13 @@ public class ThirstSystem : MonoBehaviour
     public AudioClip AudioForDrinking;
     public AudioClip AudioForFillingwater;
 
+    public DisplayStats stats;
+
 
 
     public void Start()
     {
-        currentThirst = maxThirst;
+        stats.currentThirst = stats.maxThirst;
         drankwater = false;
         questManager = GetComponent<QuestManager>();
         if (questManager == null)
@@ -37,14 +39,14 @@ public class ThirstSystem : MonoBehaviour
 
     void DecreaseThirst()
     {
-        currentThirst -= decreaseAmount;
+        stats.currentThirst -= decreaseAmount;
         UpdateThirstBar();
         //Debug.Log("Current thirst level: " + currentThirst);
     }
 
     public void RefillThirst()
     {
-        currentThirst = Mathf.Min(currentThirst + refillAmount, maxThirst);
+        stats.currentThirst = Mathf.Min(stats.currentThirst + refillAmount, stats.maxThirst);
 
         UpdateThirstBar();
         AudioSource.PlayClipAtPoint(AudioForFillingwater, transform.position);
@@ -53,11 +55,11 @@ public class ThirstSystem : MonoBehaviour
 
     void UpdateThirstBar()
     {
-        thirstBar.value = currentThirst;
+        thirstBar.value = stats.currentThirst;
 
         if (secondThirstBar != null)
         {
-            secondThirstBar.value = currentThirst;
+            secondThirstBar.value = stats.currentThirst;
         }
     }
 
