@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 #endif
 
 namespace StarterAssets
@@ -76,6 +77,17 @@ namespace StarterAssets
 
 		private XPManager xP;
 
+		public float range = 5;
+
+		public GameObject SafeCam;
+		public GameObject DefaultCam;
+
+        public GameObject SafeCanvas;
+
+		public Button closeButton;
+        
+
+
 
         private const float _threshold = 0.01f;
 
@@ -119,10 +131,13 @@ namespace StarterAssets
 
 			xP = GetComponent<XPManager>();
 
+            SafeCanvas.SetActive(false);
+
+
 
         }
 
-		private void Update()
+        private void Update()
 		{
 			JumpAndGravity();
 			GroundedCheck();
@@ -143,9 +158,40 @@ namespace StarterAssets
 
             }
 
+
+			Vector3 direction = Vector3.forward;
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+			if(Physics.Raycast(ray, out RaycastHit hit, range))
+			{
+				if(hit.collider.tag == "Safe" && Input.GetMouseButtonDown(1))
+				{
+
+					Debug.Log("Safe is in Range!");
+					DefaultCam.SetActive(false);
+                    SafeCam.SetActive(true);
+                    SafeCanvas.SetActive(true);
+
+					closeButton.onClick.AddListener(ExitCrackingSafe);
+
+
+                }
+			}
+
+
         }
 
-		private void LateUpdate()
+		public void ExitCrackingSafe()
+		{
+            SafeCam.SetActive(false);
+            DefaultCam.SetActive(true);
+            SafeCanvas.SetActive(false);
+
+        }
+
+
+
+        private void LateUpdate()
 		{
 			CameraRotation();
 		}
