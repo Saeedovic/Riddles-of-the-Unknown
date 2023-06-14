@@ -83,6 +83,9 @@ public class WayPointSystem : MonoBehaviour
 
         if (Vector3.Distance(wayPoint[locationIndex].transform.position, transform.position) <= 10) //Checking IF Player is within the Range of the waypoint , if so increment index (Set new Waypoint)
         {
+            //Reward Player with Some XP?
+
+
             locationIndex++;
 
             if(locationIndex == 3)

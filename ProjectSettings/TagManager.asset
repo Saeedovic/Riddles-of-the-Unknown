@@ -8,6 +8,7 @@ TagManager:
   - Food
   - Water
   - map
+  - Safe
   layers:
   - Default
   - TransparentFX
