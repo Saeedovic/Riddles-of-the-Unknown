@@ -17,10 +17,35 @@ public class WayPointSystem : MonoBehaviour
 
     public TextMeshProUGUI DistanceFromWayPoint;
 
-   
+    public GameObject mapMarker;
+
+
+    public bool fullMapActive = false;
+    public GameObject miniMap;
+    public GameObject fullMap;
+
+    private void Start()
+    {
+        miniMap.SetActive(true);
+        fullMap.SetActive(false);
+    }
 
     private void Update()
     {
+        if (Input.GetKey(KeyCode.G))
+        {
+            fullMapActive = true;
+            miniMap.SetActive(false);
+            fullMap.SetActive(true);
+        }
+
+        if (Input.GetKey(KeyCode.U) && fullMapActive == true)
+        {
+            fullMapActive = false;
+            miniMap.SetActive(true);
+            fullMap.SetActive(false);
+        }
+
 
         float minX = waypointMarker.GetPixelAdjustedRect().width / 2;
         float maxX = Screen.width - minX;
@@ -51,6 +76,8 @@ public class WayPointSystem : MonoBehaviour
 
         waypointMarker.transform.position = pos + Vector2.right;
 
+        mapMarker.transform.position = wayPoint[locationIndex].transform.position;
+
         DistanceFromWayPoint.text = Vector3.Distance(wayPoint[locationIndex].transform.position, transform.position).ToString("0") + " m";
 
 
@@ -60,15 +87,10 @@ public class WayPointSystem : MonoBehaviour
 
             if(locationIndex == 3)
             {
-                waypointMarker.enabled = false;
+                waypointMarker.gameObject.SetActive(false);
             }
         }
 
     }
-
-    
-
-
-
 
 }
