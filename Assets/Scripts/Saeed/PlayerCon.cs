@@ -19,6 +19,9 @@ public class PlayerCon : MonoBehaviour
     //private float mouseY = 0f;
     public bool isRunning = false;
 
+    public GameObject flashLight;
+    public bool flashLightIsOn;
+
     public AudioSource audio;
     public AudioClip AudioClipForGameEnvironment;
 
@@ -31,9 +34,12 @@ public class PlayerCon : MonoBehaviour
         controller = GetComponent<CharacterController>();
         soundPlayed = false;
         // Cursor.lockState = CursorLockMode.Locked;
+
+        flashLight.SetActive(false);
+        flashLightIsOn = false;
     }
 
-    private void Update()
+     void Update()
     {
         if (!soundPlayed)
         {
@@ -82,5 +88,17 @@ public class PlayerCon : MonoBehaviour
         {
             isRunning = false;
         }
+
+        if (Input.GetKeyDown(KeyCode.F) && flashLightIsOn == false)
+        {
+            flashLight.SetActive(true);
+            flashLightIsOn = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.F) && flashLightIsOn == true)
+        {
+            flashLight.SetActive(false);
+            flashLightIsOn = false;
+        }
+
     }
 }
