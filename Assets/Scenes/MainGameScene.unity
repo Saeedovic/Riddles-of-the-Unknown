@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 6.967084, g: 4.941201, b: 4.225794, a: 1}
+  m_IndirectSpecularColor: {r: 6.9826565, g: 4.9483986, b: 4.219246, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -793,7 +793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dayNightCycleActive: 1
-  timeFactor: 5
+  timeFactor: 100
 --- !u!1001 &537566307
 PrefabInstance:
   m_ObjectHideFlags: 0
