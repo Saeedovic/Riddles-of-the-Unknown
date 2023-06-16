@@ -4,11 +4,12 @@ using System.Runtime.InteropServices;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+
 using UnityEngine.UI;
 
 public class Safe_System : MonoBehaviour
 {
-    [SerializeField] public Button NextNumDown_1st_Digit;
+    public Button NextNumDown_1st_Digit;
     [SerializeField] public Button NextNumDown_2nd_Digit;
     [SerializeField] public Button NextNumDown_3rd_Digit;
 
@@ -16,7 +17,7 @@ public class Safe_System : MonoBehaviour
     [SerializeField] public Button NextNumUp_2nd_Digit;
     [SerializeField] public Button NextNumUp_3rd_Digit;
 
-    [SerializeField] public TextMeshProUGUI First_Digit_Text;
+     public TextMeshProUGUI First_Digit_Text;
     [SerializeField] public TextMeshProUGUI Second_Digit_Text;
     [SerializeField] public TextMeshProUGUI Third_Digit_Text;
 
@@ -29,16 +30,19 @@ public class Safe_System : MonoBehaviour
 
 
 
-    [SerializeField] public int First_Digit_Amount;
+     public int First_Digit_Amount;
     [SerializeField] public int Second_Digit_Amount;
     [SerializeField] public int Third_Digit_Amount;
 
     [SerializeField] public int Safe_Code = 234;
 
     private int minDigit = 0;
-    private int maxDigit = 9;
+    private int maxDigit = 99;
 
     StarterAssets.FirstPersonController cont;
+
+
+
 
 
     private void Start()
@@ -62,41 +66,41 @@ public class Safe_System : MonoBehaviour
 
     private void Update()
     {
-        if(First_Digit_Amount > 9)
+        if(First_Digit_Amount > 99)
         {
             First_Digit_Text.text = "0";
             First_Digit_Amount = 0;
         }
         if(First_Digit_Amount < 0)
         {
-            First_Digit_Text.text = "9";
-            First_Digit_Amount = 9;
+            First_Digit_Text.text = "99";
+            First_Digit_Amount = 99;
         }
 
 
 
-        if (Second_Digit_Amount > 9)
+        if (Second_Digit_Amount > 99)
         {   
             Second_Digit_Text.text = "0";
             Second_Digit_Amount = 0;
         }   
         if (Second_Digit_Amount < 0)
         {   
-            Second_Digit_Text.text = "9";
-            Second_Digit_Amount = 9;
+            Second_Digit_Text.text = "99";
+            Second_Digit_Amount = 99;
         }
 
 
 
-        if (Third_Digit_Amount > 9)
+        if (Third_Digit_Amount > 99)
         {   
             Third_Digit_Text.text = "0";
             Third_Digit_Amount = 0;
         }   
         if (Third_Digit_Amount < 0)
         {   
-            Third_Digit_Text.text = "9";
-            Third_Digit_Amount = 9;
+            Third_Digit_Text.text = "99";
+            Third_Digit_Amount = 99;
         }
 
 
@@ -110,6 +114,7 @@ public class Safe_System : MonoBehaviour
             StartCoroutine(UnlockedSafe());
         }
 
+        
     }
 
 
@@ -165,6 +170,5 @@ public class Safe_System : MonoBehaviour
         DefaultCam.SetActive(true);
 
 }
-
 
 }
