@@ -21,28 +21,24 @@ public class WayPointSystem : MonoBehaviour
 
 
     public bool fullMapActive = false;
-    public GameObject miniMap;
     public GameObject fullMap;
 
     private void Start()
     {
-        miniMap.SetActive(true);
         fullMap.SetActive(false);
     }
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.M) && fullMapActive == false)
         {
             fullMapActive = true;
-            miniMap.SetActive(false);
             fullMap.SetActive(true);
         }
 
-        if (Input.GetKey(KeyCode.U) && fullMapActive == true)
+        else if (Input.GetKeyDown(KeyCode.M) && fullMapActive == true)
         {
             fullMapActive = false;
-            miniMap.SetActive(true);
             fullMap.SetActive(false);
         }
 
