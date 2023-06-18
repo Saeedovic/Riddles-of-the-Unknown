@@ -24,6 +24,12 @@ public class XPManager : MonoBehaviour
 
 
 
+    public bool playerIncreasedStaminaStat;
+    public bool playerIncreasedHungerStat;
+    public bool playerIncreasedThristStat;
+
+
+
 
 
 
@@ -36,6 +42,10 @@ public class XPManager : MonoBehaviour
     {
         if(cS.PlayerLevel == 1)
         {
+            playerIncreasedStaminaStat = false;
+            playerIncreasedHungerStat = false;
+            playerIncreasedThristStat = false;
+
             requiredXp = 100;
             cS.PlayerXP = 0;
             cS.PlayerStatPoint = 0;
@@ -43,10 +53,6 @@ public class XPManager : MonoBehaviour
             cS.PlayerStamina = 100;
             cS.PlayerHunger = 100;
             cS.PlayerThrist = 100;
-
-
-
-
 
             //cS.MaxPlayerHealth = 100;
             cS.MaxPlayerStamina = 100;
@@ -69,9 +75,6 @@ public class XPManager : MonoBehaviour
         maxstaminaText.text = cS.MaxPlayerStamina.ToString("0");
         maxHungerText.text= cS.MaxPlayerHunger.ToString("0");
         maxThristText.text= cS.MaxPlayerThrist.ToString("0");
-
-
-
 
         stat.currentPlayerStatPoint = cS.PlayerStatPoint;
         currentPlayerStatPointText.text = stat.currentPlayerStatPoint.ToString("0");
@@ -199,19 +202,6 @@ public class XPManager : MonoBehaviour
     }
 
 
-    public void InceaseStatHealth()
-    {
-        Debug.Log("dog");
-        stat.currentPlayerStatPoint -= 1;
-     //   cS.MaxPlayerHealth += 10;
-     //   maxHealthText.text = cS.MaxPlayerHealth.ToString("0");
-
-       // stat.currentHealth += cS.healthStatPointInc;
-        cS.PlayerStatPoint = stat.currentPlayerStatPoint;
-        currentPlayerStatPointText.text = cS.PlayerStatPoint.ToString("0");
-    }
-
-
     public void InceaseStatStamina()
     {
         stat.currentPlayerStatPoint -= 1;
@@ -221,6 +211,8 @@ public class XPManager : MonoBehaviour
        // stat.currentStamina += cS.staminaStatPointInc;
         cS.PlayerStatPoint = stat.currentPlayerStatPoint;
         currentPlayerStatPointText.text = cS.PlayerStatPoint.ToString("0");
+
+        playerIncreasedStaminaStat = true;
     }
 
     public void InceaseStatHunger()
@@ -233,6 +225,8 @@ public class XPManager : MonoBehaviour
         //stat.currentHunger += cS.hungerStatPointInc;
         cS.PlayerStatPoint = stat.currentPlayerStatPoint;
         currentPlayerStatPointText.text = cS.PlayerStatPoint.ToString("0");
+
+        playerIncreasedHungerStat = true;
     }
 
 
@@ -246,5 +240,8 @@ public class XPManager : MonoBehaviour
         //stat.currentThrist += cS.thristStatPointInc;
         cS.PlayerStatPoint = stat.currentPlayerStatPoint;
         currentPlayerStatPointText.text = cS.PlayerStatPoint.ToString("0");
+
+
+        playerIncreasedThristStat = true;   
     }
 }

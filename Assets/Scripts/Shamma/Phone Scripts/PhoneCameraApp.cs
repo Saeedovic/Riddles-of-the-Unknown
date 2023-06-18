@@ -11,6 +11,8 @@ public class PhoneCameraApp : PhoneAppScreen
     [SerializeField] Button picTakingButton;
     public AudioClip AudioForSnapShot;
 
+    public bool pictureTaken;
+
 
 
     protected override void Start() { hasFullscreenAsOption = false; }
@@ -32,6 +34,11 @@ public class PhoneCameraApp : PhoneAppScreen
         AudioSource.PlayClipAtPoint(AudioForSnapShot, transform.position);
 
         lastPicTaken.texture = toTexture2D(cameraDisplayTexture);
+
+        pictureTaken = true;
+
+        StartCoroutine(TakeSnapShotTimer());
+
     }
 
     // courtesy of stackoverflow. 
@@ -46,6 +53,13 @@ public class PhoneCameraApp : PhoneAppScreen
         tex.Apply();
         
         return tex;
+    }
+
+    IEnumerator TakeSnapShotTimer()
+    {
+        yield return new WaitForSeconds(2);
+
+        pictureTaken = false;
     }
 
 }
