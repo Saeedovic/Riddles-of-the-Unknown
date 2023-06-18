@@ -19,6 +19,8 @@ public class WayPointSystem : MonoBehaviour
 
     public GameObject mapMarker;
 
+    public bool TutorialSectionCompleted;
+
 
     public bool fullMapActive = false;
     public GameObject fullMap;
@@ -30,6 +32,10 @@ public class WayPointSystem : MonoBehaviour
 
     private void Update()
     {
+
+        if(TutorialSectionCompleted == true)
+        {
+
         if (Input.GetKeyDown(KeyCode.M) && fullMapActive == false)
         {
             fullMapActive = true;
@@ -88,6 +94,11 @@ public class WayPointSystem : MonoBehaviour
             {
                 waypointMarker.gameObject.SetActive(false);
             }
+        }
+        }
+        else
+        {
+            waypointMarker.gameObject.SetActive(false);
         }
 
     }
