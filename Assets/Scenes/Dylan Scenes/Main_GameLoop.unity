@@ -4359,6 +4359,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3619633326227726214, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+      propertyPath: m_Name
+      value: Time
+      objectReference: {fileID: 0}
     - target: {fileID: 5337037427213654920, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
       propertyPath: m_LocalPosition.z
       value: 2.16
@@ -4714,6 +4718,14 @@ PrefabInstance:
     - target: {fileID: 6752302732168778155, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 108.787
+      objectReference: {fileID: 0}
+    - target: {fileID: 6752302732208048282, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6752302732237220328, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6752302732277167226, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
       propertyPath: m_LocalScale.x
@@ -7972,6 +7984,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2055967783 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4797761129233828386, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+  m_PrefabInstance: {fileID: 1583956422}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2055967785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055967783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0322ef136fa758f4e8e340bfc275a98b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  appScreen: {fileID: 0}
+  AudioForOpeningPhoneApp: {fileID: 0}
 --- !u!1 &2072665759
 GameObject:
   m_ObjectHideFlags: 0
