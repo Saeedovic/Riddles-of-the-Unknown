@@ -42,11 +42,11 @@ public class TutorialManager : MonoBehaviour
         {
             if(i == popUpIndex)
             {
-                popUps[popUpIndex].SetActive(true);
+                popUps[i].SetActive(true);
             }
             else
             {
-                popUps[popUpIndex].SetActive(false);
+                popUps[i].SetActive(false);
 
             }
         }
@@ -96,7 +96,17 @@ public class TutorialManager : MonoBehaviour
             }
         }
 
-        if (popUpIndex == 5) //Take a Picture
+        if (popUpIndex == 5) //Waypoint
+        {
+            if ((wpSystem.TutorialSectionCompleted == true))
+            {
+                popUpIndex++;
+                wpSystem.TutorialSectionCompleted = false;
+                qManager.CompleteCurrentQuest();
+            }
+        }
+
+        if (popUpIndex == 6) //Take a Picture
         {
             if (app.pictureTaken == true)
             {
@@ -105,7 +115,7 @@ public class TutorialManager : MonoBehaviour
             }
         }
 
-        if (popUpIndex == 6) // Upgrade 1 Stat
+        if (popUpIndex == 7) // Upgrade 1 Stat
         {
             if (xpManager.playerIncreasedThristStat == true || xpManager.playerIncreasedStaminaStat == true || xpManager.playerIncreasedHungerStat == true)
             {
@@ -115,7 +125,7 @@ public class TutorialManager : MonoBehaviour
             }
         }
 
-        if (popUpIndex == 7) // Find Clue
+        if (popUpIndex == 8) // Find Clue
         {
            /* if ()  
             {
@@ -126,7 +136,7 @@ public class TutorialManager : MonoBehaviour
            */
         }
 
-        if (popUpIndex == 8) // Find the Shack
+        if (popUpIndex == 9) // Find the Shack
         {
             if (wpSystem.TutorialSectionCompleted == true)
             {
