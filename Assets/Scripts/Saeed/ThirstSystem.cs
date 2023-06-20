@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class ThirstSystem : MonoBehaviour
 {
+    // for items in inventory to use.
+    public static ThirstSystem Instance;
 
   //  public float maxThirst = 100f;
     public float decreaseAmount = 1f;
@@ -27,6 +29,10 @@ public class ThirstSystem : MonoBehaviour
 
     public void Start()
     {
+        
+        Instance = this;
+
+
         stats.currentThirst = stats.maxThirst;
         drankwater = false;
         questManager = GetComponent<QuestManager>();

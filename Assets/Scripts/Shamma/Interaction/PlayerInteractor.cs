@@ -23,6 +23,7 @@ public class PlayerInteractor : MonoBehaviour
     public IInteractableObject currentObject { get; private set; }
 
     [HideInInspector] public XPManager xP;
+    [HideInInspector] public InventoryHandler inventoryHandler;
 
 
     void Start()
@@ -31,6 +32,7 @@ public class PlayerInteractor : MonoBehaviour
         interactableAvailable = false;
 
         xP = GetComponent<XPManager>();
+        inventoryHandler = GetComponent<InventoryHandler>();
         //Button btn = GameControlScreen.GetComponent<Button>();
 
         //btn.onClick.AddListener(ActivateGameControlScreen);
@@ -38,7 +40,7 @@ public class PlayerInteractor : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(currentObject);
+        //Debug.Log(currentObject);
 
         if (!interactionActive)
         {
