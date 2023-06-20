@@ -23,7 +23,7 @@ public class WatchManager : MonoBehaviour
         }
     }
 
-    void SetWatchState(bool watchActive)
+    public void SetWatchState(bool watchActive)
     {
         // when phone is inactive, make it active, and vice versa.
         if (!watchActive)
