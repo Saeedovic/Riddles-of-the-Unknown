@@ -9,15 +9,15 @@ public class InventorySlot : MonoBehaviour
     [HideInInspector] public InventoryObject storedItem;
     [HideInInspector] public int itemCount;
 
-    Texture2D slotImage;
-    Texture2D defaultImage;
+    Sprite slotImage;
+    Sprite defaultImage;
 
     public void Start()
     {
         Button slotUIButton = GetComponent<Button>();
         slotUIButton.onClick.AddListener(UseItem);
 
-        slotImage = GetComponent<Texture2D>();
+        slotImage = GetComponent<Sprite>();
         defaultImage = slotImage;
     }
 
