@@ -106,16 +106,16 @@ public class XPManager : MonoBehaviour
         //Check if Stat Point is = 0, IF not then allow to upgrade 
         if (cS.PlayerStatPoint == 0)
         {
-            upgradeHP.interactable = false;
-            upgradeStamina.interactable = false;
-            upgradeHunger.interactable = false;
-            upgradeThrist.interactable = false;
+            
+            upgradeStamina.interactable = true;
+            upgradeHunger.interactable = true;
+            upgradeThrist.interactable = true;
 
         }else if(cS.PlayerStatPoint >= 1)
         {
            // AudioSource.PlayClipAtPoint(AudioForUnlockingStats, transform.position);
 
-            upgradeHP.interactable = true;
+            
             upgradeStamina.interactable = true;
             upgradeHunger.interactable = true;
             upgradeThrist.interactable = true;

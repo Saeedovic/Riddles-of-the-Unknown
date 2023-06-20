@@ -14,17 +14,17 @@ public class TutorialManager : MonoBehaviour
     XPManager xpManager;
     PhoneCameraApp app;
     WayPointSystem wpSystem;
+    WatchManager watchManager;
 
     [SerializeField] GameObject playerObjRef;
     [SerializeField] GameObject PhoneAppRef;
     [SerializeField] GameObject WaypointSystemRef;
+    [SerializeField] GameObject WatchObjRef;
+
 
     public GameObject cameraApp;
     public GameObject notesApp;
     public GameObject statAllocationApp;
-
-    public GameObject clickToContinue;
-    public GameObject clickToEnd;
 
     public bool TutorialSectionCompleted;
 
@@ -38,6 +38,7 @@ public class TutorialManager : MonoBehaviour
         xpManager = playerObjRef.GetComponent<XPManager>();
         app = PhoneAppRef.GetComponent<PhoneCameraApp>();
         wpSystem = WaypointSystemRef.GetComponent<WayPointSystem>();
+        watchManager = WatchObjRef.GetComponent<WatchManager>();
     }
 
 
@@ -58,7 +59,8 @@ public class TutorialManager : MonoBehaviour
             }
         }
 
-       if(popUpIndex == 0) // WASD MOVEMENT
+
+        if (popUpIndex == 0) // WASD MOVEMENT
         {
             if(Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))      
             {
@@ -96,8 +98,12 @@ public class TutorialManager : MonoBehaviour
 
         if (popUpIndex == 4) //Watch
         {
+            watchManager.SetWatchState(false);
+
             if (Input.GetKeyDown(KeyCode.J))
             {
+                watchManager.SetWatchState(true);
+
                 popUpIndex++;
                 qManager.CompleteCurrentQuest();
             }
@@ -171,10 +177,9 @@ public class TutorialManager : MonoBehaviour
         }
         if (popUpIndex == 13) //Upgrade Stat - 3
         {
-            if (Input.GetKey(KeyCode.Backspace))
-            {
-               // statAllocationApp.activeInHierarchy = true;
-                popUpIndex =+14;
+            if (statAllocationApp.activeInHierarchy == false)
+            {          
+                popUpIndex++;
                 qManager.CompleteCurrentQuest();
 
             }
@@ -219,57 +224,34 @@ public class TutorialManager : MonoBehaviour
             if (Input.GetKey(KeyCode.R))
             {
                 popUpIndex++;
+                qManager.CompleteCurrentQuest();
+
             }
         }
         if (popUpIndex == 19) //Use EcoPoint to Find a Clue - 4
         {
 
-            StartCoroutine(EnterToContinue());
-
-            if (Input.GetKey(KeyCode.KeypadEnter))
-            {
-                popUpIndex++;
-            }
         }
         if (popUpIndex == 20) //Use EcoPoint to Find a Clue - 5
         {
-            StartCoroutine(EnterToContinue());
 
-            if (Input.GetKey(KeyCode.KeypadEnter))
-            {
-                popUpIndex++;
-                qManager.CompleteCurrentQuest();
-            }
         }
         if (popUpIndex == 21) //End oF Tutorial
         {
+            
 
-            StartCoroutine(EnterToEnd());
-
-            if (Input.GetKey(KeyCode.KeypadEnter))
+            if (Input.GetKey(KeyCode.Return))
             {
                 popUpIndex++;
-                qManager.CompleteCurrentQuest();
             }
         }
     }
 
 
-    IEnumerator EnterToContinue()
+    public void ContinueButton()
     {
-        clickToContinue.SetActive(true);
-
-        yield return new WaitForSeconds(1);
-
-        clickToContinue.SetActive(false);
+      popUpIndex++;
+        qManager.CompleteCurrentQuest();
     }
 
-    IEnumerator EnterToEnd()
-    {
-        clickToEnd.SetActive(true);
-
-        yield return new WaitForSeconds(1);
-
-        clickToEnd.SetActive(false);
-    }
 }

@@ -1594,6 +1594,7 @@ GameObject:
   - component: {fileID: 1935944127374063658}
   - component: {fileID: 3448996960621261348}
   - component: {fileID: 4126919985026306038}
+  - component: {fileID: 1785091380424250678}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1718,6 +1719,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1785091380424250678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3619633326227726214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0322ef136fa758f4e8e340bfc275a98b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  appScreen: {fileID: 0}
+  AudioForOpeningPhoneApp: {fileID: 0}
 --- !u!1 &4797761129233828386
 GameObject:
   m_ObjectHideFlags: 0
@@ -7031,8 +7046,8 @@ RectTransform:
   - {fileID: 6752302732336096747}
   - {fileID: 6752302733112571394}
   - {fileID: 6752302731635004337}
-  - {fileID: 8739461304933841774}
   - {fileID: 6752302731805732033}
+  - {fileID: 8739461304933841774}
   m_Father: {fileID: 6752302733112911435}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
@@ -7091,8 +7106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c852e49d83562534b9ef078620b1b813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstHighlightedButton: {fileID: 0}
-  backButton: {fileID: 0}
+  firstHighlightedButton: {fileID: 6830987314656059645}
+  backButton: {fileID: 2078627498067556428}
 --- !u!1 &6752302731776288835
 GameObject:
   m_ObjectHideFlags: 0
@@ -7397,7 +7412,7 @@ RectTransform:
   - {fileID: 6752302731309487713}
   - {fileID: 6752302732778499059}
   m_Father: {fileID: 6752302731754339354}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -16090,7 +16105,7 @@ RectTransform:
   m_Children:
   - {fileID: 247362292078684168}
   m_Father: {fileID: 6752302731754339354}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
