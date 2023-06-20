@@ -19,84 +19,97 @@ public class WayPointSystem : MonoBehaviour
 
     public GameObject mapMarker;
 
-    public bool TutorialSectionCompleted;
+    TutorialManager tManager;
+    [SerializeField] GameObject tutorialManagerObjRef;
+
+
 
 
     public bool fullMapActive = false;
     public GameObject fullMap;
 
-    private void Start()
+    private void Awake()
+    {
+        tManager = tutorialManagerObjRef.GetComponent<TutorialManager>();
+    }
+
+        private void Start()
     {
         fullMap.SetActive(false);
     }
 
-    private void Update()
+    void Update()
     {
 
-        if(TutorialSectionCompleted == true)
+        if(tManager.TutorialSectionCompleted == true)
         {
+            waypointMarker.gameObject.SetActive(true);
 
-        if (Input.GetKeyDown(KeyCode.M) && fullMapActive == false)
-        {
+            if (Input.GetKeyDown(KeyCode.M) && fullMapActive == false)
+             {
             fullMapActive = true;
             fullMap.SetActive(true);
-        }
+             }
 
-        else if (Input.GetKeyDown(KeyCode.M) && fullMapActive == true)
-        {
+             else if (Input.GetKeyDown(KeyCode.M) && fullMapActive == true)
+             {
             fullMapActive = false;
             fullMap.SetActive(false);
-        }
+             }
 
 
-        float minX = waypointMarker.GetPixelAdjustedRect().width / 2;
-        float maxX = Screen.width - minX;
+             float minX = waypointMarker.GetPixelAdjustedRect().width / 2;
+             float maxX = Screen.width - minX;
+          
+             float minY = waypointMarker.GetPixelAdjustedRect().height / 2;
+             float maxY = Screen.width - minY;
+          
+             Vector2 pos = Camera.main.WorldToScreenPoint(wayPoint[locationIndex].transform.position);
+          
+          
+          
+             if (Vector3.Dot((wayPoint[locationIndex].transform.position - transform.position), transform.forward) < 0)
+             {
+                 //Target is Behind the Player
+          
+                 if(pos.x < Screen.width / 2)
+                 {
+                     pos.x = maxX;
+                 }
+                 else
+                 {
+                     pos.x = minX;
+                 }
+             }
+          
+             pos.x = Mathf.Clamp(pos.x, minX, maxX);
+             pos.y = Mathf.Clamp(pos.y, minY, maxY);
+          
+             waypointMarker.transform.position = pos + Vector2.right;
+          
+             mapMarker.transform.position = wayPoint[locationIndex].transform.position;
+          
+             DistanceFromWayPoint.text = Vector3.Distance(wayPoint[locationIndex].transform.position, transform.position).ToString("0") + " m";
+          
+          
+             if (Vector3.Distance(wayPoint[locationIndex].transform.position, transform.position) <= 10) //Checking IF Player is within the Range of the waypoint , if so increment index (Set new Waypoint)
+             {
+                 //Reward Player with Some XP?
+          
+          
+                 locationIndex++;
 
-        float minY = waypointMarker.GetPixelAdjustedRect().height / 2;
-        float maxY = Screen.width - minY;
+                 if(locationIndex == 3)
+                 {
+                     waypointMarker.gameObject.SetActive(false);
+                 }
+             }
 
-        Vector2 pos = Camera.main.WorldToScreenPoint(wayPoint[locationIndex].transform.position);
-
-
-
-        if (Vector3.Dot((wayPoint[locationIndex].transform.position - transform.position), transform.forward) < 0)
-        {
-            //Target is Behind the Player
-
-            if(pos.x < Screen.width / 2)
-            {
-                pos.x = maxX;
-            }
-            else
-            {
-                pos.x = minX;
-            }
-        }
-
-        pos.x = Mathf.Clamp(pos.x, minX, maxX);
-        pos.y = Mathf.Clamp(pos.y, minY, maxY);
-
-        waypointMarker.transform.position = pos + Vector2.right;
-
-        mapMarker.transform.position = wayPoint[locationIndex].transform.position;
-
-        DistanceFromWayPoint.text = Vector3.Distance(wayPoint[locationIndex].transform.position, transform.position).ToString("0") + " m";
+        } 
 
 
-        if (Vector3.Distance(wayPoint[locationIndex].transform.position, transform.position) <= 10) //Checking IF Player is within the Range of the waypoint , if so increment index (Set new Waypoint)
-        {
-            //Reward Player with Some XP?
+        if(tManager.TutorialSectionCompleted == false)
 
-
-            locationIndex++;
-
-            if(locationIndex == 3)
-            {
-                waypointMarker.gameObject.SetActive(false);
-            }
-        }
-        }
-        else
         {
             waypointMarker.gameObject.SetActive(false);
         }
