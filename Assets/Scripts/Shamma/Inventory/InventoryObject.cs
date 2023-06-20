@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class InventoryObject : ScriptableObject
 {
-    public Texture2D itemImage;
+    public Sprite itemImage;
 
     public abstract bool OnUse();
     
