@@ -40,7 +40,9 @@ public class XPManager : MonoBehaviour
 
     private void Awake()
     {
-        if(cS.PlayerLevel == 1)
+        stat = GetComponent<DisplayStats>();
+
+        if (cS.PlayerLevel == 1)
         {
             playerIncreasedStaminaStat = false;
             playerIncreasedHungerStat = false;
@@ -58,6 +60,8 @@ public class XPManager : MonoBehaviour
             cS.MaxPlayerStamina = 100;
             cS.MaxPlayerHunger = 100;
             cS.MaxPlayerThrist = 100;
+
+            cS.PlayerStatPoint = 1;
 
         }
 
@@ -204,6 +208,7 @@ public class XPManager : MonoBehaviour
 
     public void InceaseStatStamina()
     {
+        playerIncreasedStaminaStat = true;
         stat.currentPlayerStatPoint -= 1;
         cS.MaxPlayerStamina += 10;
         maxstaminaText.text = cS.MaxPlayerStamina.ToString("0");
@@ -212,11 +217,11 @@ public class XPManager : MonoBehaviour
         cS.PlayerStatPoint = stat.currentPlayerStatPoint;
         currentPlayerStatPointText.text = cS.PlayerStatPoint.ToString("0");
 
-        playerIncreasedStaminaStat = true;
     }
 
     public void InceaseStatHunger()
     {
+        playerIncreasedHungerStat = true;
         stat.currentPlayerStatPoint -= 1;
         cS.MaxPlayerHunger += 10;
         
@@ -226,12 +231,12 @@ public class XPManager : MonoBehaviour
         cS.PlayerStatPoint = stat.currentPlayerStatPoint;
         currentPlayerStatPointText.text = cS.PlayerStatPoint.ToString("0");
 
-        playerIncreasedHungerStat = true;
     }
 
 
     public void InceaseStatThrist()
     {
+        playerIncreasedThristStat = true;   
         stat.currentPlayerStatPoint -= 1;
         cS.MaxPlayerThrist += 10;
       
@@ -242,6 +247,5 @@ public class XPManager : MonoBehaviour
         currentPlayerStatPointText.text = cS.PlayerStatPoint.ToString("0");
 
 
-        playerIncreasedThristStat = true;   
     }
 }
