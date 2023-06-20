@@ -7,6 +7,10 @@ public class WaterSource : PointOfInterest, IInteractableObject
     public bool isDrinkable = true;
     [SerializeField] int xpGiven = 5;
 
+    // the water that would be added to the inventory
+    [SerializeField] ReplenishingObject waterScriptableObj;
+    static ReplenishingObject waterItem;
+    public int amountToAddToInventory = 1;
     static ThirstSystem userThirst;
 
     public void Interact(PlayerInteractor user)
@@ -14,6 +18,8 @@ public class WaterSource : PointOfInterest, IInteractableObject
         //Debug.Log("Interact Now");
         if (userThirst == null)
             userThirst = user.GetComponent<ThirstSystem>();
+
+        waterItem = waterScriptableObj;
 
 
         if (userThirst.questManager != null &&
@@ -30,12 +36,18 @@ public class WaterSource : PointOfInterest, IInteractableObject
 
     void ProcessInteraction(PlayerInteractor user)
     {
-        userThirst.RefillThirst();
-        AudioSource.PlayClipAtPoint(userThirst.AudioForDrinking, transform.position);
-        userThirst.drankwater = true;
+        //userThirst.RefillThirst();
+        //AudioSource.PlayClipAtPoint(userThirst.AudioForDrinking, transform.position); // could move this to the water inventory item?
+        //userThirst.drankwater = true;
 
-        user.xP.AddXp(xpGiven);
-        gameObject.SetActive(false);
+        // if water is successfully added to inventory, despawn and award xp
+        if (user.inventoryHandler.AddToInventory(waterItem, amountToAddToInventory))
+        {
+            user.xP.AddXp(xpGiven);
+            gameObject.SetActive(false);
+            Debug.Log("water collected!");
+        }
+        
     }
 
     public bool IsInteractable()
