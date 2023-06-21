@@ -32,6 +32,7 @@ public abstract class PhoneAppScreen : MonoBehaviour
     {
         PhoneManager.Instance.playerUI.SetActive(true); // reactivate stats
 
+        backButton?.onClick.RemoveListener(OnCloseApp);
 
         PhoneMainMenu.onAppClose(); // notify that this app is now closed
         gameObject.SetActive(false);
