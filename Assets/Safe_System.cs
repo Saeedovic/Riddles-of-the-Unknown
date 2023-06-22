@@ -103,6 +103,7 @@ public class Safe_System : MonoBehaviour
             Third_Digit_Amount = 99;
         }
 
+        //--------------------Code Combination--------------------------//
 
         if(First_Digit_Amount == 2 && Second_Digit_Amount == 3 && Third_Digit_Amount == 4 && Safe_Gameobject.tag == "Safe")
         {
@@ -113,8 +114,8 @@ public class Safe_System : MonoBehaviour
 
             StartCoroutine(UnlockedSafe());
         }
+        //--------------------Code Combination--------------------------//
 
-        
     }
 
 

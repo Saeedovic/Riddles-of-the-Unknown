@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerCon : MonoBehaviour
 {
@@ -26,8 +27,14 @@ public class PlayerCon : MonoBehaviour
     public AudioClip AudioClipForGameEnvironment;
 
     private bool soundPlayed;
-   
 
+    public GameObject SafeCam;
+    public GameObject DefaultCam;
+
+    public GameObject SafeCanvas;
+
+    public Button closeButton;
+    private float range = 5;
 
     private void Start()
     {
@@ -37,6 +44,8 @@ public class PlayerCon : MonoBehaviour
 
         flashLight.SetActive(false);
         flashLightIsOn = false;
+
+        SafeCanvas.SetActive(false);
     }
 
      void Update()
@@ -99,6 +108,37 @@ public class PlayerCon : MonoBehaviour
             flashLight.SetActive(false);
             flashLightIsOn = false;
         }
+
+
+
+        Vector3 direction = Vector3.forward;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, range))
+        {
+            if (hit.collider.tag == "Safe" && Input.GetMouseButtonDown(1))
+            {
+
+                Debug.Log("Safe is in Range!");
+                DefaultCam.SetActive(false);
+                SafeCam.SetActive(true);
+                SafeCanvas.SetActive(true);
+
+                closeButton.onClick.AddListener(ExitCrackingSafe);
+
+
+            }
+        }
+
+    }
+
+
+
+    public void ExitCrackingSafe()
+    {
+        SafeCam.SetActive(false);
+        DefaultCam.SetActive(true);
+        SafeCanvas.SetActive(false);
 
     }
 }

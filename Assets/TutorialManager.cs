@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml.XPath;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.VirtualTexturing;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -15,20 +16,34 @@ public class TutorialManager : MonoBehaviour
     PhoneCameraApp app;
     WayPointSystem wpSystem;
     WatchManager watchManager;
+    PlayerCon playerCont;
+    Safe_System safe;
+
+
 
     [SerializeField] GameObject playerObjRef;
     [SerializeField] GameObject PhoneAppRef;
     [SerializeField] GameObject WaypointSystemRef;
     [SerializeField] GameObject WatchObjRef;
+    [SerializeField] GameObject safeObjRef;
+    [SerializeField] GameObject phoneObjRef;
+
+
 
 
     public GameObject cameraApp;
-    public GameObject notesApp;
+    public GameObject inventoryApp;
     public GameObject statAllocationApp;
 
     public bool TutorialSectionCompleted;
 
     public GameObject tutorialWayPointLocation;
+
+    public GameObject tutorialCamera;
+    public GameObject mainCamera;
+
+
+
 
 
 
@@ -39,6 +54,15 @@ public class TutorialManager : MonoBehaviour
         app = PhoneAppRef.GetComponent<PhoneCameraApp>();
         wpSystem = WaypointSystemRef.GetComponent<WayPointSystem>();
         watchManager = WatchObjRef.GetComponent<WatchManager>();
+        playerCont = playerObjRef.GetComponent<PlayerCon>();
+        safe = safeObjRef.GetComponent<Safe_System>();
+
+    }
+
+    private void Start()
+    {
+        mainCamera.SetActive(true);
+        tutorialCamera.SetActive(false);
     }
 
 
@@ -46,9 +70,9 @@ public class TutorialManager : MonoBehaviour
     void Update()
     {
 
-       for (int i = 0; i < popUps.Length; i++)
+        for (int i = 0; i < popUps.Length; i++)
         {
-            if(i == popUpIndex)
+            if (i == popUpIndex)
             {
                 popUps[i].SetActive(true);
             }
@@ -60,82 +84,103 @@ public class TutorialManager : MonoBehaviour
         }
 
 
+
         if (popUpIndex == 0) // WASD MOVEMENT
         {
             if(Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))      
             {
                 popUpIndex++;
-                qManager.CompleteCurrentQuest();
+                qManager.CompleteCurrentQuest(); //Go to Dave's Shack
             }
         }
 
-        if (popUpIndex == 1)   //Vaulting
+        if (popUpIndex == 1)   //WayPoint
         {
-            if (Input.GetKey(KeyCode.Space))
+            TutorialSectionCompleted = true;
+
+            popUpIndex++; 
+        }
+        if (popUpIndex == 2 )
+        {
+            if(Input.GetKey(KeyCode.LeftShift))
             {
-                popUpIndex++;
-                qManager.CompleteCurrentQuest();
+                watchManager.SetWatchState(false);
+
+                popUpIndex++;  //watch popup activated
             }
         }
 
-        if (popUpIndex == 2)   //Crouching
+        if (popUpIndex == 3)   //Watch is Active
         {
-            if (Input.GetKey(KeyCode.LeftControl))
-            {
-                popUpIndex++;
-                qManager.CompleteCurrentQuest();
-            }
-        }
+          Time.timeScale = 0;
 
-        if (popUpIndex == 3) //Running
-        {
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                popUpIndex++;
-                qManager.CompleteCurrentQuest();
-            }
-        }
+            popUps[5].SetActive(true);
 
-        if (popUpIndex == 4) //Watch
-        {
-            watchManager.SetWatchState(false);
+            mainCamera.SetActive(false);
+            tutorialCamera.SetActive(true);
 
             if (Input.GetKeyDown(KeyCode.J))
             {
+                mainCamera.SetActive(true);
+                tutorialCamera.SetActive(false);
+
+                Time.timeScale = 1;
+
+                popUps[5].SetActive(false);
                 watchManager.SetWatchState(true);
 
-                popUpIndex++;
-                qManager.CompleteCurrentQuest();
+                popUpIndex++; 
+
             }
         }
 
-        if (popUpIndex == 5) //Take A Picture
+        if (popUpIndex == 4) //Investigate the village
         {
-            if (Input.GetKey(KeyCode.K))
+            if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
             {
-                popUpIndex++;  
+                popUps[6].SetActive(true);
+                
+                TutorialSectionCompleted = false;
+                qManager.CompleteCurrentQuest();  //Investigate the Village
+
+                popUpIndex = 6;
+
             }
         }
+        
 
         if (popUpIndex == 6) //Take a Picture - 2
         {
-            if (cameraApp.activeInHierarchy == true)
+            if(Input.GetKeyDown(KeyCode.K))
             {
-                popUpIndex++;  
+               popUps[6].SetActive(false);
+
+              popUpIndex++;  
+
             }
+            
         }
 
         if (popUpIndex == 7) //Take a Picture - 3
         {
-            if (app.pictureTaken == true)
+            
+
+            mainCamera.SetActive(false);
+            tutorialCamera.SetActive(true);
+
+            if (cameraApp.activeInHierarchy == true)  //Add condition to check if player is in radius of Village
             {
-               popUpIndex++;    
+                mainCamera.SetActive(true);
+                tutorialCamera.SetActive(false);
+
+                popUpIndex++;
+
             }
         }
 
         if (popUpIndex == 8) //Take a Picture - 4
         {
-           if (cameraApp.activeInHierarchy == false)  
+           if (cameraApp.activeInHierarchy == true && Input.GetKeyDown(KeyCode.P)) 
             {
                 popUpIndex++;
             }
@@ -144,7 +189,7 @@ public class TutorialManager : MonoBehaviour
 
         if (popUpIndex == 9) //Take a Picture - 5
         {
-            if (notesApp.activeInHierarchy == true)
+            if (cameraApp.activeInHierarchy == true && Input.GetKeyDown(KeyCode.R))
             {
                 popUpIndex++;
             }
@@ -152,99 +197,284 @@ public class TutorialManager : MonoBehaviour
 
         if (popUpIndex == 10) //Take a Picture - 6
         {
-            if (notesApp.activeInHierarchy == false)
+            if (cameraApp.activeInHierarchy == false)
             {
                 popUpIndex++;
-                qManager.CompleteCurrentQuest();
+                qManager.CompleteCurrentQuest();   //Find a Safe!
 
             }
         }
         if (popUpIndex == 11) //Upgrade Stat
         {
-            if (statAllocationApp.activeInHierarchy == true)
+            if (playerCont.SafeCam.activeInHierarchy == true)
             {
+
                 popUpIndex++;
-               
+                qManager.CompleteCurrentQuest();  //Crack the Safe
 
             }
         }
         if (popUpIndex == 12) //Upgrade Stat - 2
         {
-            if (xpManager.playerIncreasedHungerStat == true || xpManager.playerIncreasedStaminaStat == true || xpManager.playerIncreasedThristStat == true)
+            if (safe.UnlockedText.activeInHierarchy == true)
+            {
+                
+                popUpIndex++;
+                qManager.CompleteCurrentQuest();  //Grab Key From Safe
+
+            }
+        }
+
+        if (popUpIndex == 13) //Take Key From Safe
+        {
+            if (Input.GetKeyDown(KeyCode.E))  // Change to If Interacted with key
             {
                 popUpIndex++;
-            }
-        }
-        if (popUpIndex == 13) //Upgrade Stat - 3
-        {
-            if (statAllocationApp.activeInHierarchy == false)
-            {          
-                popUpIndex++;
-                qManager.CompleteCurrentQuest();
+                qManager.CompleteCurrentQuest();  //Grab Key From Safe
+
 
             }
         }
-        if (popUpIndex == 14) //Waypoints
-        {
-            TutorialSectionCompleted = true;
 
-            if (Vector3.Distance(tutorialWayPointLocation.transform.position, playerObjRef.transform.position) <= 10)
-            {
-                TutorialSectionCompleted = false;
-                popUpIndex++;
-
-            }
-        }
-        if (popUpIndex == 15) //Waypoints - 2
+        if (popUpIndex == 14) //Upgrade Stat - 3
         {
-            if (Input.GetKey(KeyCode.E))
+
+            if (Input.GetKeyDown(KeyCode.Return))  // Change to If Interacted with key
             {
                 popUpIndex++;
-                qManager.CompleteCurrentQuest();
-
-            }
-        }
-        if (popUpIndex == 16) //Use EcoPoint to Find a Clue
-        {
-            if (cameraApp.activeInHierarchy == true)
-            {
-                popUpIndex++;
-            }
-        }
-        if (popUpIndex == 17) //Use EcoPoint to Find a Clue - 2
-        {
-            if (cameraApp.activeInHierarchy == true && Input.GetKey(KeyCode.P))
-            {
-                popUpIndex++;  
-
-            }
-        }
-        if (popUpIndex == 18) //Use EcoPoint to Find a Clue - 3
-        {
-            if (Input.GetKey(KeyCode.R))
-            {
-                popUpIndex++;
-                qManager.CompleteCurrentQuest();
-
-            }
-        }
-        if (popUpIndex == 19) //Use EcoPoint to Find a Clue - 4
-        {
-
-        }
-        if (popUpIndex == 20) //Use EcoPoint to Find a Clue - 5
-        {
-
-        }
-        if (popUpIndex == 21) //End oF Tutorial
-        {
             
 
-            if (Input.GetKey(KeyCode.Return))
+            }
+
+           
+        }
+        if (popUpIndex == 15) //Upgrade Stat - 3
+        {
+            if (cameraApp.activeInHierarchy == true)  // If Player Interacted with Food or drank Water
+            {
+
+
+                popUps[6].SetActive(false);
+                popUpIndex++;
+
+
+            }
+           
+        }
+
+        if (popUpIndex == 16) //Upgrade Stat - 3
+        {
+
+            popUps[8].SetActive(true);
+
+
+            if (cameraApp.activeInHierarchy == true && Input.GetKeyDown(KeyCode.P))
+            {
+                
+                popUps[8].SetActive(false);
+                popUpIndex++;
+            }
+            
+        }
+
+        if (popUpIndex == 17) //Upgrade Stat - 3
+        {
+
+            popUps[9].SetActive(true);
+
+            if (cameraApp.activeInHierarchy == true && Input.GetKeyDown(KeyCode.R))
+            {
+                
+                popUpIndex++;
+            }
+        }
+
+        if (popUpIndex == 18) //Interact with Food & Water
+        {
+
+            if (Input.GetKeyDown(KeyCode.F)) //if player interacts with food
+            {
+
+
+                Time.timeScale = 0;
+
+                
+
+                mainCamera.SetActive(false);
+                tutorialCamera.SetActive(true);
+                watchManager.SetWatchState(false);
+
+
+                popUpIndex++;
+
+
+            }
+
+        }
+
+        if (popUpIndex == 19) 
+        {
+            popUps[5].SetActive(true);
+
+            if (Input.GetKeyDown(KeyCode.J))
+            {
+
+                mainCamera.SetActive(true);
+                tutorialCamera.SetActive(false);
+
+                Time.timeScale = 1;
+
+                popUps[5].SetActive(false);
+                watchManager.SetWatchState(true);
+
+                popUpIndex++;
+
+
+            }
+
+        }
+
+        if (popUpIndex == 20)
+        {
+            popUps[20].SetActive(true);
+
+            mainCamera.SetActive(false);
+            tutorialCamera.SetActive(true);
+
+            phoneObjRef.SetActive(true);
+
+            if (inventoryApp.activeInHierarchy == true)
             {
                 popUpIndex++;
             }
         }
+
+        if (popUpIndex == 21)
+        {
+            if(Input.GetKeyDown(KeyCode.Return))
+            {
+                popUpIndex++;
+
+            }
+        }
+        if(popUpIndex == 22)
+        {
+            if (inventoryApp.activeInHierarchy == false)
+            {
+                mainCamera.SetActive(true);
+                tutorialCamera.SetActive(false);
+
+                popUpIndex++;
+            }
+        }
+
+        if(popUpIndex == 23)
+        {
+            wpSystem.locationIndex = 1;
+            TutorialSectionCompleted = true;
+
+            if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
+           {
+                Debug.Log("Reached Lake");
+                TutorialSectionCompleted = false;
+                qManager.CompleteCurrentQuest();
+
+                popUpIndex++;
+
+
+            }
+
+        }
+
+
+
+
+
+
+        /*  if (popUpIndex == 15) //Upgrade Stat - 2
+          {
+              if (xpManager.playerIncreasedHungerStat == true || xpManager.playerIncreasedStaminaStat == true || xpManager.playerIncreasedThristStat == true)
+              {
+                  popUpIndex++;
+              }
+          }
+
+          */
+
+
+
+
+        /*  if (popUpIndex == 13) //Upgrade Stat - 3
+          {
+              if (statAllocationApp.activeInHierarchy == false)
+              {          
+                  popUpIndex++;
+                  qManager.CompleteCurrentQuest();
+
+              }
+          }
+          if (popUpIndex == 14) //Waypoints
+          {
+              TutorialSectionCompleted = true;
+
+              if (Vector3.Distance(tutorialWayPointLocation.transform.position, playerObjRef.transform.position) <= 10)
+              {
+                  TutorialSectionCompleted = false;
+                  popUpIndex++;
+
+              }
+          }
+          if (popUpIndex == 15) //Waypoints - 2
+          {
+              if (Input.GetKey(KeyCode.E))
+              {
+                  popUpIndex++;
+                  qManager.CompleteCurrentQuest();
+
+              }
+          }
+          if (popUpIndex == 16) //Use EcoPoint to Find a Clue
+          {
+              if (cameraApp.activeInHierarchy == true)
+              {
+                  popUpIndex++;
+              }
+          }
+          if (popUpIndex == 17) //Use EcoPoint to Find a Clue - 2
+          {
+              if (cameraApp.activeInHierarchy == true && Input.GetKey(KeyCode.P))
+              {
+                  popUpIndex++;  
+
+              }
+          }
+          if (popUpIndex == 18) //Use EcoPoint to Find a Clue - 3
+          {
+              if (Input.GetKey(KeyCode.R))
+              {
+                  popUpIndex++;
+                  qManager.CompleteCurrentQuest();
+
+              }
+          }
+          if (popUpIndex == 19) //Use EcoPoint to Find a Clue - 4
+          {
+
+          }
+          if (popUpIndex == 20) //Use EcoPoint to Find a Clue - 5
+          {
+
+          }
+          if (popUpIndex == 21) //End oF Tutorial
+          {
+
+
+              if (Input.GetKey(KeyCode.Return))
+              {
+                  popUpIndex++;
+              }
+          }
+        */
     }
 
 

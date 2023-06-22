@@ -97,7 +97,7 @@ public class WayPointSystem : MonoBehaviour
                  //Reward Player with Some XP?
           
           
-                 locationIndex++;
+                // locationIndex++;
 
                  if(locationIndex == 3)
                  {
