@@ -1,0 +1,41 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+// for any items that are crucial to story and game progression. (eg dynamite, literal keys)
+
+[CreateAssetMenu(fileName = "KeyObj", menuName = "Inventory/KeyObject")]
+public class KeyObject : InventoryObject
+{
+    [SerializeField] Vector3 locationToBeUsed;
+    float checkRadius;
+    LayerMask playerLayer;
+
+    public override bool OnUse()
+    {
+        // probably want to do some sort of check for if you're in the corrrect location?
+        if (Physics.CheckSphere(locationToBeUsed, checkRadius, playerLayer))
+        {
+            // execute the code relevant to the key being used here (eg calling a lockopening function)
+            // could maybe make inheriting classes that change what execute use does for different key items
+            ExecuteUse();
+            return true;
+        }
+
+        // when if statement doesn't execute
+        Debug.Log("you can't use this item here.");
+        return false;
+    }
+
+    void ExecuteUse()
+    {
+
+    }
+
+    // cannot drop key items
+    public override bool IsDroppable()
+    {
+        return false;
+    }
+
+}

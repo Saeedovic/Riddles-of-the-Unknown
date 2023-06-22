@@ -27,6 +27,11 @@ public class ReplenishingObject : InventoryObject
         // invalid types
         return false;
     }
+
+    public override bool IsDroppable()
+    {
+        return true;
+    }
 }
 
 enum ReplenishingObjType
