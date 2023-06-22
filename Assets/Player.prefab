@@ -426,6 +426,7 @@ MonoBehaviour:
   storedItem: {fileID: 0}
   itemCount: 0
   slotImage: {fileID: 6941842058250689317}
+  defaultSlotImage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   inventoryApp: {fileID: 6000982892917064284}
 --- !u!1 &1039904145456193947
 GameObject:
@@ -564,6 +565,7 @@ MonoBehaviour:
   storedItem: {fileID: 0}
   itemCount: 0
   slotImage: {fileID: 7159757630735443616}
+  defaultSlotImage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   inventoryApp: {fileID: 6000982892917064284}
 --- !u!1 &2533689360813649229
 GameObject:
@@ -2249,7 +2251,7 @@ GameObject:
   - component: {fileID: 1935944127374063658}
   - component: {fileID: 3448996960621261348}
   - component: {fileID: 4126919985026306038}
-  - component: {fileID: 1785091380424250678}
+  - component: {fileID: 13144389499792849}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2374,7 +2376,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &1785091380424250678
+--- !u!114 &13144389499792849
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2383,11 +2385,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3619633326227726214}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0322ef136fa758f4e8e340bfc275a98b, type: 3}
+  m_Script: {fileID: 11500000, guid: a9e390c7a47018d4fb6959e64000a8b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  appScreen: {fileID: 0}
-  AudioForOpeningPhoneApp: {fileID: 0}
 --- !u!1 &3949190592344895209
 GameObject:
   m_ObjectHideFlags: 0
@@ -2525,6 +2525,7 @@ MonoBehaviour:
   storedItem: {fileID: 0}
   itemCount: 0
   slotImage: {fileID: 8316995307437128240}
+  defaultSlotImage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   inventoryApp: {fileID: 6000982892917064284}
 --- !u!1 &4797761129233828386
 GameObject:
@@ -2538,13 +2539,14 @@ GameObject:
   - component: {fileID: 604988752393926884}
   - component: {fileID: 5939314122324507623}
   - component: {fileID: 6056086947800482883}
+  - component: {fileID: 4092841464244587012}
   m_Layer: 5
   m_Name: MiniMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5337037427213654920
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2628,6 +2630,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &4092841464244587012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4797761129233828386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e390c7a47018d4fb6959e64000a8b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4858496522021651221
 GameObject:
   m_ObjectHideFlags: 0
@@ -2704,7 +2718,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -17383,6 +17397,7 @@ MonoBehaviour:
   storedItem: {fileID: 0}
   itemCount: 0
   slotImage: {fileID: 1865794568170608665}
+  defaultSlotImage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   inventoryApp: {fileID: 6000982892917064284}
 --- !u!1 &7428355005018072374
 GameObject:
@@ -17521,6 +17536,7 @@ MonoBehaviour:
   storedItem: {fileID: 0}
   itemCount: 0
   slotImage: {fileID: 2946005261713089106}
+  defaultSlotImage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   inventoryApp: {fileID: 6000982892917064284}
 --- !u!1 &7723147505807039434
 GameObject:
@@ -17598,7 +17614,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -18124,6 +18140,7 @@ MonoBehaviour:
   storedItem: {fileID: 0}
   itemCount: 0
   slotImage: {fileID: 981014539748461969}
+  defaultSlotImage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   inventoryApp: {fileID: 6000982892917064284}
 --- !u!1 &8673575809982851075
 GameObject:
@@ -18201,7 +18218,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

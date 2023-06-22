@@ -19,6 +19,8 @@ public abstract class PhoneAppScreen : MonoBehaviour
 
     public virtual void OnOpenApp()
     {
+        backButton.onClick.RemoveAllListeners();
+
         //PhoneMainMenu.onAppClose += OnCloseApp;
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(firstHighlightedButton); // make sure new UI screen is selected properly
@@ -32,7 +34,7 @@ public abstract class PhoneAppScreen : MonoBehaviour
     {
         PhoneManager.Instance.playerUI.SetActive(true); // reactivate stats
 
-        backButton?.onClick.RemoveListener(OnCloseApp);
+        //backButton?.onClick.RemoveListener(OnCloseApp);
 
         PhoneMainMenu.onAppClose(); // notify that this app is now closed
         gameObject.SetActive(false);
