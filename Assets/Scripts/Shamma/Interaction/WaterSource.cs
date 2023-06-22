@@ -15,7 +15,6 @@ public class WaterSource : PointOfInterest, IInteractableObject
 
     public void Interact(PlayerInteractor user)
     {
-        //Debug.Log("Interact Now");
         if (userThirst == null)
             userThirst = user.GetComponent<ThirstSystem>();
 

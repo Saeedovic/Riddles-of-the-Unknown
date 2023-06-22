@@ -42,23 +42,32 @@ public class PhoneInventoryApp : PhoneAppScreen
 
         CloseConfirmationBox();
 
-        Debug.Log("the item was used!");
+        //Debug.Log("the item was used!");
     }
 
     void DropItem()
     {
-        currentSlot.DiscardItem();
-        currentSlot = null;
+        if (currentSlot.storedItem.IsDroppable())
+        {
+            currentSlot.DiscardItem();
+            currentSlot = null;
 
-        CloseConfirmationBox();
-
-        Debug.Log("the item was discarded!");
+            CloseConfirmationBox();
+            //Debug.Log("the item was discarded!");
+        }
+        else
+        {
+            Debug.Log("this is a key item, you can't drop it!");
+            // play a voice clip about needing to hold onto the item here
+        }
     }
 
     // undo the confirmation box setup.
     void CloseConfirmationBox()
     {
-        Debug.Log("interaction finished");
+        //Debug.Log("interaction finished");
+
+        currentSlot = null;
 
         confUseButton.onClick.RemoveListener(UseItem);
         confDropButton.onClick.RemoveListener(DropItem);
