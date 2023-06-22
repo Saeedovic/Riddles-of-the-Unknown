@@ -10,7 +10,7 @@ public class InventorySlot : MonoBehaviour
     [HideInInspector] public int itemCount;
 
     [SerializeField] Image slotImage; // i don't have the energy to try and fix the issue of not really being able to call start with anything tied to the phone, so in the meantime please assign these manually to the same image as on the gameobject
-    Image defaultImage;
+    [SerializeField] Sprite defaultSlotImage;
 
     [SerializeField] PhoneInventoryApp inventoryApp;
 
@@ -21,9 +21,9 @@ public class InventorySlot : MonoBehaviour
         slotUIButton.onClick.AddListener(ActivateConfirmationBox);
 
         //slotImage = GetComponent<Image>();
-        defaultImage = slotImage;
-        defaultImage.overrideSprite = slotImage.sprite;
-
+        //defaultImage = slotImage;
+        //defaultImage.overrideSprite = slotImage.sprite;
+        //defaultImage.sprite = slotImage.sprite;
         //this.gameObject.SetActive(false); // turn off after setup so phone won't open on inventory
     }
 
@@ -38,9 +38,12 @@ public class InventorySlot : MonoBehaviour
 
     public void AddItem(InventoryObject itemToAdd, int numOf)
     {
-        defaultImage = slotImage;
-        defaultImage.overrideSprite = slotImage.sprite;
-        slotImage.overrideSprite = itemToAdd.itemImage;
+        //defaultImage = slotImage;
+        //defaultImage.overrideSprite = slotImage.sprite;
+        //defaultImage = slotImage;
+        //defaultImage.sprite = slotImage.sprite;
+        slotImage.sprite = itemToAdd.itemImage;
+        //slotImage.overrideSprite = itemToAdd.itemImage;
 
         storedItem = itemToAdd;
         IncrementItem(numOf);
@@ -81,7 +84,8 @@ public class InventorySlot : MonoBehaviour
             if (itemCount <= 0)
             {
                 storedItem = null;
-                slotImage.overrideSprite = defaultImage.sprite;
+                //slotImage.overrideSprite = defaultImage.sprite;
+                slotImage.sprite = defaultSlotImage;
             }
         }
     }
