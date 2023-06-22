@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class PhoneManager : MonoBehaviour
 {
-    [SerializeField] GameObject phoneScreen;
+    public  GameObject phoneScreen;
     [SerializeField] List<GameObject> mainPhoneButtons; // used to set the input system up
 
     [SerializeField] Transform regularScreenPos;
