@@ -72,6 +72,7 @@ public class PhoneManager : MonoBehaviour
         if (!phoneActive)
         {
             phoneScreen.SetActive(true);
+            PhoneMainMenu.RefreshPhone();
         }
         else
         {

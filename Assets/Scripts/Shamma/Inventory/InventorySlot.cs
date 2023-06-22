@@ -9,23 +9,44 @@ public class InventorySlot : MonoBehaviour
     [HideInInspector] public InventoryObject storedItem;
     [HideInInspector] public int itemCount;
 
-    Sprite slotImage;
-    Sprite defaultImage;
+    [SerializeField] Image slotImage; // i don't have the energy to try and fix the issue of not really being able to call start with anything tied to the phone, so in the meantime please assign these manually to the same image as on the gameobject
+    [SerializeField] Sprite defaultSlotImage;
 
-    public void Start()
+    [SerializeField] PhoneInventoryApp inventoryApp;
+
+
+    public void Awake()
     {
         Button slotUIButton = GetComponent<Button>();
-        slotUIButton.onClick.AddListener(UseItem);
+        slotUIButton.onClick.AddListener(ActivateConfirmationBox);
 
-        slotImage = GetComponent<Sprite>();
-        defaultImage = slotImage;
+        //slotImage = GetComponent<Image>();
+        //defaultImage = slotImage;
+        //defaultImage.overrideSprite = slotImage.sprite;
+        //defaultImage.sprite = slotImage.sprite;
+        //this.gameObject.SetActive(false); // turn off after setup so phone won't open on inventory
     }
+
+    void ActivateConfirmationBox()
+    {
+        if (storedItem != null)
+        {
+            inventoryApp.OpenConfirmationBox(this);
+        }
+    }
+
 
     public void AddItem(InventoryObject itemToAdd, int numOf)
     {
+        //defaultImage = slotImage;
+        //defaultImage.overrideSprite = slotImage.sprite;
+        //defaultImage = slotImage;
+        //defaultImage.sprite = slotImage.sprite;
+        slotImage.sprite = itemToAdd.itemImage;
+        //slotImage.overrideSprite = itemToAdd.itemImage;
+
         storedItem = itemToAdd;
         IncrementItem(numOf);
-        slotImage = itemToAdd.itemImage;
 
         Debug.Log("A " + itemToAdd.name + " was added to " + this.name);
 
@@ -33,22 +54,39 @@ public class InventorySlot : MonoBehaviour
 
     public void IncrementItem(int numOf)
     {
-        itemCount += numOf;
+        if (storedItem != null) // imagine having 3x null in your inventory...
+        {
+            itemCount += numOf;
+            // update ui here.
+        }
     }
+
 
     public void UseItem()
     {
-        if (storedItem.OnUse())
+        if (storedItem != null)
         {
-            Debug.Log("A " + storedItem.name + " was used from " + this.name);
+            if (storedItem.OnUse())
+            {
+                Debug.Log("A " + storedItem.name + " was used from " + this.name);
+
+                DiscardItem();
+            }
+        }
+    }
+
+    public void DiscardItem()
+    {
+        if (storedItem != null)
+        {
             itemCount--;
 
-            if (itemCount <= 0) 
+            if (itemCount <= 0)
             {
                 storedItem = null;
-                slotImage = defaultImage;
+                //slotImage.overrideSprite = defaultImage.sprite;
+                slotImage.sprite = defaultSlotImage;
             }
-                
         }
     }
 }
