@@ -77,11 +77,6 @@ namespace OD.Effect.HDRP {
                 cooldownActive = false;
             }
 
-            if (!cooldownActive)
-            {
-                InputHandle();
-            }
-
             HandleScanAnim();
         }
 
@@ -218,22 +213,31 @@ namespace OD.Effect.HDRP {
 
         }
 
-        void InputHandle(){
-            if(customInput == true) return;
+        // calling this from ui button instead.
+        public void InputHandle()
+        {
+            //if(customInput == true) return;
 
-            if(mode == Mode.Scan){
-                if(Input.GetKeyDown(inputKey)){
+            if (!cooldownActive)
+            {
+                if (mode == Mode.Scan)
+                {
                     StartScan();
                     AudioSource.PlayClipAtPoint(AudioForScan, transform.position);
 
                     cooldownTime = 0f;
                     cooldownActive = true;
                 }
-            } else {
-                if(Input.GetKey(inputKey) && curState == CurState.End){
-                    StartStealthVision();
-                } else if (Input.GetKey(inputKey) == false && curState == CurState.StartSteatlhVision){
-                    EndStealthVision();
+                else
+                {
+                    if (curState == CurState.End)
+                    {
+                        StartStealthVision();
+                    }
+                    else if (Input.GetKey(inputKey) == false && curState == CurState.StartSteatlhVision)
+                    {
+                        EndStealthVision();
+                    }
                 }
             }
         }   
