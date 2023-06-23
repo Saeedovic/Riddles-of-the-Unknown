@@ -4591,11 +4591,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 712897662}
   m_CullTransparentMesh: 1
---- !u!1 &715422745 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6752302732237220328, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
-  m_PrefabInstance: {fileID: 1583956422}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &715557427
 GameObject:
   m_ObjectHideFlags: 0
@@ -17086,11 +17081,15 @@ MonoBehaviour:
   PhoneAppRef: {fileID: 590462977}
   WaypointSystemRef: {fileID: 131337218}
   WatchObjRef: {fileID: 608738822}
+  safeObjRef: {fileID: 0}
+  phoneObjRef: {fileID: 0}
   cameraApp: {fileID: 590462977}
-  notesApp: {fileID: 715422745}
+  inventoryApp: {fileID: 0}
   statAllocationApp: {fileID: 602504317}
   TutorialSectionCompleted: 0
   tutorialWayPointLocation: {fileID: 369803108}
+  tutorialCamera: {fileID: 0}
+  mainCamera: {fileID: 0}
 --- !u!1 &1871323642
 GameObject:
   m_ObjectHideFlags: 0
@@ -21288,6 +21287,14 @@ PrefabInstance:
     - target: {fileID: 8135734886760732661, guid: d99603df37bf73d4695affb35182bc0a, type: 3}
       propertyPath: m_Name
       value: Key
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135734886760732662, guid: d99603df37bf73d4695affb35182bc0a, type: 3}
+      propertyPath: offBy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135734886760732662, guid: d99603df37bf73d4695affb35182bc0a, type: 3}
+      propertyPath: timeToOff
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8135734886760732666, guid: d99603df37bf73d4695affb35182bc0a, type: 3}
       propertyPath: m_RootOrder

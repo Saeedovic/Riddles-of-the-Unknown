@@ -37,6 +37,7 @@ public class PhoneCameraApp : PhoneAppScreen
         regularPhonePos = phoneObject.transform.position;
         cameraFullscreenPhonePos = new Vector3(regularPhonePos.x, regularPhonePos.y, regularPhonePos.z + 20); // just manually move phone out of the way.
 
+        enteredFullscreen = false;
         fullscreenUI.SetActive(false);
     }
 
@@ -61,8 +62,13 @@ public class PhoneCameraApp : PhoneAppScreen
 
     public override void OnCloseApp()
     {
-        base.OnCloseApp();
+        if (enteredFullscreen)
+        {
+            ExitFullScreenMode();
+        }
+
         picTakingButton?.onClick.RemoveListener(TakeSnapshot);
+        base.OnCloseApp();
     }
 
     void TakeSnapshot()
@@ -78,7 +84,8 @@ public class PhoneCameraApp : PhoneAppScreen
     }
 
     // courtesy of stackoverflow. 
-    // create a new texture of our rendertexture's size, then scan each of rendertexture's pixels and set our texture to them.
+    // create a new texture of our rendertexture's size, then take each of the
+    // rendertexture's pixels and set our texture to them, via texture2d funcs.
     Texture2D toTexture2D(RenderTexture rTex)
     {
         Texture2D tex = new Texture2D(512, 512, TextureFormat.RGB24, false);
@@ -100,7 +107,9 @@ public class PhoneCameraApp : PhoneAppScreen
 
     void EnterFullscreenMode()
     {
+        enteredFullscreen = true;
         fullscreenUI.SetActive(true);
+
 
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(picTakingButtonInFullscreen.gameObject);
@@ -110,12 +119,17 @@ public class PhoneCameraApp : PhoneAppScreen
 
         ecopointButton.onClick.AddListener(ExecuteEcopoint);
 
-        lastPicTakenInFullscreen = lastPicTaken;
+
+        lastPicTakenInFullscreen.texture = lastPicTaken.texture;
+
+        phoneObject.transform.position = cameraFullscreenPhonePos;
     }
 
     void ExitFullScreenMode()
     {
-        fullscreenUI.SetActive(true);
+        enteredFullscreen = false;
+        fullscreenUI.SetActive(false);
+
 
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(picTakingButton.gameObject);
@@ -125,14 +139,17 @@ public class PhoneCameraApp : PhoneAppScreen
 
         ecopointButton.onClick.RemoveAllListeners();
 
-        lastPicTaken = lastPicTakenInFullscreen;
+
+        lastPicTaken.texture = lastPicTakenInFullscreen.texture;
     }
 
     void TakeSnapshotFullscreen()
     {
+        Debug.Log("kachow");
+
         AudioSource.PlayClipAtPoint(AudioForSnapShot, transform.position);
 
-        lastPicTaken.texture = toTexture2D(cameraDisplayTexture);
+        lastPicTakenInFullscreen.texture = toTexture2D(cameraDisplayTexture);
 
         pictureTaken = true;
 
