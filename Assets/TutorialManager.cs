@@ -57,6 +57,8 @@ public class TutorialManager : MonoBehaviour
         playerCont = playerObjRef.GetComponent<PlayerCon>();
         safe = safeObjRef.GetComponent<Safe_System>();
 
+        app.enteredFullscreen = false;
+
     }
 
     private void Start()
@@ -182,6 +184,7 @@ public class TutorialManager : MonoBehaviour
         {
            if (cameraApp.activeInHierarchy == true && Input.GetKeyDown(KeyCode.P)) 
             {
+                app.enteredFullscreen = true;
                 popUpIndex++;
             }
           
@@ -189,7 +192,7 @@ public class TutorialManager : MonoBehaviour
 
         if (popUpIndex == 9) //Take a Picture - 5
         {
-            if (cameraApp.activeInHierarchy == true && Input.GetKeyDown(KeyCode.R))
+            if (cameraApp.activeInHierarchy == true && app.ecopointScanned == true)
             {
                 popUpIndex++;
             }
@@ -270,7 +273,8 @@ public class TutorialManager : MonoBehaviour
 
             if (cameraApp.activeInHierarchy == true && Input.GetKeyDown(KeyCode.P))
             {
-                
+                app.enteredFullscreen = true;
+
                 popUps[8].SetActive(false);
                 popUpIndex++;
             }
@@ -282,7 +286,7 @@ public class TutorialManager : MonoBehaviour
 
             popUps[9].SetActive(true);
 
-            if (cameraApp.activeInHierarchy == true && Input.GetKeyDown(KeyCode.R))
+            if (cameraApp.activeInHierarchy == true && app.ecopointScanned == true)
             {
                 
                 popUpIndex++;
