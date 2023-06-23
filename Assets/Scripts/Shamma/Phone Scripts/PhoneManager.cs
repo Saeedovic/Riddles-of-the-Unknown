@@ -10,13 +10,14 @@ public class PhoneManager : MonoBehaviour
 
     [SerializeField] Transform regularScreenPos;
     [SerializeField] Transform fullscreenScreenPos;
-    bool isFullscreen = true;
 
     public static PhoneManager Instance;
 
     public GameObject playerUI;
 
     public AudioClip AudioForOpeningPhone;
+
+    public static bool isFullscreen { get; private set; }
     public static bool phoneIsOut { get; private set; }
 
     void Start()
@@ -35,7 +36,7 @@ public class PhoneManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(mainPhoneButtons[0]);
 
-
+        isFullscreen = true;
         phoneIsOut = true;
         SetPhoneState(phoneIsOut); // close phone.
 
@@ -109,7 +110,7 @@ public class PhoneManager : MonoBehaviour
             //this.isFullscreen = false;
         }
 
-        this.isFullscreen = !this.isFullscreen; // same thing as phone being active
+        PhoneManager.isFullscreen = !PhoneManager.isFullscreen; // same thing as phone being active
     }
 
     void ForceFullscreenOn(PhoneAppButton app)

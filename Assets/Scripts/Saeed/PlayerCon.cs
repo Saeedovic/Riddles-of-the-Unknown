@@ -23,7 +23,7 @@ public class PlayerCon : MonoBehaviour
     public GameObject flashLight;
     public bool flashLightIsOn;
 
-    public AudioSource audio;
+    public AudioSource playerAudio;
     public AudioClip AudioClipForGameEnvironment;
 
     private bool soundPlayed;
@@ -52,7 +52,7 @@ public class PlayerCon : MonoBehaviour
     {
         if (!soundPlayed)
         {
-            audio.PlayOneShot(AudioClipForGameEnvironment);
+            playerAudio.PlayOneShot(AudioClipForGameEnvironment);
             soundPlayed = true;
         }
 
