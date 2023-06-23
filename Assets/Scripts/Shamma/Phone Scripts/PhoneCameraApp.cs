@@ -24,7 +24,8 @@ public class PhoneCameraApp : PhoneAppScreen
     public AudioClip AudioForSnapShot;
 
     public bool pictureTaken;
-    bool enteredFullscreen;
+    public bool enteredFullscreen;
+    public bool ecopointScanned;
 
 
     //protected override void Start() { hasFullscreenAsOption = false; }
@@ -38,6 +39,7 @@ public class PhoneCameraApp : PhoneAppScreen
         cameraFullscreenPhonePos = new Vector3(regularPhonePos.x, regularPhonePos.y, regularPhonePos.z + 20); // just manually move phone out of the way.
 
         enteredFullscreen = false;
+        ecopointScanned = false;
         fullscreenUI.SetActive(false);
     }
 
@@ -105,6 +107,16 @@ public class PhoneCameraApp : PhoneAppScreen
         pictureTaken = false;
     }
 
+     IEnumerator EcoPointBoolCheck()
+    {
+        ecopointScanned = true;
+
+        yield return new WaitForSeconds(2);
+
+        ecopointScanned = false;
+
+    }
+
     void EnterFullscreenMode()
     {
         enteredFullscreen = true;
@@ -159,6 +171,7 @@ public class PhoneCameraApp : PhoneAppScreen
     void ExecuteEcopoint()
     {
         ecopointScanner.InputHandle();
+        StartCoroutine(EcoPointBoolCheck());
     }
 
 }

@@ -36,7 +36,7 @@ public class PhoneManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(mainPhoneButtons[0]);
 
-        isFullscreen = true;
+        isFullscreen = false;
         phoneIsOut = true;
         SetPhoneState(phoneIsOut); // close phone.
 
