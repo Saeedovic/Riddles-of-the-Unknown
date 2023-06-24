@@ -15,7 +15,7 @@ public class FoodSource : PointOfInterest, IInteractableObject
         if (userHunger == null)
             userHunger = user.GetComponent<HungerSystem>();
 
-        if (!userHunger.ate)
+        /*if (!userHunger.ate)
         {
             if (userHunger.questManager != null &&
                 userHunger.questManager.quests[userHunger.questManager.currentQuestIndex] == "Find some food")
@@ -27,7 +27,8 @@ public class FoodSource : PointOfInterest, IInteractableObject
         else
         {
             ProcessInteraction(user);
-        }
+        }*/
+        ProcessInteraction(user);
     }
 
 

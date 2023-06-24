@@ -13,7 +13,10 @@ public class PhoneCameraApp : PhoneAppScreen
 
     [SerializeField] Button picTakingButton;
     [SerializeField] Button picTakingButtonInFullscreen;
+
     [SerializeField] Button ecopointButton;
+    [SerializeField] Button backButtonInFullscreen;
+
     [SerializeField] GameObject fullscreenUI;
 
     GameObject phoneObject;
@@ -38,19 +41,20 @@ public class PhoneCameraApp : PhoneAppScreen
         regularPhonePos = phoneObject.transform.position;
         cameraFullscreenPhonePos = new Vector3(regularPhonePos.x, regularPhonePos.y, regularPhonePos.z + 20); // just manually move phone out of the way.
 
-        enteredFullscreen = false;
+        enteredFullscreen = true;
         ecopointScanned = false;
         fullscreenUI.SetActive(false);
+        //ExitFullScreenMode();
     }
 
     void Update()
     {
-        if (PhoneManager.isFullscreen && !enteredFullscreen)
+        if (!PhoneManager.isFullscreen && !enteredFullscreen)
         {
             EnterFullscreenMode();
         }
 
-        if (!PhoneManager.isFullscreen && enteredFullscreen)
+        if (PhoneManager.isFullscreen && enteredFullscreen)
         {
             ExitFullScreenMode();
         }
@@ -122,7 +126,7 @@ public class PhoneCameraApp : PhoneAppScreen
         enteredFullscreen = true;
         fullscreenUI.SetActive(true);
 
-
+        // set up all of the button configurations and their function calls
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(picTakingButtonInFullscreen.gameObject);
 
@@ -130,6 +134,9 @@ public class PhoneCameraApp : PhoneAppScreen
         picTakingButtonInFullscreen.onClick.AddListener(TakeSnapshotFullscreen);
 
         ecopointButton.onClick.AddListener(ExecuteEcopoint);
+
+        backButton.onClick.RemoveAllListeners();
+        backButtonInFullscreen.onClick.AddListener(OnCloseApp);
 
 
         lastPicTakenInFullscreen.texture = lastPicTaken.texture;
@@ -151,14 +158,17 @@ public class PhoneCameraApp : PhoneAppScreen
 
         ecopointButton.onClick.RemoveAllListeners();
 
+        backButtonInFullscreen.onClick.RemoveAllListeners();
+        backButton.onClick.AddListener(OnCloseApp);
+
 
         lastPicTaken.texture = lastPicTakenInFullscreen.texture;
+
+        phoneObject.transform.position = PhoneManager.Instance.regularScreenPos.position;
     }
 
     void TakeSnapshotFullscreen()
     {
-        Debug.Log("kachow");
-
         AudioSource.PlayClipAtPoint(AudioForSnapShot, transform.position);
 
         lastPicTakenInFullscreen.texture = toTexture2D(cameraDisplayTexture);

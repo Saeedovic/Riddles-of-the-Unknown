@@ -8,7 +8,7 @@ public class PhoneManager : MonoBehaviour
     public  GameObject phoneScreen;
     [SerializeField] List<GameObject> mainPhoneButtons; // used to set the input system up
 
-    [SerializeField] Transform regularScreenPos;
+    [SerializeField] public Transform regularScreenPos;
     [SerializeField] Transform fullscreenScreenPos;
 
     public static PhoneManager Instance;
@@ -36,11 +36,12 @@ public class PhoneManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(mainPhoneButtons[0]);
 
-        isFullscreen = false;
+        isFullscreen = true; // start "true" so that the fullscreen func can set itself to true on first use
         phoneIsOut = true;
         SetPhoneState(phoneIsOut); // close phone.
 
-        PhoneMainMenu.onAppOpen += ForceFullscreenOn;
+        // genuinely don't remember why i put these here
+        //PhoneMainMenu.onAppOpen += ForceFullscreenOn;
         PhoneMainMenu.onAppClose += ForceFullscreenOff; // need to know if we should switch to fullscreen or no
     }
 
@@ -113,7 +114,7 @@ public class PhoneManager : MonoBehaviour
         PhoneManager.isFullscreen = !PhoneManager.isFullscreen; // same thing as phone being active
     }
 
-    void ForceFullscreenOn(PhoneAppButton app)
+    public void ForceFullscreenOn()
     {
         if (!PhoneMainMenu.activeAppScreen.hasFullscreenAsOption)
         {
@@ -121,7 +122,7 @@ public class PhoneManager : MonoBehaviour
         }
     }
 
-    void ForceFullscreenOff()
+    public void ForceFullscreenOff()
     {
         SetFullscreen(false);
     }
