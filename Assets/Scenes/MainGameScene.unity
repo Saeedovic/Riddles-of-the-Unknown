@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 6.9598255, g: 4.9905167, b: 4.359764, a: 1}
+  m_IndirectSpecularColor: {r: 6.975459, g: 4.967308, b: 4.268879, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2040,7 +2040,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 812526213}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.1, y: 0.78545, z: 6}
+  m_LocalPosition: {x: -3.1, y: 0.78545, z: 5.99}
   m_LocalScale: {x: 5, y: 1, z: 1.25}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5853,6 +5853,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDrinkable: 1
   xpGiven: 5
+  waterScriptableObj: {fileID: 0}
+  amountToAddToInventory: 1
 --- !u!114 &2106251945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6178,6 +6180,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 60559721101725151, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 13.82
+      objectReference: {fileID: 0}
     - target: {fileID: 1644117688113795101, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
