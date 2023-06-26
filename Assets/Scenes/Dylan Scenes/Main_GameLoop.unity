@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 4603.742, g: 3262.1465, b: 3254.915, a: 1}
+  m_IndirectSpecularColor: {r: 4614.073, g: 3257.1663, b: 3224.9614, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2438,7 +2438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 0
-  highlightMaterial: {fileID: 2100000, guid: c80ccb1df74110d4297898c11cead9b5, type: 2}
+  highlightMaterial: {fileID: 2100000, guid: 477d181880d172342967472d9ffed8e3, type: 2}
   defaultLayer: 0
   highlightLayer: 0
 --- !u!114 &232153325
@@ -2455,6 +2455,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEatable: 1
   xpGiven: 5
+  foodScriptableObj: {fileID: 11400000, guid: b47222dad9315b243bb6f95dfe56f641, type: 2}
+  amountToAddToInventory: 1
 --- !u!4 &235371425 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: af55c0571e5a738409f9ea6392d2af0c, type: 3}
@@ -2729,7 +2731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 0
-  highlightMaterial: {fileID: 2100000, guid: c80ccb1df74110d4297898c11cead9b5, type: 2}
+  highlightMaterial: {fileID: 2100000, guid: 5c9cb4c8f7779b943b8b5d6cacaca554, type: 2}
   defaultLayer: 0
   highlightLayer: 0
 --- !u!65 &243391139
@@ -5245,7 +5247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 0
-  highlightMaterial: {fileID: 2100000, guid: c80ccb1df74110d4297898c11cead9b5, type: 2}
+  highlightMaterial: {fileID: 2100000, guid: 477d181880d172342967472d9ffed8e3, type: 2}
   defaultLayer: 0
   highlightLayer: 0
 --- !u!114 &537566312
@@ -5262,6 +5264,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEatable: 1
   xpGiven: 5
+  foodScriptableObj: {fileID: 11400000, guid: b47222dad9315b243bb6f95dfe56f641, type: 2}
+  amountToAddToInventory: 1
 --- !u!1 &538020075 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1680202332885442876, guid: af55c0571e5a738409f9ea6392d2af0c, type: 3}
@@ -16813,7 +16817,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 0
-  highlightMaterial: {fileID: 2100000, guid: c80ccb1df74110d4297898c11cead9b5, type: 2}
+  highlightMaterial: {fileID: 2100000, guid: 477d181880d172342967472d9ffed8e3, type: 2}
   defaultLayer: 0
   highlightLayer: 0
 --- !u!114 &1378192440
@@ -16830,6 +16834,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEatable: 1
   xpGiven: 5
+  foodScriptableObj: {fileID: 11400000, guid: b47222dad9315b243bb6f95dfe56f641, type: 2}
+  amountToAddToInventory: 1
 --- !u!1 &1379450767
 GameObject:
   m_ObjectHideFlags: 0
@@ -23407,7 +23413,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Look for the Safe....Hint: Colour is ...'
+  m_text: 'Look for the Safe....Hint: Colour is Gold'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -27121,7 +27127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 0
-  highlightMaterial: {fileID: 0}
+  highlightMaterial: {fileID: 2100000, guid: 5c9cb4c8f7779b943b8b5d6cacaca554, type: 2}
   defaultLayer: 0
   highlightLayer: 0
 --- !u!114 &2106251946
