@@ -17,6 +17,17 @@ public abstract class PhoneAppScreen : MonoBehaviour
         hasFullscreenAsOption = true;
     }
 
+    protected virtual void Update()
+    {
+        if (EventSystem.current.currentSelectedGameObject == null && (Input.GetKeyDown(KeyCode.UpArrow) ||
+            Input.GetKeyDown(KeyCode.DownArrow) ||
+            Input.GetKeyDown(KeyCode.LeftArrow) ||
+            Input.GetKeyDown(KeyCode.RightArrow)))
+        {
+            EventSystem.current.SetSelectedGameObject(firstHighlightedButton);
+        }
+    }
+
     public virtual void OnOpenApp()
     {
         backButton.onClick.RemoveAllListeners();
