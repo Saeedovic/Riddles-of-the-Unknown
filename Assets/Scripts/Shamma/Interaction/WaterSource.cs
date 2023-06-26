@@ -35,13 +35,14 @@ public class WaterSource : PointOfInterest, IInteractableObject
 
     void ProcessInteraction(PlayerInteractor user)
     {
-        //userThirst.RefillThirst();
-        //AudioSource.PlayClipAtPoint(userThirst.AudioForDrinking, transform.position); // could move this to the water inventory item?
-        //userThirst.drankwater = true;
-
+        
         // if water is successfully added to inventory, despawn and award xp
         if (user.inventoryHandler.AddToInventory(waterItem, amountToAddToInventory))
         {
+            userThirst.RefillThirst();
+            AudioSource.PlayClipAtPoint(userThirst.AudioForDrinking, transform.position); // could move this to the water inventory item?
+            userThirst.drankwater = true;
+
             user.xP.AddXp(xpGiven);
             gameObject.SetActive(false);
             Debug.Log("water collected!");

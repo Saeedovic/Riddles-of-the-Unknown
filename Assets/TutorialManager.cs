@@ -33,6 +33,7 @@ public class TutorialManager : MonoBehaviour
 
     public GameObject cameraApp;
     public GameObject inventoryApp;
+    InventoryHandler inventoryHandler;
     public GameObject statAllocationApp;
 
     public bool TutorialSectionCompleted;
@@ -42,7 +43,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject tutorialCamera;
     public GameObject mainCamera;
 
-
+    HungerSystem playerHunger;
 
 
 
@@ -65,6 +66,9 @@ public class TutorialManager : MonoBehaviour
     {
         mainCamera.SetActive(true);
         tutorialCamera.SetActive(false);
+
+        inventoryHandler = playerObjRef.GetComponent<InventoryHandler>();
+        playerHunger = playerObjRef.GetComponent<HungerSystem>();
     }
 
 
@@ -230,13 +234,11 @@ public class TutorialManager : MonoBehaviour
 
         if (popUpIndex == 13) //Take Key From Safe
         {
-            if (Input.GetKeyDown(KeyCode.E))  // Change to If Interacted with key
-            {
-                popUpIndex++;
-                qManager.CompleteCurrentQuest();  //Grab Key From Safe
-
-
-            }
+                if (KeyItemInteractable.hasBeenCollected)  // Change to If Interacted with key
+                {
+                    popUpIndex++;
+                    qManager.CompleteCurrentQuest();  //Grab Key From Safe
+                }
         }
 
         if (popUpIndex == 14) //Upgrade Stat - 3
@@ -296,7 +298,7 @@ public class TutorialManager : MonoBehaviour
         if (popUpIndex == 18) //Interact with Food & Water
         {
 
-            if (Input.GetKeyDown(KeyCode.F)) //if player interacts with food
+            if (playerHunger.ate) //if player interacts with food
             {
 
 

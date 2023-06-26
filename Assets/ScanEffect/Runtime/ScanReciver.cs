@@ -13,9 +13,9 @@ namespace OD.Effect.HDRP {
         public UnityEvent onOffScan = new UnityEvent();
 
         [Tooltip("ScanEnd: when this gameobject is not in scan radius. Time: by time out")]
-        public OffBy offBy;
+        public OffBy offBy = OffBy.Time;
         [Tooltip("timeout to off")]
-        public float timeToOff = 3;
+        public float timeToOff = 10;
 
         bool inScan = false;
         public bool InScan => inScan;

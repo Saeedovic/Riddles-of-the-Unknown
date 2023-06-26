@@ -20,6 +20,12 @@ public class PhoneManager : MonoBehaviour
     public static bool isFullscreen { get; private set; }
     public static bool phoneIsOut { get; private set; }
 
+    public delegate void OnEnterFullscreen();
+    public static OnEnterFullscreen onEnterFullscreen;
+    public delegate void OnExitFullscreen();
+    public static OnExitFullscreen onExitFullscreen;
+
+
     void Start()
     {
         Instance = this;
@@ -41,7 +47,7 @@ public class PhoneManager : MonoBehaviour
         SetPhoneState(phoneIsOut); // close phone.
 
         // genuinely don't remember why i put these here
-        //PhoneMainMenu.onAppOpen += ForceFullscreenOn;
+        PhoneMainMenu.onAppOpen += ResetFullscreenVal;
         PhoneMainMenu.onAppClose += ForceFullscreenOff; // need to know if we should switch to fullscreen or no
     }
 
@@ -78,6 +84,11 @@ public class PhoneManager : MonoBehaviour
         }
         else
         {
+            if (PhoneMainMenu.activeAppScreen != null)
+            {
+                PhoneMainMenu.activeAppScreen.OnCloseApp();
+            }
+            ForceFullscreenOff();
             phoneScreen.SetActive(false);
         }
 
@@ -88,8 +99,10 @@ public class PhoneManager : MonoBehaviour
 
     void SetFullscreen(bool isFullscreen)
     {
-        // check if we're in an app that shouldn't leave fullscreen, always set fullscreen true if so
-        if (PhoneMainMenu.activeAppScreen != null) 
+        if (phoneIsOut)
+        {
+            // check if we're in an app that shouldn't leave fullscreen, always set fullscreen true if so
+        if (PhoneMainMenu.activeAppScreen != null)
         {
             if (!PhoneMainMenu.activeAppScreen.hasFullscreenAsOption)
                 isFullscreen = true;
@@ -100,8 +113,9 @@ public class PhoneManager : MonoBehaviour
         {
             transform.position = fullscreenScreenPos.position;
             transform.rotation = fullscreenScreenPos.rotation;
-            //Debug.Log("big");
-            //this.isFullscreen = true;
+                //Debug.Log("big");
+                //this.isFullscreen = true;
+             onEnterFullscreen?.Invoke();
         }
         else
         {
@@ -109,9 +123,11 @@ public class PhoneManager : MonoBehaviour
             transform.rotation = regularScreenPos.rotation;
             //Debug.Log("small");
             //this.isFullscreen = false;
+            onExitFullscreen?.Invoke();
         }
 
         PhoneManager.isFullscreen = !PhoneManager.isFullscreen; // same thing as phone being active
+        }
     }
 
     public void ForceFullscreenOn()
@@ -125,6 +141,11 @@ public class PhoneManager : MonoBehaviour
     public void ForceFullscreenOff()
     {
         SetFullscreen(false);
+    }
+
+    public void ResetFullscreenVal(PhoneAppButton app)
+    {
+        isFullscreen = true;
     }
 
 }

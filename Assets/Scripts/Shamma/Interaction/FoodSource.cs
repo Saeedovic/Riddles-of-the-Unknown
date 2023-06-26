@@ -8,6 +8,11 @@ public class FoodSource : PointOfInterest, IInteractableObject
     [SerializeField] int xpGiven = 5;
 
     static HungerSystem userHunger;
+    public static bool foodQuestActive;
+
+    [SerializeField] ReplenishingObject foodScriptableObj;
+    static ReplenishingObject foodItem;
+    public int amountToAddToInventory = 1;
 
 
     public void Interact(PlayerInteractor user)
@@ -15,6 +20,7 @@ public class FoodSource : PointOfInterest, IInteractableObject
         if (userHunger == null)
             userHunger = user.GetComponent<HungerSystem>();
 
+        foodItem = foodScriptableObj;
         /*if (!userHunger.ate)
         {
             if (userHunger.questManager != null &&
@@ -34,12 +40,15 @@ public class FoodSource : PointOfInterest, IInteractableObject
 
     void ProcessInteraction(PlayerInteractor user)
     {
-        userHunger.RefillHunger();
-        AudioSource.PlayClipAtPoint(userHunger.AudioForEating, transform.position);
-        userHunger.ate = true;
+        if (user.inventoryHandler.AddToInventory(foodItem, amountToAddToInventory))
+        {
+            userHunger.RefillHunger();
+            AudioSource.PlayClipAtPoint(userHunger.AudioForEating, transform.position);
+            userHunger.ate = true;
 
-        user.xP.AddXp(xpGiven);
-        gameObject.SetActive(false);
+            user.xP.AddXp(xpGiven);
+            gameObject.SetActive(false);
+        }   
     }
 
     public bool IsInteractable()
