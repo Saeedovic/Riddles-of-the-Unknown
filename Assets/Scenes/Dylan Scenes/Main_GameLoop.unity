@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 4258.825, g: 2819.4233, b: 2350.6335, a: 1}
+  m_IndirectSpecularColor: {r: 4603.742, g: 3262.1465, b: 3254.915, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7885,6 +7885,22 @@ PrefabInstance:
       propertyPath: DefaultCam
       value: 
       objectReference: {fileID: 26558333}
+    - target: {fileID: 2082548059, guid: 9787a543293217443bd9911d3f99c6a7, type: 3}
+      propertyPath: keyToSpawn
+      value: 
+      objectReference: {fileID: 8135734886760732661, guid: d99603df37bf73d4695affb35182bc0a, type: 3}
+    - target: {fileID: 2082548059, guid: 9787a543293217443bd9911d3f99c6a7, type: 3}
+      propertyPath: keySpawnPos.x
+      value: -548.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 2082548059, guid: 9787a543293217443bd9911d3f99c6a7, type: 3}
+      propertyPath: keySpawnPos.y
+      value: 2.93
+      objectReference: {fileID: 0}
+    - target: {fileID: 2082548059, guid: 9787a543293217443bd9911d3f99c6a7, type: 3}
+      propertyPath: keySpawnPos.z
+      value: -313.41
+      objectReference: {fileID: 0}
     - target: {fileID: 164106525759347941, guid: 9787a543293217443bd9911d3f99c6a7, type: 3}
       propertyPath: m_Name
       value: SafePuzzlePrefab
@@ -17292,6 +17308,59 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1415701802}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1417150250 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 418412376832623912, guid: 9787a543293217443bd9911d3f99c6a7, type: 3}
+  m_PrefabInstance: {fileID: 721972891}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1417150254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417150250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbfbdcb685e4c154c93f567f8da56377, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1417150255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417150250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4aef1867ab8f0e4aa7b67d7472260de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 0
+  highlightMaterial: {fileID: 2100000, guid: c80ccb1df74110d4297898c11cead9b5, type: 2}
+  defaultLayer: 0
+  highlightLayer: 0
+--- !u!114 &1417150256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417150250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfaae75b53194a54fa624d47c132a837, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onInScan:
+    m_PersistentCalls:
+      m_Calls: []
+  onOffScan:
+    m_PersistentCalls:
+      m_Calls: []
+  offBy: 1
+  timeToOff: 10
 --- !u!1 &1429701763 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3632279872765474462, guid: af55c0571e5a738409f9ea6392d2af0c, type: 3}

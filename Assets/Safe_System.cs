@@ -9,6 +9,11 @@ using UnityEngine.UI;
 
 public class Safe_System : MonoBehaviour
 {
+
+    [SerializeField] GameObject keyToSpawn;
+    [SerializeField] Vector3 keySpawnPos;
+
+
     public Button NextNumDown_1st_Digit;
     [SerializeField] public Button NextNumDown_2nd_Digit;
     [SerializeField] public Button NextNumDown_3rd_Digit;
@@ -165,11 +170,12 @@ public class Safe_System : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
 
+        Instantiate(keyToSpawn, keySpawnPos, Quaternion.identity);
+
         Destroy(UnlockedText);
 
         SafeCam.SetActive(false);
         DefaultCam.SetActive(true);
-
-}
+    }
 
 }

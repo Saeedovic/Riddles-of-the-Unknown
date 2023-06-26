@@ -9,7 +9,18 @@ public class InventoryHandler : MonoBehaviour
     // in our case we specifically want six slots
     // can set them in inspector for now.
     [SerializeField] InventorySlot[] inventorySlots = new InventorySlot[6];
-
+    public List<InventorySlot> InventorySlots
+    {
+        get
+        {
+            foreach (InventorySlot slot in inventorySlots)
+            {
+                InventorySlots.Add(slot);
+            } 
+            return InventorySlots; 
+        } 
+    } // for the other scripts to read and not write to inventory.
+    // nooo how do we convert list to array?? 
     public bool AddToInventory(InventoryObject itemToAdd, int numOf)
     {
 

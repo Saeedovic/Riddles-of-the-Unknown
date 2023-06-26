@@ -71,6 +71,11 @@ public class PlayerInteractor : MonoBehaviour
         {
             IInteractableObject newObject = hit.collider.GetComponent<IInteractableObject>();
 
+            if (newObject == null)
+            {
+                newObject = hit.collider.GetComponentInParent<IInteractableObject>();
+            }
+
             if (newObject.IsInteractable())
             {
                 // if we don't have an interactable in sight already, make it this one
@@ -107,18 +112,24 @@ public class PlayerInteractor : MonoBehaviour
         currentObject.OnHighlight();
 
         // manually add outline material by creating a new material array and putting outline at the end.
-        Renderer meshRenderer = currentObject.gameObject.GetComponent<Renderer>();
-        if (meshRenderer != null)
+        // do this for every object in the hierarchy.
+        Renderer[] meshRenderers = currentObject.gameObject.GetComponentsInChildren<Renderer>();
+
+        if (meshRenderers != null)
         {
-            Material[] matArray = new Material[meshRenderer.materials.Length + 1];
-
-            for (int i = 0; i < meshRenderer.materials.Length; i++)
+            for (int i = 0; i < meshRenderers.Length; i++)
             {
-                matArray[i] = meshRenderer.materials[i];
-            }
+                Material[] matArray = new Material[meshRenderers[i].materials.Length + 1];
 
-            matArray[matArray.Length - 1] = highlightMaterial;
-            meshRenderer.materials = matArray;
+                for (int j = 0; j < meshRenderers[i].materials.Length; j++)
+                {
+                    matArray[j] = meshRenderers[i].materials[j];
+                }
+
+                matArray[matArray.Length - 1] = highlightMaterial;
+                meshRenderers[i].materials = matArray;
+            }
+            
         }
 
         /*Outline outline = currentObject.gameObject.AddComponent<Outline>();
@@ -132,17 +143,22 @@ public class PlayerInteractor : MonoBehaviour
         if (currentObject != null)
         {
 
-            MeshRenderer meshRenderer = currentObject.gameObject.GetComponent<MeshRenderer>();
-            if (meshRenderer != null)
+            //MeshRenderer meshRenderer = currentObject.gameObject.GetComponent<MeshRenderer>();
+            Renderer[] meshRenderers = currentObject.gameObject.GetComponentsInChildren<Renderer>();
+
+            if (meshRenderers != null)
             {
-                Material[] matArray = new Material[meshRenderer.materials.Length - 1];
-
-                for (int i = 0; i < matArray.Length; i++)
+                for (int i = 0; i < meshRenderers.Length; i++)
                 {
-                    matArray[i] = meshRenderer.materials[i];
-                }
+                    Material[] matArray = new Material[meshRenderers[i].materials.Length - 1];
 
-                meshRenderer.materials = matArray;
+                    for (int j = 0; j < matArray.Length; j++)
+                    {
+                        matArray[j] = meshRenderers[i].materials[j];
+                    }
+
+                    meshRenderers[i].materials = matArray;
+                }
 
                 currentObject.OnDeHighlight();
             }

@@ -6,13 +6,14 @@ public class KeyItemInteractable : PointOfInterest, IInteractableObject
 {
     [SerializeField] bool isCollectable = true;
     [SerializeField] KeyObject keyObject;
-
+    public static bool hasBeenCollected = false; // probably want to change this to an event call of some kind
 
     public void Interact(PlayerInteractor user)
     {
         if (isCollectable)
         {
             user.inventoryHandler.AddToInventory(keyObject, 1);
+            hasBeenCollected = true;
             gameObject.SetActive(false);
 
             Debug.Log("you've picked up a key");

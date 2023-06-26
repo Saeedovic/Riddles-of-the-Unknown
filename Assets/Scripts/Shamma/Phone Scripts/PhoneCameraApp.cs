@@ -47,7 +47,7 @@ public class PhoneCameraApp : PhoneAppScreen
         //ExitFullScreenMode();
     }
 
-    void Update()
+    /*void Update()
     {
         if (!PhoneManager.isFullscreen && !enteredFullscreen)
         {
@@ -58,12 +58,14 @@ public class PhoneCameraApp : PhoneAppScreen
         {
             ExitFullScreenMode();
         }
-    }
+    }*/
 
     public override void OnOpenApp()
     {
         base.OnOpenApp();
         picTakingButton.onClick.AddListener(TakeSnapshot);
+        PhoneManager.onEnterFullscreen += EnterFullscreenMode;
+        PhoneManager.onExitFullscreen += ExitFullScreenMode;
     }
 
     public override void OnCloseApp()
@@ -73,6 +75,8 @@ public class PhoneCameraApp : PhoneAppScreen
             ExitFullScreenMode();
         }
 
+        PhoneManager.onEnterFullscreen -= EnterFullscreenMode;
+        PhoneManager.onExitFullscreen -= ExitFullScreenMode;
         picTakingButton?.onClick.RemoveListener(TakeSnapshot);
         base.OnCloseApp();
     }
