@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 7.22826, g: 5.236088, b: 7.3653107, a: 1}
+  m_IndirectSpecularColor: {r: 7.2282677, g: 5.236088, b: 7.3652954, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -26487,6 +26487,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1816526515134357468, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 3372203892202158948, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.57
@@ -26660,6 +26664,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6752302732384298385, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 895
+      objectReference: {fileID: 0}
+    - target: {fileID: 6752302733073167645, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
       propertyPath: m_CullingMask.m_Bits
       value: 895
       objectReference: {fileID: 0}
