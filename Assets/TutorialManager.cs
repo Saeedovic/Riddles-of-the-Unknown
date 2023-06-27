@@ -17,6 +17,7 @@ public class TutorialManager : MonoBehaviour
     WayPointSystem wpSystem;
     WatchManager watchManager;
     PlayerCon playerCont;
+    PlayerInteractor interactor;
     Safe_System safe;
 
 
@@ -56,6 +57,7 @@ public class TutorialManager : MonoBehaviour
         wpSystem = WaypointSystemRef.GetComponent<WayPointSystem>();
         watchManager = WatchObjRef.GetComponent<WatchManager>();
         playerCont = playerObjRef.GetComponent<PlayerCon>();
+        interactor = playerObjRef.GetComponent<PlayerInteractor>();
         safe = safeObjRef.GetComponent<Safe_System>();
 
         app.enteredFullscreen = false;
@@ -118,7 +120,8 @@ public class TutorialManager : MonoBehaviour
 
         if (popUpIndex == 3)   //Watch is Active
         {
-          Time.timeScale = 0;
+            interactor.enabled = false;
+            Time.timeScale = 0;
 
             popUps[5].SetActive(true);
 
@@ -132,6 +135,7 @@ public class TutorialManager : MonoBehaviour
 
                 Time.timeScale = 1;
 
+                interactor.enabled = true;
                 popUps[5].SetActive(false);
                 watchManager.SetWatchState(true);
 
@@ -169,8 +173,8 @@ public class TutorialManager : MonoBehaviour
 
         if (popUpIndex == 7) //Take a Picture - 3
         {
-            
 
+            interactor.enabled = false;
             mainCamera.SetActive(false);
             tutorialCamera.SetActive(true);
 
@@ -178,6 +182,7 @@ public class TutorialManager : MonoBehaviour
             {
                 mainCamera.SetActive(true);
                 tutorialCamera.SetActive(false);
+                interactor.enabled = true;
 
                 popUpIndex++;
 
@@ -213,7 +218,7 @@ public class TutorialManager : MonoBehaviour
         }
         if (popUpIndex == 11) //Upgrade Stat
         {
-            if (playerCont.SafeCam.activeInHierarchy == true)
+            if (safe.SafeCam.activeInHierarchy == true)
             {
 
                 popUpIndex++;
@@ -309,7 +314,7 @@ public class TutorialManager : MonoBehaviour
                 mainCamera.SetActive(false);
                 tutorialCamera.SetActive(true);
                 watchManager.SetWatchState(false);
-
+                interactor.enabled = false;
 
                 popUpIndex++;
 
@@ -330,6 +335,7 @@ public class TutorialManager : MonoBehaviour
 
                 Time.timeScale = 1;
 
+                interactor.enabled = true;
                 popUps[5].SetActive(false);
                 watchManager.SetWatchState(true);
 

@@ -28,13 +28,13 @@ public class PlayerCon : MonoBehaviour
 
     private bool soundPlayed;
 
-    public GameObject SafeCam;
-    public GameObject DefaultCam;
+    //public GameObject SafeCam;
+    //public GameObject DefaultCam;
 
-    public GameObject SafeCanvas;
+    //public GameObject SafeCanvas;
 
-    public Button closeButton;
-    private float range = 5;
+    //public Button closeButton;
+    //private float range = 5;
 
     private void Start()
     {
@@ -45,7 +45,7 @@ public class PlayerCon : MonoBehaviour
         flashLight.SetActive(false);
         flashLightIsOn = false;
 
-        SafeCanvas.SetActive(false);
+        //SafeCanvas.SetActive(false);
     }
 
      void Update()
@@ -111,7 +111,7 @@ public class PlayerCon : MonoBehaviour
 
 
 
-        Vector3 direction = Vector3.forward;
+        /*Vector3 direction = Vector3.forward;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit, range))
@@ -128,17 +128,17 @@ public class PlayerCon : MonoBehaviour
 
 
             }
-        }
+        }*/
 
     }
 
 
 
-    public void ExitCrackingSafe()
+    /*public void ExitCrackingSafe()
     {
         SafeCam.SetActive(false);
         DefaultCam.SetActive(true);
         SafeCanvas.SetActive(false);
 
-    }
+    }*/
 }
