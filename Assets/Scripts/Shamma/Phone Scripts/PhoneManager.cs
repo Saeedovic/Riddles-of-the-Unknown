@@ -71,6 +71,15 @@ public class PhoneManager : MonoBehaviour
         {
             SetFullscreen(isFullscreen);
         }
+
+        if (EventSystem.current.currentSelectedGameObject == null && !PhoneMainMenu.appIsOpen && 
+            (Input.GetKeyDown(KeyCode.UpArrow) ||
+            Input.GetKeyDown(KeyCode.DownArrow) ||
+            Input.GetKeyDown(KeyCode.LeftArrow) ||
+            Input.GetKeyDown(KeyCode.RightArrow)))
+        {
+            EventSystem.current.SetSelectedGameObject(mainPhoneButtons[0]);
+        }
     }
 
 
