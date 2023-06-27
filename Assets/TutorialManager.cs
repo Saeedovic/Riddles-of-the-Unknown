@@ -93,7 +93,7 @@ public class TutorialManager : MonoBehaviour
 
         if (popUpIndex == 0) // WASD MOVEMENT
         {
-            if(Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))      
+            if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))      
             {
                 popUpIndex++;
                 qManager.CompleteCurrentQuest(); //Go to Dave's Shack
