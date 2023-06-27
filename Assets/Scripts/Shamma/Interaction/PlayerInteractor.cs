@@ -53,6 +53,7 @@ public class PlayerInteractor : MonoBehaviour
                 //interactableIsInRange = false;
 
                 currentObject.Interact(this);
+                OnObjectDeselect();
 
                 interactionActive = false;
             }
@@ -74,6 +75,11 @@ public class PlayerInteractor : MonoBehaviour
             if (newObject == null)
             {
                 newObject = hit.collider.GetComponentInParent<IInteractableObject>();
+            }
+
+            if (newObject == null)
+            {
+                newObject = hit.collider.GetComponentInChildren<IInteractableObject>();
             }
 
             if (newObject.IsInteractable())
@@ -100,7 +106,6 @@ public class PlayerInteractor : MonoBehaviour
             if (currentObject != null)
             {
                 OnObjectDeselect();
-                currentObject = null;
             }
             return false;
         }
@@ -109,6 +114,18 @@ public class PlayerInteractor : MonoBehaviour
     void OnObjectSelect(IInteractableObject newObj)
     {
         currentObject = newObj;
+        AddHighlightEffect();
+    }
+
+    void OnObjectDeselect()
+    {
+        RemoveHighlightEffect();
+        currentObject = null;
+    }
+
+    
+    void AddHighlightEffect()
+    {
         currentObject.OnHighlight();
 
         // manually add outline material by creating a new material array and putting outline at the end.
@@ -129,66 +146,31 @@ public class PlayerInteractor : MonoBehaviour
                 matArray[matArray.Length - 1] = highlightMaterial;
                 meshRenderers[i].materials = matArray;
             }
-            
-        }
 
-        /*Outline outline = currentObject.gameObject.AddComponent<Outline>();
-        outline.OutlineMode = Outline.Mode.OutlineVisible;
-        outline.OutlineColor = highlightColor;
-        outline.OutlineWidth = 5f;*/
+        }
     }
 
-    void OnObjectDeselect()
+    void RemoveHighlightEffect()
     {
-        if (currentObject != null)
+        Renderer[] meshRenderers = currentObject.gameObject.GetComponentsInChildren<Renderer>();
+
+        if (meshRenderers != null)
         {
-
-            //MeshRenderer meshRenderer = currentObject.gameObject.GetComponent<MeshRenderer>();
-            Renderer[] meshRenderers = currentObject.gameObject.GetComponentsInChildren<Renderer>();
-
-            if (meshRenderers != null)
+            for (int i = 0; i < meshRenderers.Length; i++)
             {
-                for (int i = 0; i < meshRenderers.Length; i++)
+                Material[] matArray = new Material[meshRenderers[i].materials.Length - 1];
+
+                for (int j = 0; j < matArray.Length; j++)
                 {
-                    Material[] matArray = new Material[meshRenderers[i].materials.Length - 1];
-
-                    for (int j = 0; j < matArray.Length; j++)
-                    {
-                        matArray[j] = meshRenderers[i].materials[j];
-                    }
-
-                    meshRenderers[i].materials = matArray;
+                    matArray[j] = meshRenderers[i].materials[j];
                 }
 
-                currentObject.OnDeHighlight();
+                meshRenderers[i].materials = matArray;
             }
 
+            currentObject.OnDeHighlight();
         }
-
-        //Destroy(currentObject.gameObject.GetComponent<Outline>());
     }
-
-    // code has been moved to the new PhoneSettingsApp script. 
-
-    /*public void ActivateGameControlScreen()
-    {
-        AudioSource.PlayClipAtPoint(AudioForGoBackButton, transform.position);
-        GameControlScreen.SetActive(true);
-        SettingsApp.SetActive(false);
-    }*/
-
-    /*public void BackButton()
-    {
-        AudioSource.PlayClipAtPoint(AudioForGoBackButton, transform.position);
-    }
-
-    public void BackButtonGameControls()
-    {
-        AudioSource.PlayClipAtPoint(AudioForGoBackButton, transform.position);
-        GameControlScreen.SetActive(false);
-        SettingsApp.SetActive(true);
-
-    }*/
 
 
 }
