@@ -21,8 +21,18 @@ public class InventoryHandler : MonoBehaviour
         } 
     } // for the other scripts to read and not write to inventory.
     // nooo how do we convert list to array?? 
+
+
     public bool AddToInventory(InventoryObject itemToAdd, int numOf)
     {
+        if (inventorySlots[0].storedItem != null &&
+            inventorySlots[1].storedItem != null &&
+            inventorySlots[2].storedItem != null &&
+            inventorySlots[3].storedItem != null &&
+            inventorySlots[4].storedItem != null)
+        {
+
+        }
 
         for (int i = 0; i < inventorySlots.Length; i++)
         {
