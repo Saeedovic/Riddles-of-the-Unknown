@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerInteractor : MonoBehaviour
 {
     [SerializeField] float rayRange;
+    [SerializeField] KeyCode interactKey = KeyCode.E;
     [SerializeField] LayerMask interactablesLayer;
     //[SerializeField] Color highlightColor = Color.yellow;
     [SerializeField] Material highlightMaterial;
@@ -47,7 +48,7 @@ public class PlayerInteractor : MonoBehaviour
             interactableAvailable = CheckForInteractable();
 
             if (interactableAvailable
-                && Input.GetMouseButtonDown(0))
+                && Input.GetKeyDown(interactKey))
             {
                 interactionActive = true;
                 //interactableIsInRange = false;

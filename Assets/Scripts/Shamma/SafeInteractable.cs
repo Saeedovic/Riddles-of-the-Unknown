@@ -31,6 +31,7 @@ public class SafeInteractable : PointOfInterest, IInteractableObject
 
         closeButton.onClick.AddListener(ExitCrackingSafe);
         safePuzzleActive = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void ExitCrackingSafe()
@@ -40,11 +41,8 @@ public class SafeInteractable : PointOfInterest, IInteractableObject
         SafeCanvas.SetActive(false);
 
         closeButton.onClick.AddListener(ExitCrackingSafe);
-
-        if (!safeHasBeenCracked)
-        {
-            safePuzzleActive = false;
-        }
+        safePuzzleActive = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public bool IsInteractable()
