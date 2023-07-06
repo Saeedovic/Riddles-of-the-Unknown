@@ -29,7 +29,7 @@ public class QuestManager : MonoBehaviour
         }
         else
         {
-            questText.text = "Quests complete!";
+            questText.text = "You've Completed the Playtest !!!";
             AudioSource.PlayClipAtPoint(AudioForCompletingQuest, transform.position);
         }
     }

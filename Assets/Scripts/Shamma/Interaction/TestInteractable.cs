@@ -7,6 +7,15 @@ public class TestInteractable : MonoBehaviour, IInteractableObject
     [SerializeField] bool isInteractable = true;
     [SerializeField] int xpGiven;
 
+    TutorialManager tutorialManager;
+
+    [SerializeField] GameObject tManagerRef;
+
+    private void Awake()
+    {
+        tutorialManager = tManagerRef.GetComponent<TutorialManager>();
+    }
+
     public void Interact(PlayerInteractor user)
     {
         Debug.Log("hello! you just clicked me");
@@ -17,9 +26,17 @@ public class TestInteractable : MonoBehaviour, IInteractableObject
         mesh.enabled = false;
 
         user.xP.AddXp(xpGiven);
+
+        tutorialManager.popUpIndex++;
+        tutorialManager.collectableCount++;
+
+        tutorialManager.ActivateWayPoint = true;
+        
+
         Debug.Log($"you got {xpGiven} XP!");
 
         isInteractable = false;
+
     }
 
     public bool IsInteractable()

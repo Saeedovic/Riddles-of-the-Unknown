@@ -14,11 +14,18 @@ public class InventorySlot : MonoBehaviour
 
     [SerializeField] PhoneInventoryApp inventoryApp;
 
+    bool itemAdded = false;
+
+    TutorialManager tutorialManager;
+
+    public GameObject tManagerObjRef;
 
     public void Awake()
     {
         Button slotUIButton = GetComponent<Button>();
         slotUIButton.onClick.AddListener(ActivateConfirmationBox);
+
+        tutorialManager = tManagerObjRef.GetComponent<TutorialManager>();
 
         //slotImage = GetComponent<Image>();
         //defaultImage = slotImage;
@@ -27,6 +34,8 @@ public class InventorySlot : MonoBehaviour
         //this.gameObject.SetActive(false); // turn off after setup so phone won't open on inventory
     }
 
+
+ 
     void ActivateConfirmationBox()
     {
         if (storedItem != null)
@@ -49,7 +58,6 @@ public class InventorySlot : MonoBehaviour
         IncrementItem(numOf);
 
         Debug.Log("A " + itemToAdd.name + " was added to " + this.name);
-
     }
 
     public void IncrementItem(int numOf)
