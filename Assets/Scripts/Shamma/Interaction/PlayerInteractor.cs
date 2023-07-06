@@ -65,8 +65,8 @@ public class PlayerInteractor : MonoBehaviour
     public bool CheckForInteractable()
     {
         RaycastHit hit;
-
-        Ray checkRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        
+        Ray checkRay = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         //Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward, Color.red);
 
         if (Physics.Raycast(checkRay, out hit, rayRange, interactablesLayer))
