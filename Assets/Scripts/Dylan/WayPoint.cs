@@ -14,7 +14,7 @@ public class WayPoint : MonoBehaviour
         wP = GetComponent<WayPointSystem>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         points[1] = wP.wayPoint[wP.locationIndex];
     }

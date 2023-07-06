@@ -1,10 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.VirtualTexturing;
 
 
 public class InventoryHandler : MonoBehaviour
 {
+    WayPointSystem wpSystem;
+    TutorialManager tutorialManager;
+    QuestManager qManager;
+
+
+    [SerializeField] GameObject waypointSystemObj;
+
+    [SerializeField] GameObject tutManagerObj;
+    [SerializeField] GameObject questManagerObj;
+
+
+    private void Start()
+    {
+       tutorialManager = tutManagerObj.GetComponent<TutorialManager>();
+        wpSystem = waypointSystemObj.GetComponent<WayPointSystem>(); 
+        qManager = questManagerObj.GetComponent<QuestManager>();
+
+    }
+
 
     // in our case we specifically want six slots
     // can set them in inspector for now.
@@ -25,15 +45,7 @@ public class InventoryHandler : MonoBehaviour
 
     public bool AddToInventory(InventoryObject itemToAdd, int numOf)
     {
-        if (inventorySlots[0].storedItem != null &&
-            inventorySlots[1].storedItem != null &&
-            inventorySlots[2].storedItem != null &&
-            inventorySlots[3].storedItem != null &&
-            inventorySlots[4].storedItem != null)
-        {
-
-        }
-
+    
         for (int i = 0; i < inventorySlots.Length; i++)
         {
             if (inventorySlots[i].storedItem == null)
@@ -53,5 +65,7 @@ public class InventoryHandler : MonoBehaviour
         Debug.LogError("no slots left!");
         return false;
     }
+
+    
 
 }

@@ -20,7 +20,10 @@ public class WayPointSystem : MonoBehaviour
     public GameObject mapMarker;
 
     TutorialManager tManager;
+    PlaytestTutorial playtestTutorial;
     [SerializeField] GameObject tutorialManagerObjRef;
+
+
 
 
 
@@ -31,6 +34,7 @@ public class WayPointSystem : MonoBehaviour
     private void Awake()
     {
         tManager = tutorialManagerObjRef.GetComponent<TutorialManager>();
+    
     }
 
         private void Start()
@@ -41,7 +45,7 @@ public class WayPointSystem : MonoBehaviour
     void Update()
     {
 
-        if(tManager.TutorialSectionCompleted == true)
+        if(tManager.ActivateWayPoint == true)
         {
             waypointMarker.gameObject.SetActive(true);
 
@@ -92,23 +96,12 @@ public class WayPointSystem : MonoBehaviour
              DistanceFromWayPoint.text = Vector3.Distance(wayPoint[locationIndex].transform.position, transform.position).ToString("0") + " m";
           
           
-             if (Vector3.Distance(wayPoint[locationIndex].transform.position, transform.position) <= 10) //Checking IF Player is within the Range of the waypoint , if so increment index (Set new Waypoint)
-             {
-                 //Reward Player with Some XP?
-          
-          
-                // locationIndex++;
-
-                 if(locationIndex == 3)
-                 {
-                     waypointMarker.gameObject.SetActive(false);
-                 }
-             }
+            
 
         } 
 
 
-        if(tManager.TutorialSectionCompleted == false)
+        if(tManager.ActivateWayPoint == false)
 
         {
             waypointMarker.gameObject.SetActive(false);
