@@ -14,6 +14,9 @@ public class PhoneManager : MonoBehaviour
     public static PhoneManager Instance;
 
     public GameObject playerUI;
+    public RectTransform uiCursor;
+    Vector3 previousCursorScale;
+    GameObject objLastSelected;
 
     public AudioClip AudioForOpeningPhone;
 
@@ -24,6 +27,7 @@ public class PhoneManager : MonoBehaviour
     public static OnEnterFullscreen onEnterFullscreen;
     public delegate void OnExitFullscreen();
     public static OnExitFullscreen onExitFullscreen;
+    
 
 
     void Start()
@@ -49,6 +53,9 @@ public class PhoneManager : MonoBehaviour
         // genuinely don't remember why i put these here
         PhoneMainMenu.onAppOpen += ResetFullscreenVal;
         PhoneMainMenu.onAppClose += ForceFullscreenOff; // need to know if we should switch to fullscreen or no
+
+        //PhoneCameraApp.onFullscreenEntered += UpdateCursorForCameraDeFullscreen;
+        //PhoneCameraApp.onFullscreenExited += UpdateCursorForCameraDeFullscreen;
     }
 
     void Update()
@@ -72,6 +79,18 @@ public class PhoneManager : MonoBehaviour
             SetFullscreen(isFullscreen);
         }
 
+        // camera app fullscreen should handle its own cursor
+        if (!PhoneCameraApp.enteredFullscreen)
+        {
+            // update cursor pos when selected game obj changes
+            if (EventSystem.current.currentSelectedGameObject != null &&
+                EventSystem.current.currentSelectedGameObject != objLastSelected)
+            {
+                UpdateCursorPosition();
+            }
+        }
+        
+        // re-highlight when dehighlighted
         if (EventSystem.current.currentSelectedGameObject == null && !PhoneMainMenu.appIsOpen && 
             (Input.GetKeyDown(KeyCode.UpArrow) ||
             Input.GetKeyDown(KeyCode.DownArrow) ||
@@ -80,6 +99,21 @@ public class PhoneManager : MonoBehaviour
         {
             EventSystem.current.SetSelectedGameObject(mainPhoneButtons[0]);
         }
+
+    }
+
+
+    void UpdateCursorPosition()
+    {
+        objLastSelected = EventSystem.current.currentSelectedGameObject;
+        RectTransform selectedTransform = objLastSelected.GetComponent<RectTransform>();
+
+
+        uiCursor.parent = selectedTransform;
+        uiCursor.localPosition = selectedTransform.anchorMax;
+
+
+        //uiCursor.gameObject.SetActive(true);
     }
 
 
@@ -157,4 +191,17 @@ public class PhoneManager : MonoBehaviour
         isFullscreen = true;
     }
 
+
+
+    void UpdateCursorForCameraFullscreen()
+    {
+        previousCursorScale = uiCursor.localScale;
+        UpdateCursorPosition();
+
+    }
+    void UpdateCursorForCameraDeFullscreen()
+    {
+        UpdateCursorPosition();
+        uiCursor.localScale = previousCursorScale;
+    }
 }
