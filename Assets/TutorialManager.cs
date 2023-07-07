@@ -105,8 +105,6 @@ public class TutorialManager : MonoBehaviour
         safe = safeObjRef.GetComponent<Safe_System>();
 
 
-        app.enteredFullscreen = false;
-
         collectableCounterObj.SetActive(false);
 
         hungTextPanel.SetActive(false);
@@ -256,7 +254,6 @@ public class TutorialManager : MonoBehaviour
         {
             if (cameraApp.activeInHierarchy == true && Input.GetKeyDown(KeyCode.P))
             {
-                app.enteredFullscreen = true;
                 popUpIndex++;
             }
 

@@ -27,8 +27,12 @@ public class PhoneCameraApp : PhoneAppScreen
     public AudioClip AudioForSnapShot;
 
     public bool pictureTaken;
-    public bool enteredFullscreen;
+    public static bool enteredFullscreen { get; private set; }
     public bool ecopointScanned;
+
+    public delegate void OnFullscreening();
+    public static OnFullscreening onFullscreenEntered;
+    public static OnFullscreening onFullscreenExited;
 
 
     //protected override void Start() { hasFullscreenAsOption = false; }
@@ -41,7 +45,7 @@ public class PhoneCameraApp : PhoneAppScreen
         regularPhonePos = phoneObject.transform.position;
         cameraFullscreenPhonePos = new Vector3(regularPhonePos.x, regularPhonePos.y, regularPhonePos.z + 20); // just manually move phone out of the way.
 
-        enteredFullscreen = true;
+        enteredFullscreen = false;
         ecopointScanned = false;
         fullscreenUI.SetActive(false);
         //ExitFullScreenMode();
@@ -144,6 +148,9 @@ public class PhoneCameraApp : PhoneAppScreen
         lastPicTakenInFullscreen.texture = lastPicTaken.texture;
 
         phoneObject.transform.position = cameraFullscreenPhonePos;
+
+
+        onFullscreenEntered?.Invoke();
     }
 
     void ExitFullScreenMode()
@@ -167,6 +174,9 @@ public class PhoneCameraApp : PhoneAppScreen
         lastPicTaken.texture = lastPicTakenInFullscreen.texture;
 
         phoneObject.transform.position = PhoneManager.Instance.regularScreenPos.position;
+
+
+        onFullscreenExited?.Invoke();
     }
 
     void TakeSnapshotFullscreen()
