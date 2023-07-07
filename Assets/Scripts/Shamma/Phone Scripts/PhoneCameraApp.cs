@@ -19,6 +19,10 @@ public class PhoneCameraApp : PhoneAppScreen
 
     [SerializeField] GameObject fullscreenUI;
 
+    [SerializeField] RectTransform uiCursor;
+    GameObject objLastSelected;
+
+
     GameObject phoneObject;
     ScanAnimation ecopointScanner;
     Vector3 regularPhonePos;
@@ -51,18 +55,31 @@ public class PhoneCameraApp : PhoneAppScreen
         //ExitFullScreenMode();
     }
 
-    /*void Update()
+    protected override void Update()
     {
-        if (!PhoneManager.isFullscreen && !enteredFullscreen)
+        // update the camera's own cursor pos when selected game obj changes
+        if (enteredFullscreen)
         {
-            EnterFullscreenMode();
+            
+            if (EventSystem.current.currentSelectedGameObject != null &&
+                EventSystem.current.currentSelectedGameObject != objLastSelected)
+            {
+                UpdateCursorPosition();
+            }
         }
+    }
 
-        if (PhoneManager.isFullscreen && enteredFullscreen)
-        {
-            ExitFullScreenMode();
-        }
-    }*/
+    void UpdateCursorPosition()
+    {
+        objLastSelected = EventSystem.current.currentSelectedGameObject;
+        RectTransform selectedTransform = objLastSelected.GetComponent<RectTransform>();
+
+
+        uiCursor.parent = selectedTransform;
+        uiCursor.localPosition = selectedTransform.anchorMax;
+    }
+
+
 
     public override void OnOpenApp()
     {

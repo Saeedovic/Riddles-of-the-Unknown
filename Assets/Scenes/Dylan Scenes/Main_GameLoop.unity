@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 7.1719007, g: 5.2676764, b: 7.6259546, a: 1}
+  m_IndirectSpecularColor: {r: 6.6408286, g: 4.4688206, b: 5.2425027, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7290,6 +7290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInteractable: 1
   xpGiven: 10
+  tManagerRef: {fileID: 0}
 --- !u!135 &637404713
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -20287,6 +20288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInteractable: 1
   xpGiven: 15
+  tManagerRef: {fileID: 0}
 --- !u!135 &1642163290
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -25457,11 +25459,20 @@ MonoBehaviour:
   WatchObjRef: {fileID: 849172829}
   safeObjRef: {fileID: 721972893}
   phoneObjRef: {fileID: 541900446}
+  inventoryObjRef: {fileID: 0}
+  collectableCountText: {fileID: 0}
+  collectableCount: 0
+  collectableCounterObj: {fileID: 0}
+  HungryTextPanel: {fileID: 0}
+  ThristyTextPanel: {fileID: 0}
+  TiredTextPanel: {fileID: 0}
+  DoFoodScan: {fileID: 0}
+  DoWaterScan: {fileID: 0}
+  DoEcoScan: {fileID: 0}
   cameraApp: {fileID: 567141410}
   inventoryApp: {fileID: 336613568}
   statAllocationApp: {fileID: 1270085448}
-  TutorialSectionCompleted: 0
-  tutorialWayPointLocation: {fileID: 369803108}
+  ActivateWayPoint: 0
   tutorialCamera: {fileID: 1659858479}
   mainCamera: {fileID: 26558333}
 --- !u!1 &1856799336 stripped
