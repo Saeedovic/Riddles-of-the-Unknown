@@ -22,7 +22,8 @@ public abstract class PhoneAppScreen : MonoBehaviour
         if (EventSystem.current.currentSelectedGameObject == null && (Input.GetKeyDown(KeyCode.UpArrow) ||
             Input.GetKeyDown(KeyCode.DownArrow) ||
             Input.GetKeyDown(KeyCode.LeftArrow) ||
-            Input.GetKeyDown(KeyCode.RightArrow)))
+            Input.GetKeyDown(KeyCode.RightArrow) ||
+            Input.GetKeyDown(KeyCode.Return)))
         {
             EventSystem.current.SetSelectedGameObject(firstHighlightedButton);
         }

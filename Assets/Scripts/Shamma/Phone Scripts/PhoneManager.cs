@@ -111,9 +111,6 @@ public class PhoneManager : MonoBehaviour
 
         uiCursor.parent = selectedTransform;
         uiCursor.localPosition = selectedTransform.anchorMax;
-
-
-        //uiCursor.gameObject.SetActive(true);
     }
 
 

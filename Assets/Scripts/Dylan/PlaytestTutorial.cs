@@ -47,7 +47,7 @@ public class PlaytestTutorial : MonoBehaviour
         playerCont = playerObjRef.GetComponent<PlayerCon>();
         interactor = playerObjRef.GetComponent<PlayerInteractor>();
 
-        app.enteredFullscreen = false;
+        //app.enteredFullscreen = false;
 
     }
 
@@ -168,7 +168,7 @@ public class PlaytestTutorial : MonoBehaviour
         {
             if (cameraApp.activeInHierarchy == true && Input.GetKeyDown(KeyCode.P))
             {
-                app.enteredFullscreen = true;
+                //app.enteredFullscreen = true;
                 popUpIndex++;
             }
 
