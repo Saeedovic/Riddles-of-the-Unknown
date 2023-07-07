@@ -30,7 +30,7 @@ public class QuestManager : MonoBehaviour
         else
         {
             questText.text = "You've Completed the Playtest !!!";
-            AudioSource.PlayClipAtPoint(AudioForCompletingQuest, transform.position);
+          //  AudioSource.PlayClipAtPoint(AudioForCompletingQuest, transform.position);
         }
     }
 

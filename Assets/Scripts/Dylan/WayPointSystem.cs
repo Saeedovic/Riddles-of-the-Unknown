@@ -20,7 +20,7 @@ public class WayPointSystem : MonoBehaviour
     public GameObject mapMarker;
 
     TutorialManager tManager;
-    PlaytestTutorial playtestTutorial;
+    
     [SerializeField] GameObject tutorialManagerObjRef;
 
 
