@@ -11,12 +11,16 @@ public class QuestManager : MonoBehaviour
 
     public AudioClip AudioForNextQuest;
 
+    public GameObject credits;
+
     public List<string> quests = new List<string> { };
     public int currentQuestIndex = 0;
 
     public void Start()
     {
         UpdateQuestText();
+        credits.SetActive(false);
+
     }
 
     public void CompleteCurrentQuest()
@@ -30,6 +34,7 @@ public class QuestManager : MonoBehaviour
         else
         {
             questText.text = "You've Completed the Playtest !!!";
+            credits.SetActive(true);
           //  AudioSource.PlayClipAtPoint(AudioForCompletingQuest, transform.position);
         }
     }
