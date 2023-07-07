@@ -51,6 +51,10 @@ public class InventoryHandler : MonoBehaviour
             if (inventorySlots[i].storedItem == null)
             {
                 inventorySlots[i].AddItem(itemToAdd, numOf);
+                tutorialManager.popUpIndex++;
+                tutorialManager.collectableCount++;
+
+                tutorialManager.ActivateWayPoint = true;
                 return true;
             }
 

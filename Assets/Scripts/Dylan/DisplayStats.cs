@@ -95,28 +95,24 @@ public class DisplayStats : MonoBehaviour
                 //GetComponent<Animator>().speed = 3;
             }
         }
-        else if (currentStamina <= 100 && !beginDelay)
+        else if (currentStamina <= maxStamina)
         {
             
                 //Debug.Log("regeneration");
                 //GetComponent<Animator>().speed = 1;
-                currentStamina += stat.sprintStamina * Time.deltaTime;
-            currentStamina = Mathf.Clamp(currentStamina, 0, stat.PlayerStamina);
+                currentStamina += stat.staminaUpRate * Time.deltaTime;
+            //currentStamina = Mathf.Clamp(currentStamina, 0, stat.PlayerStamina);
         }
         if(currentStamina <= 0.5f)
         {
-            beginDelay = true;
+            Time.timeScale = 0.5f;
+        }
+        else if(currentStamina >= 0.5f)
+        {
+            Time.timeScale = 1;
         }
 
-        if(beginDelay)
-        {
-            delay += Time.deltaTime;
-            if(delay >= 1)
-            {
-                beginDelay = false;
-                delay = 0;
-            }
-        }
+
         #endregion
 
         #region If Alive

@@ -116,14 +116,12 @@ public class PhoneCameraApp : PhoneAppScreen
     }
 
      IEnumerator EcoPointBoolCheck()
-    {
+     {
         ecopointScanned = true;
-
         yield return new WaitForSeconds(2);
-
         ecopointScanned = false;
 
-    }
+     }
 
     void EnterFullscreenMode()
     {

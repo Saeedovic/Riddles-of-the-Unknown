@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.VirtualTexturing;
 
 public class WaterSource : PointOfInterest, IInteractableObject
 {
@@ -12,6 +13,16 @@ public class WaterSource : PointOfInterest, IInteractableObject
     static ReplenishingObject waterItem;
     public int amountToAddToInventory = 1;
     static ThirstSystem userThirst;
+
+    TutorialManager tutorialManager;
+    [SerializeField] GameObject tutManagerObj;
+
+
+    private void Start()
+    {
+        tutorialManager = tutManagerObj.GetComponent<TutorialManager>();
+    }
+
 
     public void Interact(PlayerInteractor user)
     {
@@ -26,6 +37,8 @@ public class WaterSource : PointOfInterest, IInteractableObject
         {
             ProcessInteraction(user);
             userThirst.questManager.CompleteCurrentQuest();
+
+
         }
         else
         {
@@ -43,8 +56,14 @@ public class WaterSource : PointOfInterest, IInteractableObject
             AudioSource.PlayClipAtPoint(userThirst.AudioForDrinking, transform.position); // could move this to the water inventory item?
             userThirst.drankwater = true;
 
+
             user.xP.AddXp(xpGiven);
             gameObject.SetActive(false);
+
+            
+            tutorialManager.collectableCount = 3;
+
+            tutorialManager.ActivateWayPoint = true;
             Debug.Log("water collected!");
         }
         

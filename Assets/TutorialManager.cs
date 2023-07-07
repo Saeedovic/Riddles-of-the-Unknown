@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.Rendering.VirtualTexturing;
+using UnityEngine.UIElements;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -48,15 +49,23 @@ public class TutorialManager : MonoBehaviour
 
 
 
-    public GameObject HungryTextPanel;
-    public GameObject ThristyTextPanel;
-    public GameObject TiredTextPanel;
+    public GameObject hungTextPanel;
+    public GameObject thristyTextPanel;
+    public GameObject tiredTextPanel;
 
-    public GameObject DoFoodScan;
-    public GameObject DoWaterScan;
-    public GameObject DoEcoScan;
+    public GameObject FoodScan;
+    public GameObject WaterScan;
+    public GameObject EcoScan;
 
+    public GameObject confirmBox;
 
+    public GameObject interactionBox;
+
+    public AudioSource source;
+
+    public AudioClip tiredClip;
+    public AudioClip thirstyClip;
+    public AudioClip hungryClip;
 
 
 
@@ -75,8 +84,8 @@ public class TutorialManager : MonoBehaviour
 
   //  public GameObject tutorialWayPointLocation;
 
-    public GameObject tutorialCamera;
-    public GameObject mainCamera;
+    public GameObject tutCam;
+    public GameObject mainCam;
 
     HungerSystem playerHunger;
 
@@ -100,12 +109,20 @@ public class TutorialManager : MonoBehaviour
 
         collectableCounterObj.SetActive(false);
 
+        hungTextPanel.SetActive(false);
+        thristyTextPanel.SetActive(false);
+        tiredTextPanel.SetActive(false);
+
+        FoodScan.SetActive(false);
+        WaterScan.SetActive(false);
+        EcoScan.SetActive(false);
+
     }
 
     private void Start()
     {
-        mainCamera.SetActive(true);
-        tutorialCamera.SetActive(false);
+        mainCam.SetActive(true);
+        tutCam.SetActive(false);
 
         playerHunger = playerObjRef.GetComponent<HungerSystem>();
 
@@ -133,13 +150,13 @@ public class TutorialManager : MonoBehaviour
         }
 
 
-            
+
 
 
 
         if (popUpIndex == 0) // WASD MOVEMENT
         {
-            if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))      
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
             {
                 popUpIndex++;
                 qManager.CompleteCurrentQuest(); //Go to Dave's Shack
@@ -150,11 +167,11 @@ public class TutorialManager : MonoBehaviour
         {
             ActivateWayPoint = true;
 
-            popUpIndex++; 
+            popUpIndex++;
         }
-        if (popUpIndex == 2 )
+        if (popUpIndex == 2)
         {
-            if(Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift))
             {
                 watchManager.SetWatchState(false);
 
@@ -169,13 +186,13 @@ public class TutorialManager : MonoBehaviour
 
             popUps[5].SetActive(true);
 
-            mainCamera.SetActive(false);
-            tutorialCamera.SetActive(true);
+            mainCam.SetActive(false);
+            tutCam.SetActive(true);
 
             if (Input.GetKeyDown(KeyCode.J))
             {
-                mainCamera.SetActive(true);
-                tutorialCamera.SetActive(false);
+                mainCam.SetActive(true);
+                tutCam.SetActive(false);
 
                 Time.timeScale = 1;
 
@@ -183,7 +200,7 @@ public class TutorialManager : MonoBehaviour
                 popUps[5].SetActive(false);
                 watchManager.SetWatchState(true);
 
-                popUpIndex++; 
+                popUpIndex++;
 
             }
         }
@@ -203,31 +220,31 @@ public class TutorialManager : MonoBehaviour
 
             }
         }
-        
+
 
         if (popUpIndex == 6) //Take a Picture - 2
         {
-            if(Input.GetKeyDown(KeyCode.K))
+            if (Input.GetKeyDown(KeyCode.K))
             {
-               popUps[6].SetActive(false);
+                popUps[6].SetActive(false);
 
-              popUpIndex++;  
+                popUpIndex++;
 
             }
-            
+
         }
 
         if (popUpIndex == 7) //Take a Picture - 3
         {
 
             interactor.enabled = false;
-            mainCamera.SetActive(false);
-            tutorialCamera.SetActive(true);
+            mainCam.SetActive(false);
+            tutCam.SetActive(true);
 
             if (cameraApp.activeInHierarchy == true)  //Add condition to check if player is in radius of Village
             {
-                mainCamera.SetActive(true);
-                tutorialCamera.SetActive(false);
+                mainCam.SetActive(true);
+                tutCam.SetActive(false);
                 interactor.enabled = true;
 
                 popUpIndex++;
@@ -237,12 +254,12 @@ public class TutorialManager : MonoBehaviour
 
         if (popUpIndex == 8) //Take a Picture - 4
         {
-           if (cameraApp.activeInHierarchy == true && Input.GetKeyDown(KeyCode.P)) 
+            if (cameraApp.activeInHierarchy == true && Input.GetKeyDown(KeyCode.P))
             {
                 app.enteredFullscreen = true;
                 popUpIndex++;
             }
-          
+
         }
 
         if (popUpIndex == 9) //Take a Picture - 5
@@ -258,7 +275,7 @@ public class TutorialManager : MonoBehaviour
             if (cameraApp.activeInHierarchy == false)
             {
                 popUpIndex++;
-               collectableCounterObj.SetActive(true);
+                collectableCounterObj.SetActive(true);
 
             }
         }
@@ -267,90 +284,136 @@ public class TutorialManager : MonoBehaviour
 
         // -------------------------------------------------------FOR LIVE PLAYTEST ------------------------------------------------------------------ //
 
-       
+
 
         if (popUpIndex == 12) //IndexLocation = 5
         {
+            
 
             if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
             {
+                
                 wpSystem.locationIndex++;
 
                 ActivateWayPoint = false;
 
+                app.ecopointScanned = false;
+
 
                 //Text PopUp w Audio thats says - mmm,Im feeling Quite Hungry (Disappears after like 5 Seconds)
 
-                 StartCoroutine(HungryText());
+                source.PlayOneShot(hungryClip);
 
-                  //Text PopUp thats says - Do a Eco-Point Scan to look for food to consume (Deactivate this text after ecopoint is done)
+            //Text PopUp thats says - Do a Eco-Point Scan to look for food to consume (Deactivate this text after ecopoint is done)
 
-
-
-                  if(cameraApp.activeInHierarchy == true && app.ecopointScanned == true)
-                  {
-                      DoFoodScan.SetActive(false);
-                  }
-
-                  //player will look for item and consume it.
-
-
-                  //Deactivate Waypoint
-                  ActivateWayPoint = false;
-
-
-                  //Once Consumed Phone will open And showcase how the Inventory App Works!
-
-                  mainCamera.SetActive(false);
-                  tutorialCamera.SetActive(true);
-                  phoneObjRef.SetActive(true);
-
-                  if(phoneObjRef.activeInHierarchy == true)
-                  {
-                      popUps[18].SetActive(true);
-
-                      if(inventoryApp.activeInHierarchy == true)
-                      {
-                          popUps[18].SetActive(false);
-                          popUps[19].SetActive(true);
-
-                          if(Input.GetKey(KeyCode.Return))
-                          {
-                              popUps[19].SetActive(false);
-                              popUps[20].SetActive(true);
-
-                  //Once Player clicks on Go Back they will be put back into the game loop
-                              if(inventoryApp.activeInHierarchy == false)
-                              {
-                                  mainCamera.SetActive(true);
-                                  tutorialCamera.SetActive(false);
-
-                                  popUps[20].SetActive(false);
-
-                                  ActivateWayPoint = true;
-                              }
-                          }
-                      }
-                  }
             }
+
+            if (app.ecopointScanned == false)
+            {
+                Debug.Log("EcoPoint Scanned");
+                FoodScan.SetActive(true);
+            }
+            //player will look for item and consume it.
+
+            //Once Consumed Phone will open And showcase how the Inventory App Works!
 
 
         }
-        if (popUpIndex == 13) 
+
+
+        if (popUpIndex == 13)
         {
+            interactionBox.SetActive(false);
+            phoneObjRef.SetActive(false);
+
+            mainCam.SetActive(false);
+                tutCam.SetActive(true);
+                phoneObjRef.SetActive(true);
+
+            if (collectableCount == 2)
+            {
+                interactionBox.SetActive(false);
+                FoodScan.SetActive(false);
+
+
+                if (phoneObjRef.activeInHierarchy == true)
+                {
+                    popUps[13].SetActive(true);
+         
+                }
+                if (inventoryApp.activeInHierarchy == true )
+                {
+                    
+
+                    popUps[13].SetActive(false);
+                    popUps[14].SetActive(true);
+
+                    popUpIndex++;
+
+                }
+        
+            }
+        } 
+
+
+
+        if(popUpIndex == 14)
+        {
+            interactionBox.SetActive(false);
+
+            if (confirmBox.activeInHierarchy == true)
+            {
+                Debug.Log(popUpIndex);
+                popUps[14].SetActive(false);
+                popUps[15].SetActive(true);
+
+                popUpIndex++;
+
+            }
+          
+           
+        }
+
+        if(popUpIndex == 15)
+        {
+            interactionBox.SetActive(false);
+
+            popUps[14].SetActive(false);
+
+
+            //Once Player clicks on Go Back they will be put back into the game loop
+            if (inventoryApp.activeInHierarchy == false)
+            {
+                mainCam.SetActive(true);
+                tutCam.SetActive(false);
+
+                popUps[15].SetActive(false);
+
+                phoneObjRef.SetActive(false);
+
+                ActivateWayPoint = true;
+
+                popUpIndex++;
+
+            }
+        }
+
+        if(popUpIndex == 16)
+        {
+            
+
             if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
             {
                 wpSystem.locationIndex++;
 
-                
+                app.ecopointScanned = false;
 
+                ActivateWayPoint = false;
+
+                source.PlayOneShot(thirstyClip);
 
 
                 //Text PopUp w Audio thats says - Jeez, Now I'm Feeling Quite Thristy (Disappears after like 5 Seconds)
-
-               // StartCoroutine(ThristyText());
-
-
 
                 //Text PopUp thats says - Do a Eco-Point Scan to look for Water to consume (Deactivate this text after ecopoint is done)
 
@@ -358,26 +421,48 @@ public class TutorialManager : MonoBehaviour
 
 
             }
+
+            if (app.ecopointScanned == false)
+            {
+               WaterScan.SetActive(true);
+
+            }
+
+            if (cameraApp.activeInHierarchy == true && app.ecopointScanned == true)
+            {
+                Debug.Log("EcoPoint Scanned");
+                WaterScan.SetActive(false);
+            }
         }
-        if (popUpIndex == 15) 
+
+
+        
+
+
+
+        if (popUpIndex == 17) 
         {
+
+
+                EcoScan.SetActive(false);
+
             if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
             {
                 wpSystem.locationIndex++;
 
-                
+                app.ecopointScanned = false;
+
+                ActivateWayPoint = false;
+
+
+
 
 
                 //Check if Stamina is <= 25 if it is then follow line below
 
                 //Text PopUp w Audio thats says - Ah man, I wish I had better Stamina to Run longer (Disappears after like 5 Seconds)
-                /*
 
-                if (stats.currentStamina <= 25)
-                {
-                    StartCoroutine(TiredText());
-                }
-                */
+
 
                 //Trigger Stat App Part of the Tutorial
 
@@ -386,12 +471,90 @@ public class TutorialManager : MonoBehaviour
                 //popUpIndex++
 
 
+            }
+            if (app.ecopointScanned == false)
+            {
+               // EcoScan.SetActive(true);
 
+            }
+
+            if (cameraApp.activeInHierarchy == true && app.ecopointScanned == true)
+            {
+                Debug.Log("EcoPoint Scanned");
+                EcoScan.SetActive(false);
+            }
+
+            if (stats.currentStamina == 50)
+            {
+                //Play Audio of Feeling Tired
+
+                source.PlayOneShot(tiredClip);
+
+            }
+
+        }
+
+        if(popUpIndex == 18)
+        {
+            
+            interactionBox.SetActive(false);
+
+            phoneObjRef.SetActive(false);
+
+            mainCam.SetActive(false);
+            tutCam.SetActive(true);
+            phoneObjRef.SetActive(true);
+
+            if (collectableCount == 4) //when they interact with collectable
+                {
+
+                interactionBox.SetActive(false);
+
+
+                if(statAllocationApp.activeInHierarchy == true)
+                {
+                    interactionBox.SetActive(false);
+
+                    popUpIndex++;
+                }
+
+                }
+            
+
+
+        }
+        if (popUpIndex == 19)
+        {
+            interactionBox.SetActive(false);
+
+            if (xpManager.playerIncreasedHungerStat == true || xpManager.playerIncreasedStaminaStat == true || xpManager.playerIncreasedThristStat == true)
+            {
+                popUpIndex++;
+            }
+        }
+        if (popUpIndex == 20)
+        {
+            interactionBox.SetActive(false);
+
+            if (statAllocationApp.activeInHierarchy == false)
+            {
+                mainCam.SetActive(true);
+                tutCam.SetActive(false);
+
+                phoneObjRef.SetActive(false);
+
+                app.ecopointScanned = true;
+
+                popUpIndex++;
+                
 
             }
         }
 
-        if (popUpIndex == 14 || popUpIndex == 16) //IndexLocation = 1
+
+
+
+        if (popUpIndex == 21 || popUpIndex == 22) //IndexLocation = 1
         {
 
             if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
@@ -399,10 +562,27 @@ public class TutorialManager : MonoBehaviour
                 wpSystem.locationIndex++;
 
                 ActivateWayPoint = false;
+
+                app.ecopointScanned = false;
+
+               
+
+            }
+
+            if (app.ecopointScanned == false)
+            {
+                EcoScan.SetActive(true);
+
+            }
+
+            if (cameraApp.activeInHierarchy == true && app.ecopointScanned == true)
+            {
+                Debug.Log("EcoPoint Scanned");
+                EcoScan.SetActive(false);
             }
         }
 
-        if (popUpIndex == 17) //IndexLocation = 5
+        if (popUpIndex == 23) //IndexLocation = 5
         {
             ActivateWayPoint = false;
             qManager.CompleteCurrentQuest();
@@ -693,30 +873,24 @@ public class TutorialManager : MonoBehaviour
     }
 
 
-    IEnumerator HungryText()
+    public void HungryText()
     {
-        HungryTextPanel.SetActive(true);
-        yield return new WaitForSeconds(5);
-        HungryTextPanel.SetActive(false);
-        DoFoodScan.SetActive(true);
+        hungTextPanel.SetActive(false);
+        //FoodScan.SetActive(true);
+    }
+
+    public void ThristyText()
+    {
+        thristyTextPanel.SetActive(false);
+        WaterScan.SetActive(true);
 
     }
 
-    IEnumerator ThristyText()
+    public void TiredText()
     {
-
-        ThristyTextPanel.SetActive(true);
-        yield return new WaitForSeconds(2);
-        ThristyTextPanel.SetActive(false);
-
+       tiredTextPanel.SetActive(false);
+        EcoScan.SetActive(true);
     }
 
-    IEnumerator TiredText()
-    {
-        TiredTextPanel.SetActive(true);
-        yield return new WaitForSeconds(2);
-        TiredTextPanel.SetActive(false);
-
-    }
 
 }
