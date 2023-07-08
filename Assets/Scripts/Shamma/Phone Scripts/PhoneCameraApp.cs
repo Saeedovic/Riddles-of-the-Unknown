@@ -60,7 +60,11 @@ public class PhoneCameraApp : PhoneAppScreen
         // update the camera's own cursor pos when selected game obj changes
         if (enteredFullscreen)
         {
-            
+            if (Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetMouseButton(2))
+            {
+                EventSystem.current.SetSelectedGameObject(objLastSelected);
+            }
+
             if (EventSystem.current.currentSelectedGameObject != null &&
                 EventSystem.current.currentSelectedGameObject != objLastSelected)
             {

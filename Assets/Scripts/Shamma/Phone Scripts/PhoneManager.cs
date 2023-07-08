@@ -15,13 +15,15 @@ public class PhoneManager : MonoBehaviour
 
     public GameObject playerUI;
     public RectTransform uiCursor;
-    Vector3 previousCursorScale;
     GameObject objLastSelected;
+    GameObject objCurrentlySelected;
 
     public AudioClip AudioForOpeningPhone;
 
+    public bool mouseShouldBeUseable = false;
     public static bool isFullscreen { get; private set; }
     public static bool phoneIsOut { get; private set; }
+    [HideInInspector] public bool phoneIsUseable;
 
     public delegate void OnEnterFullscreen();
     public static OnEnterFullscreen onEnterFullscreen;
@@ -35,71 +37,60 @@ public class PhoneManager : MonoBehaviour
         Instance = this;
         PhoneMainMenu.InitPhone(phoneScreen); // pass the given phone screen to PhoneMainMenu for it to load app components into its list
 
-
-        //SetFullscreen(isFullscreen);
-        //savedScreenPos = GetComponent<RectTransform>();
-        //regularScreenPos = transform.position;
-        //regularScreenRot = transform.rotation;
-        //regularScreenRot = transform.rotation;
-
-
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(mainPhoneButtons[0]);
 
+        phoneIsUseable = true;
         isFullscreen = true; // start "true" so that the fullscreen func can set itself to true on first use
         phoneIsOut = true;
         SetPhoneState(phoneIsOut); // close phone.
 
-        // genuinely don't remember why i put these here
         PhoneMainMenu.onAppOpen += ResetFullscreenVal;
         PhoneMainMenu.onAppClose += ForceFullscreenOff; // need to know if we should switch to fullscreen or no
-
-        //PhoneCameraApp.onFullscreenEntered += UpdateCursorForCameraDeFullscreen;
-        //PhoneCameraApp.onFullscreenExited += UpdateCursorForCameraDeFullscreen;
     }
+
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        if (!mouseShouldBeUseable)
         {
-            AudioSource.PlayClipAtPoint(AudioForOpeningPhone, transform.position);
-
-            SetPhoneState(phoneIsOut);
-
-            // make sure first app button is highlighted
-            if (phoneIsOut && !PhoneMainMenu.appIsOpen)
+            //objCurrentlySelected = EventSystem.current.currentSelectedGameObject;
+            if (Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetMouseButton(2))
             {
-                EventSystem.current.SetSelectedGameObject(null);
-                EventSystem.current.SetSelectedGameObject(mainPhoneButtons[0]); 
+                EventSystem.current.SetSelectedGameObject(objLastSelected);
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            SetFullscreen(isFullscreen);
-        }
-
-        // camera app fullscreen should handle its own cursor
-        if (!PhoneCameraApp.enteredFullscreen)
-        {
-            // update cursor pos when selected game obj changes
-            if (EventSystem.current.currentSelectedGameObject != null &&
-                EventSystem.current.currentSelectedGameObject != objLastSelected)
+            if (Input.GetKeyDown(KeyCode.K))
             {
-                UpdateCursorPosition();
+                AudioSource.PlayClipAtPoint(AudioForOpeningPhone, transform.position);
+
+                SetPhoneState(phoneIsOut);
+
+                // make sure first app button is highlighted
+                if (phoneIsOut && !PhoneMainMenu.appIsOpen)
+                {
+                    EventSystem.current.SetSelectedGameObject(null);
+                    EventSystem.current.SetSelectedGameObject(mainPhoneButtons[0]);
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.P) && phoneIsOut)
+            {
+                SetFullscreen(isFullscreen);
+            }
+
+            // camera app fullscreen should handle its own cursor
+            if (!PhoneCameraApp.enteredFullscreen)
+            {
+                // update cursor pos when selected game obj changes
+                if (EventSystem.current.currentSelectedGameObject != null &&
+                    EventSystem.current.currentSelectedGameObject != objLastSelected)
+                {
+                    UpdateCursorPosition();
+                }
             }
         }
         
-        // re-highlight when dehighlighted
-        if (EventSystem.current.currentSelectedGameObject == null && !PhoneMainMenu.appIsOpen && 
-            (Input.GetKeyDown(KeyCode.UpArrow) ||
-            Input.GetKeyDown(KeyCode.DownArrow) ||
-            Input.GetKeyDown(KeyCode.LeftArrow) ||
-            Input.GetKeyDown(KeyCode.RightArrow)))
-        {
-            EventSystem.current.SetSelectedGameObject(mainPhoneButtons[0]);
-        }
-
     }
 
 
@@ -114,7 +105,7 @@ public class PhoneManager : MonoBehaviour
     }
 
 
-    void SetPhoneState(bool phoneActive)
+    public void SetPhoneState(bool phoneActive)
     {
         // when phone is inactive, make it active, and vice versa.
         if (!phoneActive)
@@ -142,31 +133,29 @@ public class PhoneManager : MonoBehaviour
         if (phoneIsOut)
         {
             // check if we're in an app that shouldn't leave fullscreen, always set fullscreen true if so
-        if (PhoneMainMenu.activeAppScreen != null)
-        {
-            if (!PhoneMainMenu.activeAppScreen.hasFullscreenAsOption)
-                isFullscreen = true;
-        }
+            if (PhoneMainMenu.activeAppScreen != null)
+            {
+                if (!PhoneMainMenu.activeAppScreen.hasFullscreenAsOption)
+                    isFullscreen = true;
+            }
 
-        // if false, make app not fullscreen. if true, make it fullscreen
-        if (isFullscreen)
-        {
-            transform.position = fullscreenScreenPos.position;
-            transform.rotation = fullscreenScreenPos.rotation;
-                //Debug.Log("big");
-                //this.isFullscreen = true;
-             onEnterFullscreen?.Invoke();
-        }
-        else
-        {
-            transform.position = regularScreenPos.position;
-            transform.rotation = regularScreenPos.rotation;
-            //Debug.Log("small");
-            //this.isFullscreen = false;
-            onExitFullscreen?.Invoke();
-        }
+            // if false, make app not fullscreen. if true, make it fullscreen
+            if (isFullscreen)
+            {
+                transform.position = fullscreenScreenPos.position;
+                transform.rotation = fullscreenScreenPos.rotation;
+                
+                onEnterFullscreen?.Invoke();
+            }
+            else
+            {
+                transform.position = regularScreenPos.position;
+                transform.rotation = regularScreenPos.rotation;
 
-        PhoneManager.isFullscreen = !PhoneManager.isFullscreen; // same thing as phone being active
+                onExitFullscreen?.Invoke();
+            }
+
+            PhoneManager.isFullscreen = !PhoneManager.isFullscreen; // same thing as phone being active
         }
     }
 
@@ -188,17 +177,4 @@ public class PhoneManager : MonoBehaviour
         isFullscreen = true;
     }
 
-
-
-    void UpdateCursorForCameraFullscreen()
-    {
-        previousCursorScale = uiCursor.localScale;
-        UpdateCursorPosition();
-
-    }
-    void UpdateCursorForCameraDeFullscreen()
-    {
-        UpdateCursorPosition();
-        uiCursor.localScale = previousCursorScale;
-    }
 }
