@@ -53,6 +53,12 @@ public class PlayerInteractor : MonoBehaviour
                 interactionActive = true;
                 //interactableIsInRange = false;
 
+                // reset phone so players don't have phone or fullscreen cam open while doing things
+                if (PhoneManager.phoneIsOut)
+                {
+                    PhoneManager.Instance.SetPhoneState(true);
+                }
+                
                 currentObject.Interact(this);
                 OnObjectDeselect();
 

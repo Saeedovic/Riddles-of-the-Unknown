@@ -177,7 +177,11 @@ public class Safe_System : MonoBehaviour
         SafeCam.SetActive(false);
         DefaultCam.SetActive(true);
         SafeInteractable.safeHasBeenCracked = true;
+
         Cursor.lockState = CursorLockMode.Locked;
+        PhoneManager.Instance.mouseShouldBeUseable = true;
+
+        PhoneManager.Instance.phoneIsUseable = true;
     }
 
 }
