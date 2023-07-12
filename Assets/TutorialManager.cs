@@ -5,8 +5,10 @@ using TMPro;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Rendering.VirtualTexturing;
-using UnityEngine.UIElements;
+
+using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -33,11 +35,25 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] GameObject WaypointSystemRef;
     [SerializeField] GameObject WatchObjRef;
     [SerializeField] GameObject safeObjRef;
-    [SerializeField] GameObject phoneObjRef;
+    [SerializeField] public GameObject phoneObjRef;
     [SerializeField] GameObject inventoryObjRef;
-    
 
 
+    public Button camAppButton;
+    public Button statAppButton;
+    public Button inventoryAppButton;
+    public Button noteAppButton;
+    public Button settingAppButton;
+
+    public Button camAppBackButton;
+    public Button camAppFullScreenBackButton;
+
+    public Button statAppBackButton;
+    public Button inventoryAppBackButton;
+    public Button noteAppBackButton;
+    public Button settingAppBackButton;
+
+ 
 
 
     //---- Live Playtest ----- //
@@ -68,6 +84,15 @@ public class TutorialManager : MonoBehaviour
     public AudioClip hungryClip;
 
 
+    public GameObject phoneControlsGUIText;
+    public GameObject controlToAccessEcoPointText;
+    public GameObject fullScreenCam;
+    public GameObject onScreenInstructionUI;
+
+
+    PhoneManager pManager;
+
+  
 
     //---- Live Playtest ----- //
 
@@ -123,8 +148,10 @@ public class TutorialManager : MonoBehaviour
         tutCam.SetActive(false);
 
         playerHunger = playerObjRef.GetComponent<HungerSystem>();
+        onScreenInstructionUI.SetActive(false);
 
-        
+
+
     }
 
 
@@ -132,6 +159,30 @@ public class TutorialManager : MonoBehaviour
     void Update()
     {
         collectableCountText.text = collectableCount.ToString("0");
+
+
+
+        if(phoneObjRef.activeInHierarchy == true && cameraApp.activeInHierarchy == false && statAllocationApp.activeInHierarchy == false && inventoryApp.activeInHierarchy == false)
+        {
+            phoneControlsGUIText.SetActive(true);
+        }
+        else
+        {
+            phoneControlsGUIText.SetActive(false);
+        }
+        if(cameraApp.activeInHierarchy == true && fullScreenCam.activeInHierarchy != true)
+        {
+            phoneControlsGUIText.SetActive(false);
+            controlToAccessEcoPointText.SetActive(true);
+        }
+        if (fullScreenCam.activeInHierarchy == true || cameraApp.activeInHierarchy != true || statAllocationApp.activeInHierarchy == true || inventoryApp.activeInHierarchy == true)
+        {
+            controlToAccessEcoPointText.SetActive(false);
+        }
+
+
+
+
 
 
         for (int i = 0; i < popUps.Length; i++)
@@ -232,12 +283,24 @@ public class TutorialManager : MonoBehaviour
 
         }
 
-        if (popUpIndex == 7) //Take a Picture - 3
+        if (popUpIndex == 7) //Take a Picture - 3   //Make All Buttons Except Camera Button Uninteractable
         {
+
+
+            noteAppButton.interactable = false;
+            inventoryAppButton.interactable = false;
+            statAppButton.interactable = false;
+            settingAppButton.interactable = false;
 
             interactor.enabled = false;
             mainCam.SetActive(false);
             tutCam.SetActive(true);
+
+
+            if(Input.GetKeyDown(KeyCode.K)) 
+            {
+                phoneObjRef.SetActive(true);
+            }
 
             if (cameraApp.activeInHierarchy == true)  //Add condition to check if player is in radius of Village
             {
@@ -250,31 +313,66 @@ public class TutorialManager : MonoBehaviour
             }
         }
 
-        if (popUpIndex == 8) //Take a Picture - 4
+        if (popUpIndex == 8) //Take a Picture - 4   
         {
+
+            camAppBackButton.interactable = false;
+
             if (cameraApp.activeInHierarchy == true && Input.GetKeyDown(KeyCode.P))
             {
+                camAppFullScreenBackButton.interactable = false;
+                camAppBackButton.interactable = true;
+
                 popUpIndex++;
             }
+
+            //if Statement to check if they close phone, they shouldnt be allwoed to
+           
+
+            //Make GoBack Button Uninteractable
+
 
         }
 
         if (popUpIndex == 9) //Take a Picture - 5
         {
+
+
+
             if (cameraApp.activeInHierarchy == true && app.ecopointScanned == true)
             {
+                camAppFullScreenBackButton.interactable = true;
+
                 popUpIndex++;
             }
+
+            //if Statement to check if they close phone, they shouldnt be allwoed to
+            
+
+
+            //Make GoBack Button Uninteractable
+
+
         }
 
         if (popUpIndex == 10) //Take a Picture - 6
         {
             if (cameraApp.activeInHierarchy == false)
             {
+
                 popUpIndex++;
                 collectableCounterObj.SetActive(true);
 
             }
+        }
+
+        if(popUpIndex == 11)
+        {
+            //Add UI that says Look for Highlighted obj Around you
+
+            popUps[31].SetActive(true);
+
+
         }
 
 
@@ -285,7 +383,9 @@ public class TutorialManager : MonoBehaviour
 
         if (popUpIndex == 12) //IndexLocation = 5
         {
-            
+            popUps[31].SetActive(false);
+
+            onScreenInstructionUI.SetActive(true);
 
             if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
             {
@@ -320,6 +420,11 @@ public class TutorialManager : MonoBehaviour
 
         if (popUpIndex == 13)
         {
+
+            inventoryAppButton.interactable = true;
+
+            onScreenInstructionUI.SetActive(false);
+
             interactionBox.SetActive(false);
             phoneObjRef.SetActive(false);
 
@@ -350,12 +455,22 @@ public class TutorialManager : MonoBehaviour
                 }
         
             }
+
+            if(cameraApp.activeInHierarchy == true )
+            {
+                cameraApp.SetActive(false);
+                inventoryApp.SetActive(true);
+            }
+
         } 
 
 
 
         if(popUpIndex == 14)
         {
+            inventoryAppBackButton.interactable = false;
+
+
             interactionBox.SetActive(false);
 
             if (confirmBox.activeInHierarchy == true)
@@ -367,12 +482,12 @@ public class TutorialManager : MonoBehaviour
                 popUpIndex++;
 
             }
-          
-           
         }
 
         if(popUpIndex == 15)
         {
+            inventoryAppBackButton.interactable = true;
+
             interactionBox.SetActive(false);
 
             popUps[14].SetActive(false);
@@ -397,7 +512,9 @@ public class TutorialManager : MonoBehaviour
 
         if(popUpIndex == 16)
         {
-            
+            onScreenInstructionUI.SetActive(true);
+            camAppButton.interactable = true;
+
 
             if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
             {
@@ -409,6 +526,7 @@ public class TutorialManager : MonoBehaviour
 
                 source.PlayOneShot(thirstyClip);
 
+                
 
                 //Text PopUp w Audio thats says - Jeez, Now I'm Feeling Quite Thristy (Disappears after like 5 Seconds)
 
@@ -421,7 +539,7 @@ public class TutorialManager : MonoBehaviour
 
             if (app.ecopointScanned == false)
             {
-               WaterScan.SetActive(true);
+                WaterScan.SetActive(true);
 
             }
 
@@ -493,7 +611,15 @@ public class TutorialManager : MonoBehaviour
 
         if(popUpIndex == 18)
         {
-            
+            statAppButton.interactable = true;
+            camAppButton.interactable = true;
+            inventoryAppButton.interactable = true;
+
+
+            onScreenInstructionUI.SetActive(false);
+
+            inventoryAppButton.interactable = false;
+
             interactionBox.SetActive(false);
 
             phoneObjRef.SetActive(false);
@@ -515,13 +641,14 @@ public class TutorialManager : MonoBehaviour
                     popUpIndex++;
                 }
 
-                }
+            }
             
 
 
         }
         if (popUpIndex == 19)
         {
+            statAppBackButton.interactable = false;
             interactionBox.SetActive(false);
 
             if (xpManager.playerIncreasedHungerStat == true || xpManager.playerIncreasedStaminaStat == true || xpManager.playerIncreasedThristStat == true)
@@ -531,10 +658,15 @@ public class TutorialManager : MonoBehaviour
         }
         if (popUpIndex == 20)
         {
+            statAppBackButton.interactable = true;
+
+
             interactionBox.SetActive(false);
 
             if (statAllocationApp.activeInHierarchy == false)
             {
+                
+
                 mainCam.SetActive(true);
                 tutCam.SetActive(false);
 
@@ -553,6 +685,8 @@ public class TutorialManager : MonoBehaviour
 
         if (popUpIndex == 21 || popUpIndex == 22) //IndexLocation = 1
         {
+            inventoryAppButton.interactable = true;
+            onScreenInstructionUI.SetActive(true);
 
             if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
             {
@@ -888,6 +1022,7 @@ public class TutorialManager : MonoBehaviour
        tiredTextPanel.SetActive(false);
         EcoScan.SetActive(true);
     }
+
 
 
 }

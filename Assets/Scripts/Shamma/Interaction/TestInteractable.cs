@@ -30,8 +30,11 @@ public class TestInteractable : MonoBehaviour, IInteractableObject
         tutorialManager.popUpIndex++;
         tutorialManager.collectableCount++;
 
+        tutorialManager.phoneObjRef.SetActive(false);
+
         tutorialManager.ActivateWayPoint = true;
-        
+
+
 
         Debug.Log($"you got {xpGiven} XP!");
 

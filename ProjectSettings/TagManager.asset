@@ -46,3 +46,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Phone
+    uniqueID: 3583775501
+    locked: 0
+  - name: WayPointMarker
+    uniqueID: 456503711
+    locked: 0

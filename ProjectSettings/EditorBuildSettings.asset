@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MainGameScene.unity
     guid: 49d99d75dfbca234592f891e4c2efea5
+  - enabled: 1
+    path: Assets/Scenes/Dylan Scenes/Live_Playtest_Build.unity
+    guid: 5346df0a6e83bac40ac54824df17f6a4
   m_configObjects: {}

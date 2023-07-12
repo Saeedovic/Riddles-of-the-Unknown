@@ -60,10 +60,6 @@ public class WaterSource : PointOfInterest, IInteractableObject
             user.xP.AddXp(xpGiven);
             gameObject.SetActive(false);
 
-            
-            tutorialManager.collectableCount = 3;
-
-            tutorialManager.ActivateWayPoint = true;
             Debug.Log("water collected!");
         }
         

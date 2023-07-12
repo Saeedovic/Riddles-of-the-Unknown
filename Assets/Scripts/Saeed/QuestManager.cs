@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class QuestManager : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class QuestManager : MonoBehaviour
     public AudioClip AudioForCompletingQuest;
 
     public AudioClip AudioForNextQuest;
+
+    public GameObject playAgain;
+    public GameObject exit;
+
 
     public GameObject credits;
 
@@ -35,6 +40,22 @@ public class QuestManager : MonoBehaviour
         {
             questText.text = "You've Completed the Playtest !!!";
             credits.SetActive(true);
+
+            if(EventSystem.current.currentSelectedGameObject != playAgain && EventSystem.current.currentSelectedGameObject != exit) 
+            {
+
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(playAgain);
+
+            }
+
+
+
+
+
+
+
+
           //  AudioSource.PlayClipAtPoint(AudioForCompletingQuest, transform.position);
         }
     }

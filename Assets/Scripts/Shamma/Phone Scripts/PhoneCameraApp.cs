@@ -55,7 +55,7 @@ public class PhoneCameraApp : PhoneAppScreen
         //ExitFullScreenMode();
     }
 
-    protected override void Update()
+    void Update()
     {
         // update the camera's own cursor pos when selected game obj changes
         if (enteredFullscreen)
@@ -146,7 +146,7 @@ public class PhoneCameraApp : PhoneAppScreen
         yield return new WaitForSeconds(2);
         ecopointScanned = false;
 
-     }
+    }
 
     void EnterFullscreenMode()
     {
