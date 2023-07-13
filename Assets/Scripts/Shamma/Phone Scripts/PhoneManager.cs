@@ -2,21 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Animations.Rigging;
 
 public class PhoneManager : MonoBehaviour
 {
+    public static PhoneManager Instance;
+
+
     public  GameObject phoneScreen;
     [SerializeField] List<GameObject> mainPhoneButtons; // used to set the input system up
 
     [SerializeField] public Transform regularScreenPos;
     [SerializeField] Transform fullscreenScreenPos;
 
-    public static PhoneManager Instance;
 
     public GameObject playerUI;
     public RectTransform uiCursor;
     GameObject objLastSelected;
     GameObject objCurrentlySelected;
+
 
     public AudioClip AudioForOpeningPhone;
 
@@ -24,6 +28,10 @@ public class PhoneManager : MonoBehaviour
     public static bool isFullscreen { get; private set; }
     public static bool phoneIsOut { get; private set; }
     [HideInInspector] public bool phoneIsUseable;
+
+
+    [SerializeField] Rig rightHandRig;
+    [SerializeField] float rigWeightSmoothVelocity;
 
     public delegate void OnEnterFullscreen();
     public static OnEnterFullscreen onEnterFullscreen;
@@ -90,7 +98,8 @@ public class PhoneManager : MonoBehaviour
                 }
             }
         }
-        
+
+        //Debug.Log("weight: " + rightHandRig.weight);
     }
 
 
@@ -112,6 +121,9 @@ public class PhoneManager : MonoBehaviour
         {
             phoneScreen.SetActive(true);
             PhoneMainMenu.RefreshPhone();
+
+            StopCoroutine(SetHandForPhoneOff());
+            StartCoroutine(SetHandForPhoneOn());
         }
         else
         {
@@ -121,8 +133,12 @@ public class PhoneManager : MonoBehaviour
             }
             ForceFullscreenOff();
             phoneScreen.SetActive(false);
+
+            StopCoroutine(SetHandForPhoneOn());
+            StartCoroutine(SetHandForPhoneOff());
         }
 
+        
         phoneIsOut = !phoneIsOut; // flip the bool so we know we're in the other state
     }
 
@@ -177,4 +193,34 @@ public class PhoneManager : MonoBehaviour
         isFullscreen = true;
     }
 
+
+    IEnumerator SetHandForPhoneOn()
+    {
+        
+
+        rightHandRig.weight = Mathf.MoveTowards(rightHandRig.weight, 1, rigWeightSmoothVelocity);
+
+        if (rightHandRig.weight == 1)
+        {
+            yield break;
+        }
+
+        yield return null;
+        StartCoroutine(SetHandForPhoneOn());
+    }
+    
+    IEnumerator SetHandForPhoneOff()
+    {
+        
+
+        rightHandRig.weight = Mathf.MoveTowards(rightHandRig.weight, 0, rigWeightSmoothVelocity);
+
+        if (rightHandRig.weight == 0)
+        {
+            yield break;
+        }
+
+        yield return null;
+        StartCoroutine(SetHandForPhoneOff());
+    }
 }
