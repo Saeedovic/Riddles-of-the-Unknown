@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestInteractable : MonoBehaviour, IInteractableObject
+public class TestInteractable : PointOfInterest, IInteractableObject
 {
     [SerializeField] bool isInteractable = true;
     [SerializeField] int xpGiven;
@@ -21,9 +21,11 @@ public class TestInteractable : MonoBehaviour, IInteractableObject
         Debug.Log("hello! you just clicked me");
 
         // set this mesh off (just to visually show something happened)
-        MeshRenderer mesh = GetComponent<MeshRenderer>();
+        //MeshRenderer mesh = GetComponent<MeshRenderer>();
 
-        mesh.enabled = false;
+        //mesh.enabled = false;
+
+        SetScannabilityOff();
 
         user.xP.AddXp(xpGiven);
 

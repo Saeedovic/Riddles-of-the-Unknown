@@ -13,6 +13,12 @@ public class KeyItemInteractable : PointOfInterest, IInteractableObject
         if (isCollectable)
         {
             user.inventoryHandler.AddToInventory(keyObject, 1);
+
+            if (keyObject.countsAsAnUnlockingKey)
+            {
+                user.inventoryHandler.UpdateKeyObjectValue(true);
+            }
+
             hasBeenCollected = true;
             gameObject.SetActive(false);
 

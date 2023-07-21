@@ -14,9 +14,9 @@ public class InventorySlot : MonoBehaviour
 
     [SerializeField] PhoneInventoryApp inventoryApp;
 
-    bool itemAdded = false;
+    //bool itemAdded = false;
 
-    TutorialManager tutorialManager;
+    //TutorialManager tutorialManager;
 
     public GameObject tManagerObjRef;
 
@@ -25,7 +25,7 @@ public class InventorySlot : MonoBehaviour
         Button slotUIButton = GetComponent<Button>();
         slotUIButton.onClick.AddListener(ActivateConfirmationBox);
 
-        tutorialManager = tManagerObjRef.GetComponent<TutorialManager>();
+        //tutorialManager = tManagerObjRef.GetComponent<TutorialManager>();
 
         //slotImage = GetComponent<Image>();
         //defaultImage = slotImage;
@@ -57,7 +57,7 @@ public class InventorySlot : MonoBehaviour
         storedItem = itemToAdd;
         IncrementItem(numOf);
 
-        Debug.Log("A " + itemToAdd.name + " was added to " + this.name);
+        //Debug.Log("A " + itemToAdd.name + " was added to " + this.name);
     }
 
     public void IncrementItem(int numOf)
@@ -76,7 +76,7 @@ public class InventorySlot : MonoBehaviour
         {
             if (storedItem.OnUse())
             {
-                Debug.Log("A " + storedItem.name + " was used from " + this.name);
+                //Debug.Log("A " + storedItem.name + " was used from " + this.name);
 
                 DiscardItem();
             }

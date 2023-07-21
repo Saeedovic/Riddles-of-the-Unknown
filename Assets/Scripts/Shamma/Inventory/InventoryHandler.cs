@@ -6,6 +6,26 @@ using UnityEngine.Rendering.VirtualTexturing;
 
 public class InventoryHandler : MonoBehaviour
 {
+    // in our case we specifically want six slots
+    // can set them in inspector for now.
+    [SerializeField] InventorySlot[] inventorySlots = new InventorySlot[6];
+    public static bool containsKeyObject { get; private set; } 
+
+    public List<InventorySlot> InventorySlots
+    {
+        get
+        {
+            List<InventorySlot> invSlots = new List<InventorySlot>();
+
+            foreach (InventorySlot slot in inventorySlots)
+            {
+                invSlots.Add(slot);
+            } 
+            return invSlots; 
+        } 
+    } // for the other scripts to read and not write to inventory.
+    // nooo how do we convert list to array?? 
+
     WayPointSystem wpSystem;
     TutorialManager tutorialManager;
     QuestManager qManager;
@@ -19,28 +39,11 @@ public class InventoryHandler : MonoBehaviour
 
     private void Start()
     {
-       tutorialManager = tutManagerObj.GetComponent<TutorialManager>();
-        wpSystem = waypointSystemObj.GetComponent<WayPointSystem>(); 
+        tutorialManager = tutManagerObj.GetComponent<TutorialManager>();
+        wpSystem = waypointSystemObj.GetComponent<WayPointSystem>();
         qManager = questManagerObj.GetComponent<QuestManager>();
 
     }
-
-
-    // in our case we specifically want six slots
-    // can set them in inspector for now.
-    [SerializeField] InventorySlot[] inventorySlots = new InventorySlot[6];
-    public List<InventorySlot> InventorySlots
-    {
-        get
-        {
-            foreach (InventorySlot slot in inventorySlots)
-            {
-                InventorySlots.Add(slot);
-            } 
-            return InventorySlots; 
-        } 
-    } // for the other scripts to read and not write to inventory.
-    // nooo how do we convert list to array?? 
 
 
     public bool AddToInventory(InventoryObject itemToAdd, int numOf)
@@ -51,10 +54,15 @@ public class InventoryHandler : MonoBehaviour
             if (inventorySlots[i].storedItem == null)
             {
                 inventorySlots[i].AddItem(itemToAdd, numOf);
-                tutorialManager.popUpIndex++;
-                tutorialManager.collectableCount++;
 
-                tutorialManager.ActivateWayPoint = true;
+                if (tutorialManager != null)
+                {
+                    tutorialManager.popUpIndex++;
+                    tutorialManager.collectableCount++;
+
+                    tutorialManager.ActivateWayPoint = true;
+                }
+
                 return true;
             }
 
@@ -71,5 +79,12 @@ public class InventoryHandler : MonoBehaviour
     }
 
     
+    public void UpdateKeyObjectValue(bool containsKeyObject)
+    {
+        if (containsKeyObject)
+            InventoryHandler.containsKeyObject = true;
+        else
+            InventoryHandler.containsKeyObject = false;
+    }
 
 }
