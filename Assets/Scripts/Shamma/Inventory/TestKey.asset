@@ -10,7 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 87d6f8f6810d04447b2bfe9aba459930, type: 3}
-  m_Name: Key
+  m_Name: TestKey
   m_EditorClassIdentifier: 
   itemImage: {fileID: 21300000, guid: 8cf3f7908022b884d86945e0bb4690e7, type: 3}
-  locationToBeUsed: {x: 0, y: 0, z: 0}
+  locationToBeUsed: {x: -560.52, y: 1.36, z: -285.59}
+  checkRadius: 2
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 2147483647
+  countsAsAnUnlockingKey: 1

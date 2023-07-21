@@ -3,38 +3,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NoteInteractable : PointOfInterest, IInteractableObject
+
+public class NoteContainer
 {
+    [SerializeField] Texture2D noteDisplayTexture;
+    [SerializeField] int slotInNotesApp;
 
-    [SerializeField] Image uiToDisplayNote;
-    [SerializeField] string questToComplete;
-    //[SerializeField] Texture2D noteTexture;
-    [SerializeField] AudioClip endInteractionAudio;
+    public static Image uiToDisplayNote;
 
-    PlayerCameraController playerCam;
+    public static PlayerCameraController playerCam;
+    static PlayerCon playerRef;
+    static PhoneNotesApp notesApp;
     float normalTimeScale;
-    bool isInInteraction = false;
+    public bool isInInteraction { get; private set; }
 
 
-    private void Start()
+    public void DisplayNote()
     {
-        uiToDisplayNote.gameObject.SetActive(false);
-    }
-
-    // placeholder for demo, working on a more scalable version.
-    public void Interact(PlayerInteractor user)
-    {
-        // pause everything
-        playerCam = user.GetComponentInChildren<PlayerCameraController>();
-        playerCam.enabled = false;
+        if (playerCam != null)
+        {
+            playerRef = playerCam.GetComponentInParent<PlayerCon>();
+            notesApp = playerCam.GetComponentInParent<PhoneNotesApp>();
+            playerCam.enabled = false;
+        }
 
         normalTimeScale = Time.timeScale;
         Time.timeScale = 0f;
 
-        // display note
         uiToDisplayNote.gameObject.SetActive(true);
+        SetUpNoteImage();
+
         isInInteraction = true;
-        StartCoroutine(WaitForContinue());
+        playerRef.StartCoroutine(WaitForContinue());
+    }
+
+    void SetUpNoteImage()
+    {
+
     }
 
     IEnumerator WaitForContinue()
@@ -43,6 +48,9 @@ public class NoteInteractable : PointOfInterest, IInteractableObject
 
         if (Input.GetMouseButtonDown(0) || Input.GetKey(KeyCode.Return))
         {
+            // add this note to the notes app 
+            notesApp.AddNote(this, slotInNotesApp);
+
             // unpause
             playerCam.enabled = true;
             Time.timeScale = normalTimeScale;
@@ -52,25 +60,48 @@ public class NoteInteractable : PointOfInterest, IInteractableObject
             isInInteraction = false;
             //AudioSource.PlayClipAtPoint(endInteractionAudio, playerCam.transform.position);
 
-            var questManager = playerCam.gameObject.GetComponentInParent<QuestManager>();
-            if (questManager != null)
-            {
-                if (questManager.quests[questManager.currentQuestIndex] == questToComplete)
-                {
-                    questManager.CompleteCurrentQuest();
-                }
-            }
-
             yield break;
         }
 
-        StartCoroutine(WaitForContinue());
+        playerRef.StartCoroutine(WaitForContinue());
+    }
+
+}
+
+
+public class NoteInteractable : PointOfInterest, IInteractableObject
+{
+    [SerializeField] NoteContainer noteInfo;
+
+    [SerializeField] Image uiToDisplayNote;
+    //[SerializeField] Texture2D noteTexture;
+    [SerializeField] AudioClip endInteractionAudio;
+
+
+    private void Start()
+    {
+        uiToDisplayNote.gameObject.SetActive(false);
+
+        if (NoteContainer.uiToDisplayNote == null)
+            NoteContainer.uiToDisplayNote = uiToDisplayNote;
+    }
+
+
+    public void Interact(PlayerInteractor user)
+    {
+        if (NoteContainer.playerCam == null)
+        {
+            NoteContainer.playerCam = user.GetComponentInChildren<PlayerCameraController>();
+            NoteContainer.playerCam.enabled = false;
+        }
+
+        noteInfo.DisplayNote();
     }
 
 
     public bool IsInteractable()
     {
-        if (isInInteraction)
+        if (noteInfo.isInInteraction)
             return false;
         else
             return true;
