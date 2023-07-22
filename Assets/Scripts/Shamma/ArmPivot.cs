@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-/*
+
 public class ArmPivot : MonoBehaviour
 {
     [SerializeField] GameObject cameraObj;
@@ -12,4 +12,3 @@ public class ArmPivot : MonoBehaviour
         //transform.rotation = cameraObj.transform.rotation;
     }
 }
-*/

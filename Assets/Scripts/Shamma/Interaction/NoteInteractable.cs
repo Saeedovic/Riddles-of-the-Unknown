@@ -4,78 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class NoteContainer
-{
-    [SerializeField] Texture2D noteDisplayTexture;
-    [SerializeField] int slotInNotesApp;
-
-    public static Image uiToDisplayNote;
-
-    public static PlayerCameraController playerCam;
-    static PlayerCon playerRef;
-    static PhoneNotesApp notesApp;
-    float normalTimeScale;
-    public bool isInInteraction { get; private set; }
-
-
-    public void DisplayNote()
-    {
-        if (playerCam != null)
-        {
-            playerRef = playerCam.GetComponentInParent<PlayerCon>();
-            notesApp = playerCam.GetComponentInParent<PhoneNotesApp>();
-            playerCam.enabled = false;
-        }
-
-        normalTimeScale = Time.timeScale;
-        Time.timeScale = 0f;
-
-        uiToDisplayNote.gameObject.SetActive(true);
-        SetUpNoteImage();
-
-        isInInteraction = true;
-        playerRef.StartCoroutine(WaitForContinue());
-    }
-
-    void SetUpNoteImage()
-    {
-
-    }
-
-    IEnumerator WaitForContinue()
-    {
-        yield return null;
-
-        if (Input.GetMouseButtonDown(0) || Input.GetKey(KeyCode.Return))
-        {
-            // add this note to the notes app 
-            notesApp.AddNote(this, slotInNotesApp);
-
-            // unpause
-            playerCam.enabled = true;
-            Time.timeScale = normalTimeScale;
-
-            // stop displaying note
-            uiToDisplayNote.gameObject.SetActive(false);
-            isInInteraction = false;
-            //AudioSource.PlayClipAtPoint(endInteractionAudio, playerCam.transform.position);
-
-            yield break;
-        }
-
-        playerRef.StartCoroutine(WaitForContinue());
-    }
-
-}
-
-
 public class NoteInteractable : PointOfInterest, IInteractableObject
 {
     [SerializeField] NoteContainer noteInfo;
 
     [SerializeField] Image uiToDisplayNote;
+    //[SerializeField] PhoneNotesApp notesApp; // will uncomment once phonenotesapp is done
     //[SerializeField] Texture2D noteTexture;
-    [SerializeField] AudioClip endInteractionAudio;
+    //[SerializeField] AudioClip endInteractionAudio;
 
 
     private void Start()
@@ -92,16 +28,21 @@ public class NoteInteractable : PointOfInterest, IInteractableObject
         if (NoteContainer.playerCam == null)
         {
             NoteContainer.playerCam = user.GetComponentInChildren<PlayerCameraController>();
-            NoteContainer.playerCam.enabled = false;
+            NoteContainer.playerRef = user.GetComponent<PlayerCon>();
+            //NoteContainer.notesApp = notesApp;
         }
 
+        // add this note to the notes app 
+        //NoteContainer.notesApp.AddNote(noteInfo, noteInfo.slotInNotesApp);
+
         noteInfo.DisplayNote();
+        gameObject.SetActive(false);
     }
 
 
     public bool IsInteractable()
     {
-        if (noteInfo.isInInteraction)
+        if (NoteContainer.isInInteraction)
             return false;
         else
             return true;
