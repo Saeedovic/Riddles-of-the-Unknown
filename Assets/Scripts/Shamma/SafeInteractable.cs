@@ -19,6 +19,7 @@ public class SafeInteractable : PointOfInterest, IInteractableObject
 
     public void Start()
     {
+        closeButton.onClick.AddListener(ExitCrackingSafe);
         SafeCanvas.SetActive(false);
     }
 
@@ -28,8 +29,6 @@ public class SafeInteractable : PointOfInterest, IInteractableObject
         DefaultCam.SetActive(false);
         SafeCam.SetActive(true);
         SafeCanvas.SetActive(true);
-
-        closeButton.onClick.AddListener(ExitCrackingSafe);
 
 
         safePuzzleActive = true;
@@ -42,6 +41,7 @@ public class SafeInteractable : PointOfInterest, IInteractableObject
 
         PhoneManager.Instance.mouseShouldBeUseable = true;
         PhoneManager.Instance.phoneIsUseable = false;
+        WatchManager.watchShouldBeUseable = false;
     }
 
     public void ExitCrackingSafe()
@@ -50,8 +50,6 @@ public class SafeInteractable : PointOfInterest, IInteractableObject
         DefaultCam.SetActive(true);
         SafeCanvas.SetActive(false);
 
-        closeButton.onClick.AddListener(ExitCrackingSafe);
-
 
         safePuzzleActive = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -59,6 +57,7 @@ public class SafeInteractable : PointOfInterest, IInteractableObject
         
         PhoneManager.Instance.mouseShouldBeUseable = false;
         PhoneManager.Instance.phoneIsUseable = true;
+        WatchManager.watchShouldBeUseable = true;
     }
 
     public bool IsInteractable()

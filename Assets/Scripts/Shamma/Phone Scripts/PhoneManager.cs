@@ -62,12 +62,16 @@ public class PhoneManager : MonoBehaviour
     {
         if (!mouseShouldBeUseable)
         {
-            //objCurrentlySelected = EventSystem.current.currentSelectedGameObject;
-            if (Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetMouseButton(2))
+            if (phoneIsOut)
             {
-                EventSystem.current.SetSelectedGameObject(objLastSelected);
+                // prevent phone buttons from being unfocused and requiring you close and reopen phone.
+                if (Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetMouseButton(2))
+                {
+                    EventSystem.current.SetSelectedGameObject(objLastSelected); 
+                }
             }
 
+            // open or close phone
             if (Input.GetKeyDown(KeyCode.K))
             {
                 AudioSource.PlayClipAtPoint(AudioForOpeningPhone, transform.position);
@@ -82,6 +86,7 @@ public class PhoneManager : MonoBehaviour
                 }
             }
 
+            // control fullscreen state
             if (Input.GetKeyDown(KeyCode.P) && phoneIsOut)
             {
                 SetFullscreen(isFullscreen);
@@ -98,7 +103,6 @@ public class PhoneManager : MonoBehaviour
                 }
             }
         }
-
         //Debug.Log("weight: " + rightHandRig.weight);
     }
 

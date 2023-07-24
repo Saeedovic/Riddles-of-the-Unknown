@@ -170,6 +170,13 @@ public class Safe_System : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
 
+        Cursor.lockState = CursorLockMode.Locked;
+
+        PhoneManager.Instance.mouseShouldBeUseable = false;
+        PhoneManager.Instance.phoneIsUseable = true;
+        WatchManager.watchShouldBeUseable = true;
+
+
         Instantiate(keyToSpawn, keySpawnPos, Quaternion.identity);
 
         Destroy(UnlockedText);
@@ -177,11 +184,6 @@ public class Safe_System : MonoBehaviour
         SafeCam.SetActive(false);
         DefaultCam.SetActive(true);
         SafeInteractable.safeHasBeenCracked = true;
-
-        Cursor.lockState = CursorLockMode.Locked;
-        PhoneManager.Instance.mouseShouldBeUseable = true;
-
-        PhoneManager.Instance.phoneIsUseable = true;
     }
 
 }

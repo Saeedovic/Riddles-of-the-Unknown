@@ -13,6 +13,7 @@ public class WatchManager : MonoBehaviour
     [SerializeField] float rigWeightSmoothVelocity = 0.5f;
 
     public static bool watchIsOut { get; private set; }
+    public static bool watchShouldBeUseable = true;
 
 
     void Start()
@@ -23,7 +24,7 @@ public class WatchManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.J) && watchShouldBeUseable)
         {
             SetWatchState(watchIsOut);
         }
