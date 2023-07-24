@@ -51,11 +51,12 @@ public class PlayerCon : MonoBehaviour
 
      void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        // for adjusting mouse state in scenarios like the safe puzzle
+        if (Input.GetMouseButtonDown(0) && !PhoneManager.Instance.mouseShouldBeUseable)
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && PhoneManager.Instance.mouseShouldBeUseable)
         {
             Cursor.lockState = CursorLockMode.None;
         }
