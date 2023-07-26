@@ -23,6 +23,8 @@ public class PlayerCon : MonoBehaviour
     public GameObject flashLight;
     public bool flashLightIsOn;
 
+    Animator animator;
+
     public AudioSource playerAudio;
     public AudioClip AudioClipForGameEnvironment;
 
@@ -38,6 +40,7 @@ public class PlayerCon : MonoBehaviour
 
     private void Start()
     {
+        animator = GetComponentInChildren<Animator>();
         controller = GetComponent<CharacterController>();
         soundPlayed = false;
         // Cursor.lockState = CursorLockMode.Locked;
@@ -79,7 +82,9 @@ public class PlayerCon : MonoBehaviour
 
         Vector3 move = transform.right * horizontal + transform.forward * vertical;
 
+
         float currentSpeed;
+
         if (isRunning)
         {
             currentSpeed = runSpeed;
@@ -88,6 +93,8 @@ public class PlayerCon : MonoBehaviour
         {
             currentSpeed = walkSpeed;
         }
+
+        animator.SetFloat("moveSpeed", (move.x * move.z) * currentSpeed);
 
 
         controller.Move(move * currentSpeed * Time.deltaTime);

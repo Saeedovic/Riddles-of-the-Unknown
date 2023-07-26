@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class NoteInteractable : PointOfInterest, IInteractableObject
@@ -9,6 +10,7 @@ public class NoteInteractable : PointOfInterest, IInteractableObject
     [SerializeField] NoteContainer noteInfo;
 
     [SerializeField] Image uiToDisplayNote;
+    [SerializeField] TextMeshProUGUI textboxForNote;
     //[SerializeField] PhoneNotesApp notesApp; // will uncomment once phonenotesapp is done
     //[SerializeField] Texture2D noteTexture;
     //[SerializeField] AudioClip endInteractionAudio;
@@ -19,7 +21,13 @@ public class NoteInteractable : PointOfInterest, IInteractableObject
         uiToDisplayNote.gameObject.SetActive(false);
 
         if (NoteContainer.uiToDisplayNote == null)
+        {
             NoteContainer.uiToDisplayNote = uiToDisplayNote;
+        }
+        if (NoteContainer.textboxForNote == null)
+        {
+            NoteContainer.textboxForNote = textboxForNote;
+        }
     }
 
 
@@ -29,11 +37,10 @@ public class NoteInteractable : PointOfInterest, IInteractableObject
         {
             NoteContainer.playerCam = user.GetComponentInChildren<PlayerCameraController>();
             NoteContainer.playerRef = user.GetComponent<PlayerCon>();
-            //NoteContainer.notesApp = notesApp;
         }
 
         // add this note to the notes app 
-        //NoteContainer.notesApp.AddNote(noteInfo, noteInfo.slotInNotesApp);
+        //notesApp.AddNote(noteInfo, noteInfo.slotInNotesApp);
 
         noteInfo.DisplayNote();
         gameObject.SetActive(false);

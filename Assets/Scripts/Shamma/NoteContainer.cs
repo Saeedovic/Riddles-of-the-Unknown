@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 [System.Serializable]
 public class NoteContainer
 {
     [SerializeField] Sprite noteDisplayTexture;
+    [SerializeField] string noteText;
     public int slotInNotesApp;
 
     public static Image uiToDisplayNote;
+    public static TextMeshProUGUI textboxForNote;
 
     public static PlayerCameraController playerCam;
     public static PlayerCon playerRef;
@@ -34,7 +37,9 @@ public class NoteContainer
 
     void SetUpNoteImage()
     {
+        // may add code here to readjust image and textbox size to fit sprite size? depends if we need that
         uiToDisplayNote.sprite = noteDisplayTexture;
+        textboxForNote.text = noteText;
     }
 
     IEnumerator WaitForContinue()
