@@ -52,7 +52,7 @@ public class WaterSource : PointOfInterest, IInteractableObject
         // if water is successfully added to inventory, despawn and award xp
         if (user.inventoryHandler.AddToInventory(waterItem, amountToAddToInventory))
         {
-            userThirst.RefillThirst();
+            //userThirst.RefillThirst();
             AudioSource.PlayClipAtPoint(userThirst.AudioForDrinking, transform.position); // could move this to the water inventory item?
             userThirst.drankwater = true;
 

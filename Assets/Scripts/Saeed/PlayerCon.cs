@@ -8,16 +8,21 @@ public class PlayerCon : MonoBehaviour
     public float speed = 5f;
     public float walkSpeed = 5f;
     public float runMultiplier = 2f;
+    public float crouchDivider = 2f;
     public float jumpForce = 10f;
     public float gravityFactor = -20f;
+    [SerializeField] float regularHeight = 2f;
+    [SerializeField] float crouchHeight = 1f;
     
     public KeyCode runKey = KeyCode.LeftShift;
+    public KeyCode crouchKey = KeyCode.C;
 
     private CharacterController controller;
     private Vector3 forceOfGravity;
 
     bool isWalking = false;
     public bool isRunning = false;
+    bool isCrouching = false;
 
     
 
@@ -75,7 +80,6 @@ public class PlayerCon : MonoBehaviour
 
         Vector3 move = transform.TransformDirection(moveInput);
 
-        // walking anim
         {/*
             bool isWalking;
 
@@ -91,6 +95,7 @@ public class PlayerCon : MonoBehaviour
             animator.SetBool("isWalking", isWalking);*/
         }
 
+        
         // run controls, animator bool setting 
         float currentSpeed = walkSpeed;
 
@@ -114,6 +119,18 @@ public class PlayerCon : MonoBehaviour
         animator.SetBool("isWalking", isWalking);
         animator.SetBool("isRunning", isRunning);
         //animator.SetFloat("moveSpeed", (move.x * move.z) * currentSpeed);
+
+        if (Input.GetKey(crouchKey) && controller.isGrounded && !isRunning)
+        {
+            currentSpeed /= crouchDivider;
+            controller.height = crouchHeight;
+            isCrouching = true;
+        }
+        else
+        {
+            controller.height = regularHeight;
+            isCrouching = false;
+        }
 
         {
         /*

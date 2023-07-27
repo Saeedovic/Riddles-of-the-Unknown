@@ -7,6 +7,7 @@ public abstract class InventoryObject : ScriptableObject
 {
     // the icon for the item when in the inventory.
     public Sprite itemImage;
+    public bool isExpendable = true;
 
     // try using this item. return true if it could successfully be used (so we don't discard items we didn't use)
     public abstract bool OnUse();
