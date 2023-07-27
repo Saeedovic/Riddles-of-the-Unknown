@@ -20,6 +20,9 @@ public class HungerSystem : MonoBehaviour
 
    public DisplayStats stats;
 
+    public static HungerSystem Instance;
+
+
     public void Start()
     {
         stats.currentHunger = stats.maxHunger;

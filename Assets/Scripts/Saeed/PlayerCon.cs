@@ -7,21 +7,24 @@ public class PlayerCon : MonoBehaviour
 {
     public float speed = 5f;
     public float walkSpeed = 5f;
-    public float runSpeed = 10f;
+    public float runMultiplier = 2f;
+    public float crouchDivider = 2f;
     public float jumpForce = 10f;
-    public float gravity = -20f;
-    //public float sensitivity = 100f;
-    //public Transform cameraTransform;
+    public float gravityFactor = -20f;
+    [SerializeField] float regularHeight = 2f;
+    [SerializeField] float crouchHeight = 1f;
+    
     public KeyCode runKey = KeyCode.LeftShift;
+    public KeyCode crouchKey = KeyCode.C;
 
     private CharacterController controller;
-    private Vector3 playerVelocity;
-    //private float mouseX = 0f;
-    //private float mouseY = 0f;
-    public bool isRunning = false;
+    private Vector3 forceOfGravity;
 
-    public GameObject flashLight;
-    public bool flashLightIsOn;
+    bool isWalking = false;
+    public bool isRunning = false;
+    bool isCrouching = false;
+
+    
 
     Animator animator;
 
@@ -43,120 +46,119 @@ public class PlayerCon : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         controller = GetComponent<CharacterController>();
         soundPlayed = false;
-        // Cursor.lockState = CursorLockMode.Locked;
-
-        flashLight.SetActive(false);
-        flashLightIsOn = false;
 
         Cursor.lockState = CursorLockMode.Locked;
-        //SafeCanvas.SetActive(false);
     }
 
      void Update()
     {
-        // for adjusting mouse state in scenarios like the safe puzzle
-        if (Input.GetMouseButtonDown(0) && !PhoneManager.Instance.mouseShouldBeUseable)
+        // other code
         {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        if (Input.GetKeyDown(KeyCode.Escape) && PhoneManager.Instance.mouseShouldBeUseable)
-        {
-            Cursor.lockState = CursorLockMode.None;
+            // for adjusting mouse state in scenarios like the safe puzzle
+            if (Input.GetMouseButtonDown(0) && !PhoneManager.Instance.mouseShouldBeUseable)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            if (Input.GetKeyDown(KeyCode.Escape) && PhoneManager.Instance.mouseShouldBeUseable)
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
+
+            if (!soundPlayed)
+            {
+                playerAudio.PlayOneShot(AudioClipForGameEnvironment);
+                soundPlayed = true;
+            }
         }
 
-        if (!soundPlayed)
-        {
-            playerAudio.PlayOneShot(AudioClipForGameEnvironment);
-            soundPlayed = true;
-        }
+        // get input and convert to local vector
 
-        // AudioSource.PlayClipAtPoint(AudioForGameEnvironment, this.transform.position);
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-        //mouseX += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
-        //mouseY -= Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
-        //mouseY = Mathf.Clamp(mouseY, -90f, 90f);
 
-        //cameraTransform.localRotation = Quaternion.Euler(mouseY, 0f, 0f);
-        //transform.rotation = Quaternion.Euler(0f, mouseX, 0f);
+        Vector3 moveInput = new Vector3(horizontal, 0, vertical);
 
-        Vector3 move = transform.right * horizontal + transform.forward * vertical;
+        Vector3 move = transform.TransformDirection(moveInput);
 
+        {/*
+            bool isWalking;
 
-        float currentSpeed;
+            if ((horizontal < 0.5f || horizontal > 0.5f) || (vertical < 0.5f || vertical > 0.5f))
+            {
+                isWalking = true;
+            }
+            else
+            {
+                isWalking = false;
+            }
 
-        if (isRunning)
+            animator.SetBool("isWalking", isWalking);*/
+        }
+
+        
+        // run controls, animator bool setting 
+        float currentSpeed = walkSpeed;
+
+        if (Input.GetKey(runKey) && vertical > 0)
         {
-            currentSpeed = runSpeed;
+            currentSpeed *= runMultiplier;
+            isWalking = false;
+            isRunning = true;
+        }
+        else if (Mathf.Abs(horizontal) > 0.5f || Mathf.Abs(vertical) > 0.5f)
+        {
+            isWalking = true;
+            isRunning = false;
         }
         else
         {
-            currentSpeed = walkSpeed;
-        }
-
-        animator.SetFloat("moveSpeed", (move.x * move.z) * currentSpeed);
-
-
-        controller.Move(move * currentSpeed * Time.deltaTime);
-        playerVelocity.y += gravity * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime);
-
-        if (controller.isGrounded && Input.GetButtonDown("Jump"))
-        {
-            playerVelocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
-        }
-
-        if (Input.GetKey(runKey))
-        {
-            isRunning = true;
-        }
-
-        if (Input.GetKeyUp(runKey))
-        {
+            isWalking = false;
             isRunning = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.F) && flashLightIsOn == false)
+        animator.SetBool("isWalking", isWalking);
+        animator.SetBool("isRunning", isRunning);
+        //animator.SetFloat("moveSpeed", (move.x * move.z) * currentSpeed);
+
+        if (Input.GetKey(crouchKey) && controller.isGrounded && !isRunning)
         {
-            flashLight.SetActive(true);
-            flashLightIsOn = true;
+            currentSpeed /= crouchDivider;
+            controller.height = crouchHeight;
+            isCrouching = true;
         }
-        else if (Input.GetKeyDown(KeyCode.F) && flashLightIsOn == true)
+        else
         {
-            flashLight.SetActive(false);
-            flashLightIsOn = false;
+            controller.height = regularHeight;
+            isCrouching = false;
         }
 
-
-
-        /*Vector3 direction = Vector3.forward;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out RaycastHit hit, range))
         {
-            if (hit.collider.tag == "Safe" && Input.GetMouseButtonDown(1))
-            {
+        /*
+        if (currentSpeed > 8 && isWalking)
+        {
+            animator.SetBool("startRunning", true);
+        }
+        if (currentSpeed < 8 && !isWalking)
+        {
+            animator.SetBool("startRunning", false);
+        }
+        */
+        }
 
-                Debug.Log("Safe is in Range!");
-                DefaultCam.SetActive(false);
-                SafeCam.SetActive(true);
-                SafeCanvas.SetActive(true);
-
-                closeButton.onClick.AddListener(ExitCrackingSafe);
-
-
-            }
-        }*/
-
-    }
-
+        // apply movement vector to char
+        controller.Move(move * currentSpeed * Time.deltaTime);
 
 
-    /*public void ExitCrackingSafe()
-    {
-        SafeCam.SetActive(false);
-        DefaultCam.SetActive(true);
-        SafeCanvas.SetActive(false);
+        // apply gravity force
+        forceOfGravity.y += gravityFactor * Time.deltaTime;
+        controller.Move(forceOfGravity * Time.deltaTime);
 
-    }*/
+        if (controller.isGrounded && Input.GetButtonDown("Jump"))
+        {
+            forceOfGravity.y = Mathf.Sqrt(jumpForce * -2f * gravityFactor);
+        }
+
+     }
+
+
 }

@@ -9,7 +9,7 @@ public class InventorySlot : MonoBehaviour
     [HideInInspector] public InventoryObject storedItem;
     [HideInInspector] public int itemCount;
 
-    [SerializeField] Image slotImage; // i don't have the energy to try and fix the issue of not really being able to call start with anything tied to the phone, so in the meantime please assign these manually to the same image as on the gameobject
+    [SerializeField] Image slotImage; // please assign these manually to the same image as on the gameobject
     [SerializeField] Sprite defaultSlotImage;
 
     [SerializeField] PhoneInventoryApp inventoryApp;

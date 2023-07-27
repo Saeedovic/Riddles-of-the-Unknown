@@ -18,16 +18,6 @@ public class PlayerMovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //-----Dylan------//
-
-        //TO ADD XP to Player's Xp variable
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            xP.AddXp(10);
-        }
-
-        //-----Dylan------//
-
         Vector3 moveInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         Vector3 moveDir = transform.TransformDirection(moveInput);
         playerController.Move(moveDir * moveIntensity);

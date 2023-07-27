@@ -344,7 +344,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2409274687436265009
 Transform:
   m_ObjectHideFlags: 0
@@ -11272,15 +11272,15 @@ GameObject:
   - component: {fileID: 6752302732002452988}
   - component: {fileID: 6752302732002452989}
   - component: {fileID: 6752302732002452978}
+  - component: {fileID: 6752302732002452981}
   - component: {fileID: 6752302732002452968}
-  - component: {fileID: 6752302732002452979}
   - component: {fileID: 6752302732002452971}
-  - component: {fileID: 6752302732002452976}
   - component: {fileID: 6752302732002452977}
+  - component: {fileID: 6752302732002452976}
   - component: {fileID: 6752302732002452982}
   - component: {fileID: 6752302732002452983}
   - component: {fileID: 6752302732002452980}
-  - component: {fileID: 6752302732002452981}
+  - component: {fileID: 5585826149683307500}
   - component: {fileID: 6752302732002452985}
   - component: {fileID: 6752302732002452987}
   - component: {fileID: 6752302732002452984}
@@ -11414,6 +11414,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveIntensity: 0.3
+--- !u!114 &6752302732002452981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6752302732002452969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52b2ffd08f53cb045ac4025e4fa05175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  walkSpeed: 5
+  runSpeed: 10
+  jumpForce: 10
+  gravity: -10
+  runKey: 304
+  isRunning: 0
+  flashLight: {fileID: 693045022441092626}
+  flashLightIsOn: 0
+  playerAudio: {fileID: 6752302732002452987}
+  AudioClipForGameEnvironment: {fileID: 8300000, guid: be422060e2f366e42a2b4ece394a46ea, type: 3}
 --- !u!114 &6752302732002452968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11434,21 +11457,6 @@ MonoBehaviour:
   highlightMaterial: {fileID: 2100000, guid: 6f53906cac0066b4f81458214e1799c2, type: 2}
   xP: {fileID: 6752302732002452971}
   inventoryHandler: {fileID: 0}
---- !u!114 &6752302732002452979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6752302732002452969}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e43d3fda8e501c4e9bb4ca95969083d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scanRadius: 50
-  activeScanTime: 3
-  scanColor: {r: 0.9811321, g: 0.564886, b: 0.33784264, a: 1}
 --- !u!114 &6752302732002452971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11491,31 +11499,6 @@ MonoBehaviour:
   playerIncreasedStaminaStat: 0
   playerIncreasedHungerStat: 0
   playerIncreasedThristStat: 0
---- !u!114 &6752302732002452976
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6752302732002452969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a5bdcf00010eac41abfa5f4d645d279, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stat: {fileID: 11400000, guid: b6245377328d7b84a9ecfcb558511632, type: 2}
-  beginDelay: 0
-  currentStamina: 100
-  currentHunger: 100
-  currentThirst: 100
-  maxStamina: 100
-  maxHunger: 100
-  maxThirst: 100
-  currentPlayerStatPoint: 0
-  health: {fileID: 0}
-  stamina: {fileID: 6752302732361012045}
-  hunger: {fileID: 6752302731131905343}
-  thrist: {fileID: 6752302732768497446}
 --- !u!114 &6752302732002452977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11599,6 +11582,31 @@ MonoBehaviour:
     m_RotationOrder: 4
   transitionStealthVisionVolume: {fileID: 0}
   AudioForScan: {fileID: 8300000, guid: 1105044ed9842a543b38606f3f1e08b0, type: 3}
+--- !u!114 &6752302732002452976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6752302732002452969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a5bdcf00010eac41abfa5f4d645d279, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat: {fileID: 11400000, guid: b6245377328d7b84a9ecfcb558511632, type: 2}
+  beginDelay: 0
+  currentStamina: 100
+  currentHunger: 100
+  currentThirst: 100
+  maxStamina: 100
+  maxHunger: 100
+  maxThirst: 100
+  currentPlayerStatPoint: 0
+  health: {fileID: 0}
+  stamina: {fileID: 6752302732361012045}
+  hunger: {fileID: 6752302731131905343}
+  thrist: {fileID: 6752302732768497446}
 --- !u!114 &6752302732002452982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11657,7 +11665,7 @@ MonoBehaviour:
   secondHungerBar: {fileID: 7376417431651224331}
   AudioForEating: {fileID: 8300000, guid: b6461a82bd3ba4b4096c897058f7fd0f, type: 3}
   stats: {fileID: 6752302732002452976}
---- !u!114 &6752302732002452981
+--- !u!114 &5585826149683307500
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11666,20 +11674,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6752302732002452969}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52b2ffd08f53cb045ac4025e4fa05175, type: 3}
+  m_Script: {fileID: 11500000, guid: f395ed6dfea21da4c9d0b7664396af77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  walkSpeed: 5
-  runSpeed: 10
-  jumpForce: 10
-  gravity: -10
-  runKey: 304
-  isRunning: 0
   flashLight: {fileID: 693045022441092626}
-  flashLightIsOn: 0
-  playerAudio: {fileID: 6752302732002452987}
-  AudioClipForGameEnvironment: {fileID: 8300000, guid: be422060e2f366e42a2b4ece394a46ea, type: 3}
 --- !u!114 &6752302732002452985
 MonoBehaviour:
   m_ObjectHideFlags: 0
