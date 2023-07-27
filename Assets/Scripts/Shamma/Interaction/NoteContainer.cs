@@ -9,6 +9,7 @@ public class NoteContainer
 {
     [SerializeField] Sprite noteDisplayTexture;
     [SerializeField] string noteText;
+    [SerializeField] float textSize = 40f;
     public int slotInNotesApp;
 
     public static Image uiToDisplayNote;
@@ -40,6 +41,7 @@ public class NoteContainer
         // may add code here to readjust image and textbox size to fit sprite size? depends if we need that
         uiToDisplayNote.sprite = noteDisplayTexture;
         textboxForNote.text = noteText;
+        textboxForNote.fontSize = textSize;
     }
 
     IEnumerator WaitForContinue()
