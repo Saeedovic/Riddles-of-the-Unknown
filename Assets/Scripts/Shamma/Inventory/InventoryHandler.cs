@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.VirtualTexturing;
+using UnityEngine.UI;
 
 
 public class InventoryHandler : MonoBehaviour
@@ -36,13 +37,17 @@ public class InventoryHandler : MonoBehaviour
     [SerializeField] GameObject tutManagerObj;
     [SerializeField] GameObject questManagerObj;
 
+    public WaterBottle waterBottle { get; private set; }
+    [SerializeField] Button bottleButton;
+    [SerializeField] Slider bottleSlider;
 
-    private void Start()
+    void Start()
     {
+        waterBottle = new WaterBottle(bottleButton, bottleSlider);
+
         tutorialManager = tutManagerObj.GetComponent<TutorialManager>();
         wpSystem = waypointSystemObj.GetComponent<WayPointSystem>();
         qManager = questManagerObj.GetComponent<QuestManager>();
-
     }
 
 

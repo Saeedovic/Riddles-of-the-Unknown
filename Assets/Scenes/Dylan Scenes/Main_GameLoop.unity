@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 6.6408195, g: 4.4687996, b: 5.242481, a: 1}
+  m_IndirectSpecularColor: {r: 6.6408286, g: 4.4688206, b: 5.242486, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -13921,6 +13921,7 @@ MonoBehaviour:
   noteInfo:
     noteDisplayTexture: {fileID: 21300000, guid: 9898bef4e31da064393d7a43d023402d, type: 3}
     noteText: (amazing sample text)
+    textSize: 40
     slotInNotesApp: 2
   uiToDisplayNote: {fileID: 861950090}
   textboxForNote: {fileID: 933085717}
@@ -14727,6 +14728,7 @@ MonoBehaviour:
   noteInfo:
     noteDisplayTexture: {fileID: 21300000, guid: 9aebd705574f9e642aef1e5f59b3e4d8, type: 3}
     noteText: (insert more sample text here)
+    textSize: 40
     slotInNotesApp: 1
   uiToDisplayNote: {fileID: 861950090}
   textboxForNote: {fileID: 0}
@@ -24491,6 +24493,7 @@ MonoBehaviour:
   noteInfo:
     noteDisplayTexture: {fileID: 21300000, guid: 14e345e0186386e4b8cf51b31c5333f6, type: 3}
     noteText: hello!
+    textSize: 40
     slotInNotesApp: 0
   uiToDisplayNote: {fileID: 861950090}
   textboxForNote: {fileID: 933085717}
@@ -27255,10 +27258,6 @@ PrefabInstance:
       propertyPath: rigWeightSmoothTime
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 6752302732208048282, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6752302732384298385, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
       propertyPath: near clip plane
       value: 0.01
@@ -28476,7 +28475,7 @@ GameObject:
   - component: {fileID: 4454144791874303531}
   - component: {fileID: 4454144791874303530}
   - component: {fileID: 4454144791874303529}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Water100x100
   m_TagString: Untagged
   m_Icon: {fileID: 0}

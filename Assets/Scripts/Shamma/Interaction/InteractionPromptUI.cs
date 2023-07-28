@@ -12,7 +12,7 @@ public class InteractionPromptUI : MonoBehaviour
 
     void Update()
     {
-        if (interactor.interactableAvailable)
+        if (interactor.interactableAvailable && interactor.currentObject != null)
         {
             promptBox.SetActive(true);
             promptText.text = "Press E to use " + interactor.currentObject.gameObject.name;
