@@ -11,13 +11,19 @@ public class NoteInteractable : PointOfInterest, IInteractableObject
 
     [SerializeField] Image uiToDisplayNote;
     [SerializeField] TextMeshProUGUI textboxForNote;
-    //[SerializeField] PhoneNotesApp notesApp; // will uncomment once phonenotesapp is done
+    [SerializeField] PhoneNotesApp notesApp; 
+    static PhoneNotesApp _notesApp;
     //[SerializeField] Texture2D noteTexture;
     //[SerializeField] AudioClip endInteractionAudio;
 
 
     private void Start()
     {
+        if (_notesApp == null)
+        {
+            _notesApp = notesApp;
+        }
+
         uiToDisplayNote.gameObject.SetActive(false);
 
         if (NoteContainer.uiToDisplayNote == null)
@@ -40,7 +46,7 @@ public class NoteInteractable : PointOfInterest, IInteractableObject
         }
 
         // add this note to the notes app 
-        //notesApp.AddNote(noteInfo, noteInfo.slotInNotesApp);
+        notesApp.AddNote(noteInfo);//, noteInfo.slotInNotesApp);
 
         noteInfo.DisplayNote();
         gameObject.SetActive(false);

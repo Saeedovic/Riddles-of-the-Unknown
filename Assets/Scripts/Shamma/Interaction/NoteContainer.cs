@@ -10,7 +10,7 @@ public class NoteContainer
     [SerializeField] Sprite noteDisplayTexture;
     [SerializeField] string noteText;
     [SerializeField] float textSize = 40f;
-    public int slotInNotesApp;
+    //public int slotInNotesApp;
 
     public static Image uiToDisplayNote;
     public static TextMeshProUGUI textboxForNote;
