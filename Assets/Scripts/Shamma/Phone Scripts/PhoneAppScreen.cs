@@ -12,7 +12,7 @@ public abstract class PhoneAppScreen : MonoBehaviour
     PhoneManager phoneManager;
     public bool hasFullscreenAsOption { get; protected set; }
 
-    protected virtual void Start()
+    public virtual void Start()
     {
         hasFullscreenAsOption = true;
     }

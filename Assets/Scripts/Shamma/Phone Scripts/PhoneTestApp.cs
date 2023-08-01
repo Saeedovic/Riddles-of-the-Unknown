@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PhoneTestApp : PhoneAppScreen
 {
-    protected override void Start()
+    public override void Start()
     {
         hasFullscreenAsOption = true;
     }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 6.6408195, g: 4.4687996, b: 5.242481, a: 1}
+  m_IndirectSpecularColor: {r: 6.6408286, g: 4.4688206, b: 5.2425027, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -13921,9 +13921,10 @@ MonoBehaviour:
   noteInfo:
     noteDisplayTexture: {fileID: 21300000, guid: 9898bef4e31da064393d7a43d023402d, type: 3}
     noteText: (amazing sample text)
-    slotInNotesApp: 2
+    textSize: 40
   uiToDisplayNote: {fileID: 861950090}
   textboxForNote: {fileID: 933085717}
+  notesApp: {fileID: 0}
 --- !u!114 &1051609488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14727,9 +14728,10 @@ MonoBehaviour:
   noteInfo:
     noteDisplayTexture: {fileID: 21300000, guid: 9aebd705574f9e642aef1e5f59b3e4d8, type: 3}
     noteText: (insert more sample text here)
-    slotInNotesApp: 1
+    textSize: 40
   uiToDisplayNote: {fileID: 861950090}
   textboxForNote: {fileID: 0}
+  notesApp: {fileID: 0}
 --- !u!114 &1129975060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19103,6 +19105,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1556411767}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1569418509 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 734203889562015570, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+  m_PrefabInstance: {fileID: 2059473749}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 236f659eee1eb874db61be43888eeaef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1569640376 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 598080355442726961, guid: af55c0571e5a738409f9ea6392d2af0c, type: 3}
@@ -24491,9 +24504,10 @@ MonoBehaviour:
   noteInfo:
     noteDisplayTexture: {fileID: 21300000, guid: 14e345e0186386e4b8cf51b31c5333f6, type: 3}
     noteText: hello!
-    slotInNotesApp: 0
+    textSize: 40
   uiToDisplayNote: {fileID: 861950090}
   textboxForNote: {fileID: 933085717}
+  notesApp: {fileID: 1569418509}
 --- !u!114 &1790919894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27139,6 +27153,10 @@ PrefabInstance:
       propertyPath: wayPoint.Array.data[2]
       value: 
       objectReference: {fileID: 513712284}
+    - target: {fileID: 734203889562015570, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+      propertyPath: noteCollectedIcon
+      value: 
+      objectReference: {fileID: 21300000, guid: 537adc154512e61439ea2d44d5932946, type: 3}
     - target: {fileID: 1644117688113795101, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -27194,6 +27212,22 @@ PrefabInstance:
     - target: {fileID: 4395608936843461759, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
       propertyPath: m_Effectors.Array.data[0].m_Style.color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5879587269628658527, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5879587269628658527, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5879587269628658527, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 11500000, guid: 236f659eee1eb874db61be43888eeaef, type: 3}
+    - target: {fileID: 5879587269628658527, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6752302732002452969, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
       propertyPath: m_Name
@@ -27254,10 +27288,6 @@ PrefabInstance:
     - target: {fileID: 6752302732175860859, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
       propertyPath: rigWeightSmoothTime
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6752302732208048282, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6752302732384298385, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
       propertyPath: near clip plane
@@ -28476,7 +28506,8 @@ GameObject:
   - component: {fileID: 4454144791874303531}
   - component: {fileID: 4454144791874303530}
   - component: {fileID: 4454144791874303529}
-  m_Layer: 0
+  - component: {fileID: 4454144791874303532}
+  m_Layer: 3
   m_Name: Water100x100
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30375,6 +30406,19 @@ MonoBehaviour:
       m_Calls: []
   offBy: 1
   timeToOff: 10
+--- !u!65 &4454144791874303532
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2313918516715887863}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.01, z: 1}
+  m_Center: {x: -0.74, y: -0.003, z: -0.71}
 --- !u!1001 &5456095068395590285
 PrefabInstance:
   m_ObjectHideFlags: 0

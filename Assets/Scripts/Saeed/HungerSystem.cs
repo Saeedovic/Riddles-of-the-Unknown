@@ -25,6 +25,9 @@ public class HungerSystem : MonoBehaviour
 
     public void Start()
     {
+        if (Instance == null)
+            Instance = this;
+
         stats.currentHunger = stats.maxHunger;
         questManager = GetComponent<QuestManager>();
         InvokeRepeating("DecreaseHunger", 5f, 5f);

@@ -11,6 +11,8 @@ public class PhoneAppButton : MonoBehaviour
 
     public AudioClip AudioForOpeningPhoneApp;
 
+    bool screenStartCalled = false;
+
 
     private void Awake()
     {
@@ -22,6 +24,13 @@ public class PhoneAppButton : MonoBehaviour
 
         appButton = GetComponent<Button>();
         appButton.onClick.AddListener(OnAppClicked);
+
+        if (!screenStartCalled)
+        {
+            phoneAppScreen.Start();
+            screenStartCalled = true;
+        }
+        
     }
 
     public void OnAppClicked()
