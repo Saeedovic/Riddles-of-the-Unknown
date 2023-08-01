@@ -75,7 +75,7 @@ Material:
     - _DstBlend: 10
     - _EnableBlendModePreserveSpecularLighting: 0
     - _EnableFogOnTransparent: 0
-    - _FresnelPower: 4.7
+    - _FresnelPower: 0.39
     - _OpaqueCullMode: 2
     - _ReceivesSSR: 0
     - _RenderQueueType: 4
