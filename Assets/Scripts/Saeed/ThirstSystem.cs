@@ -31,6 +31,7 @@ public class ThirstSystem : MonoBehaviour
     {
         
         Instance = this;
+       
 
 
         stats.currentThirst = stats.maxThirst;
@@ -63,11 +64,27 @@ public class ThirstSystem : MonoBehaviour
     {
         thirstBar.value = stats.currentThirst;
 
+        if (secondThirstBar.value <= 20)
+        {
+            Debug.Log("Critical Water Level");
+            Color color = new Color(233f/255f, 79f/255f, 55f/255f);
+
+            secondThirstBar.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
+        }
+        if(secondThirstBar.value >= 20)
+        {
+            Color originalColour = new Color(0f, 223f, 255f);
+            secondThirstBar.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = originalColour;
+        }
+
         if (secondThirstBar != null)
         {
             secondThirstBar.value = stats.currentThirst;
         }
     }
+
+
+
 
 
     // moved logic here to the WaterSource script. - Shamma

@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.VirtualTexturing;
 
 public class KeyItemInteractable : PointOfInterest, IInteractableObject
 {
     [SerializeField] bool isCollectable = true;
     [SerializeField] KeyObject keyObject;
     public static bool hasBeenCollected = false; // probably want to change this to an event call of some kind
+    
 
     public void Interact(PlayerInteractor user)
     {

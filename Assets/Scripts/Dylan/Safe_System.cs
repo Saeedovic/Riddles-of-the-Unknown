@@ -28,6 +28,8 @@ public class Safe_System : MonoBehaviour
 
     [SerializeField] public GameObject UnlockedText;
     [SerializeField] public GameObject Safe_Panel;
+    [SerializeField] public GameObject Safe_Guide_Text;
+
 
     public GameObject Safe_Gameobject;
     public GameObject SafeCam;
@@ -71,6 +73,16 @@ public class Safe_System : MonoBehaviour
 
     private void Update()
     {
+        if(Safe_Panel.activeInHierarchy == true)
+        {
+            Safe_Guide_Text.SetActive(true);
+        }else if(Safe_Panel.activeInHierarchy == false)
+        {
+            Safe_Guide_Text.SetActive(false);
+        }
+
+
+
         if(First_Digit_Amount > 99)
         {
             First_Digit_Text.text = "0";

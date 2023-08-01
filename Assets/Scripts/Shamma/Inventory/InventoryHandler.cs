@@ -9,7 +9,8 @@ public class InventoryHandler : MonoBehaviour
     // in our case we specifically want six slots
     // can set them in inspector for now.
     [SerializeField] InventorySlot[] inventorySlots = new InventorySlot[6];
-    public static bool containsKeyObject { get; private set; } 
+    public static bool containsKeyObject { get; private set; }
+    public static bool Tutorial;
 
     public List<InventorySlot> InventorySlots
     {
@@ -55,12 +56,14 @@ public class InventoryHandler : MonoBehaviour
             {
                 inventorySlots[i].AddItem(itemToAdd, numOf);
 
-                if (tutorialManager != null)
+                if (tutorialManager != null && Tutorial == false)
                 {
-                    tutorialManager.popUpIndex++;
-                    tutorialManager.collectableCount++;
+                    
+                        tutorialManager.popUpIndex++;
+                        tutorialManager.collectableCount++;
 
-                    tutorialManager.ActivateWayPoint = true;
+                        tutorialManager.ActivateWayPoint = true;
+                  
                 }
 
                 return true;

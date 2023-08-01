@@ -1,14 +1,28 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class DisplayStats : MonoBehaviour
 {
     public PlayerStatsData stat;
 
     [SerializeField] bool beginDelay;
-    float delay;
 
+    [SerializeField] PlayerCon playerCon;
+
+
+    WatchManager watchManager;
+    [SerializeField] GameObject WatchObjRef;
+    [SerializeField] GameObject DrinkWaterWarning;
+    [SerializeField] GameObject EatFoodWarning;
+
+    [SerializeField] GameObject GameOverPanel;
+    public GameObject playAgain;
+    public GameObject exit;
+
+
+    float delay;
 
 
     #region Text Holders
@@ -49,10 +63,21 @@ public class DisplayStats : MonoBehaviour
         maxHunger = stat.MaxPlayerHunger;
         maxThirst = stat.MaxPlayerThrist;
 
+        DrinkWaterWarning.SetActive(false);
+        EatFoodWarning.SetActive(false);
+        GameOverPanel.SetActive(false);
+
+
+
+
+
 
     }
     public void Start()
     {
+
+        playerCon = GetComponent<PlayerCon>();
+
         #region Stats Equal Max-Values
        currentStamina = 100;
       // currentHealth = 100;
@@ -105,11 +130,12 @@ public class DisplayStats : MonoBehaviour
         }
         if(currentStamina <= 0.5f)
         {
-            Time.timeScale = 0.5f;
+           playerCon.runMultiplier = 1;
         }
         else if(currentStamina >= 0.5f)
         {
-            Time.timeScale = 1;
+           playerCon.runMultiplier = 2;
+
         }
 
 
@@ -140,6 +166,44 @@ public class DisplayStats : MonoBehaviour
             Die();
         }
         #endregion
+
+
+        #region WARNING CHECKS: If Thirst OR Hunger is LESS than 20%
+        if (currentHunger <= 20) //Needs to be Revised accoding to new values
+        {
+            //Activate Watch and Tell the Player to Drink Water OR they will die!
+            WatchObjRef.SetActive(true);
+            EatFoodWarning.SetActive(true);
+
+           
+        }
+        if(currentThirst <= 20)
+        {
+            //Activate Watch and Tell the Player to Eat Food OR they will die!
+            WatchObjRef.SetActive(true);
+            DrinkWaterWarning.SetActive(true);
+
+            if (Input.GetKeyDown(KeyCode.J))
+            {
+                WatchObjRef.SetActive(false);
+                DrinkWaterWarning.SetActive(false);
+            }
+        }
+        #endregion
+
+        #region WARNING CHECKS: If Thirst OR Hunger is MORE than 20%
+        if (EatFoodWarning.activeInHierarchy == true && currentHunger >= 20) //Needs to be Revised accoding to new values
+        {
+            EatFoodWarning.SetActive(false);
+        }
+        if (DrinkWaterWarning.activeInHierarchy == true && currentThirst >= 20)
+        {
+            DrinkWaterWarning.SetActive(false);
+        }
+        #endregion
+
+
+
 
         UpdateUI();
 
@@ -180,7 +244,19 @@ public class DisplayStats : MonoBehaviour
     {
         stat.death = true;
         Debug.Log("you have died");
+
+        GameOverPanel.SetActive(true);
+
+        if (EventSystem.current.currentSelectedGameObject != playAgain && EventSystem.current.currentSelectedGameObject != exit)
+        {
+
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(playAgain);
+
+        }
     }
+
+
 
  
 }

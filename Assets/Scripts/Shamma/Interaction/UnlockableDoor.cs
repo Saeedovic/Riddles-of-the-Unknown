@@ -28,6 +28,7 @@ public class UnlockableDoor : PointOfInterest, IInteractableObject
                 if (user.inventoryHandler.InventorySlots[i].storedItem == null)
                     user.inventoryHandler.UpdateKeyObjectValue(false);
 
+                KeyItemInteractable.hasBeenCollected = false;
 
                 // would want to play the door opening anim here.
 

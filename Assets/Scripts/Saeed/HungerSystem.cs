@@ -28,6 +28,10 @@ public class HungerSystem : MonoBehaviour
         stats.currentHunger = stats.maxHunger;
         questManager = GetComponent<QuestManager>();
         InvokeRepeating("DecreaseHunger", 5f, 5f);
+
+        Instance = this;
+
+
     }
 
     void DecreaseHunger()
@@ -47,6 +51,20 @@ public class HungerSystem : MonoBehaviour
     void UpdateHungerBar()
     {
         hungerBar.value = stats.currentHunger;
+
+
+        if (secondHungerBar.value <= 20)
+        {
+            Debug.Log("Critical Hunger Level");
+            Color color = new Color(233f / 255f, 79f / 255f, 55f / 255f);
+
+            secondHungerBar.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
+        }
+        if (secondHungerBar.value >= 20)
+        {
+            Color originalColour = new Color(0f, 255f, 0f);
+            secondHungerBar.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = originalColour;
+        }
 
         if (secondHungerBar != null)
         {

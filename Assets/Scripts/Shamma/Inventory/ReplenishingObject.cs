@@ -20,6 +20,7 @@ public class ReplenishingObject : InventoryObject
         }
         else if (type == ReplenishingObjType.Food)
         {
+            Debug.Log("Food eaten");
             HungerSystem.Instance.RefillHunger();
             return true;
         }

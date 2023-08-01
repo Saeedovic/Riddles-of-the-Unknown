@@ -37,6 +37,7 @@ public class TestInteractable : PointOfInterest, IInteractableObject
         tutorialManager.ActivateWayPoint = true;
 
 
+        gameObject.SetActive(false);
 
         Debug.Log($"you got {xpGiven} XP!");
 

@@ -31,7 +31,7 @@ public class PlayerCon : MonoBehaviour
     public AudioSource playerAudio;
     public AudioClip AudioClipForGameEnvironment;
 
-    private bool soundPlayed;
+    public bool soundPlayed;
 
     //public GameObject SafeCam;
     //public GameObject DefaultCam;
@@ -66,7 +66,11 @@ public class PlayerCon : MonoBehaviour
 
             if (!soundPlayed)
             {
-                playerAudio.PlayOneShot(AudioClipForGameEnvironment);
+                playerAudio.clip = AudioClipForGameEnvironment;
+
+               playerAudio.Play();
+
+              
                 soundPlayed = true;
             }
         }

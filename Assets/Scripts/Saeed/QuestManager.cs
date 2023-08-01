@@ -38,7 +38,7 @@ public class QuestManager : MonoBehaviour
         }
         else
         {
-            questText.text = "You've Completed the Playtest !!!";
+            questText.text = "You've Completed the Game !!!";
             credits.SetActive(true);
 
             if(EventSystem.current.currentSelectedGameObject != playAgain && EventSystem.current.currentSelectedGameObject != exit) 
@@ -63,7 +63,7 @@ public class QuestManager : MonoBehaviour
     public void UpdateQuestText()
     {
 
-        AudioSource.PlayClipAtPoint(AudioForNextQuest, transform.position);
+       // AudioSource.PlayClipAtPoint(AudioForNextQuest, transform.position);
 
         questText.text = quests[currentQuestIndex];
     }

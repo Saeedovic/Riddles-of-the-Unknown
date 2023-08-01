@@ -11428,13 +11428,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   walkSpeed: 5
-  runSpeed: 10
+  runMultiplier: 2
+  crouchDivider: 2
   jumpForce: 10
-  gravity: -10
+  gravityFactor: -20
+  regularHeight: 2
+  crouchHeight: 1
   runKey: 304
+  crouchKey: 99
   isRunning: 0
-  flashLight: {fileID: 693045022441092626}
-  flashLightIsOn: 0
   playerAudio: {fileID: 6752302732002452987}
   AudioClipForGameEnvironment: {fileID: 8300000, guid: be422060e2f366e42a2b4ece394a46ea, type: 3}
 --- !u!114 &6752302732002452968
@@ -12003,13 +12005,21 @@ MonoBehaviour:
   quests:
   - Take your first steps
   - Go to Dave's Shack
+  - Follow the Waypoints & Find Collectables
   - Investigate the Village
-  - Find a Safe!
-  - Crack the Safe
-  - Grab Key From Safe
-  - Follow the Waypoint
-  - Find a use for the key
-  - 'Tutorial [12] : Next Quest'
+  - Find & Crack Safe!
+  - Investigate 2nd Village
+  - Find Keycode!
+  - Use Keycode To Crack the Safe!
+  - Take Key
+  - Find Use For the Key
+  - Investigate The Cabin
+  - Find Use For the Key
+  - Explore the Cave
+  - Investigate the Room
+  - Find use for the Explosive
+  - Use Explosive to Break Down Wall
+  - Explore Cave
   currentQuestIndex: 0
 --- !u!114 &2603407471180289988
 MonoBehaviour:
@@ -14959,6 +14969,16 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   locationIndex: 0
   DistanceFromWayPoint: {fileID: 0}
   mapMarker: {fileID: 0}
@@ -14978,7 +14998,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points:
-  - {fileID: 0}
+  - {fileID: 6752302732384298389}
   - {fileID: 0}
 --- !u!1 &6752302732396180206
 GameObject:

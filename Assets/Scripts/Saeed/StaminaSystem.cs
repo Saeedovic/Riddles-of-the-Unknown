@@ -77,6 +77,27 @@ public class StaminaSystem : MonoBehaviour
     {
         staminaBar.value = stats.currentStamina;
 
+
+        if (secondStaminaBar.value <= 20)
+        {
+            Debug.Log("Critical Hunger Level");
+            Color color = new Color(233f / 255f, 79f / 255f, 55f / 255f);
+
+            secondStaminaBar.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
+        }
+        if (secondStaminaBar.value >= 20)
+        {
+            Color originalColour = new Color(16f, 100f, 0f);
+            secondStaminaBar.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = originalColour;
+        }
+
+
+
+
+
+
+
+
         // also update second bar if we have one. (used for the watch)
         if (secondStaminaBar != null)
         {

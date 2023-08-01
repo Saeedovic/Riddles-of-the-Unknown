@@ -58,7 +58,7 @@ public class WaterSource : PointOfInterest, IInteractableObject
 
 
             user.xP.AddXp(xpGiven);
-            gameObject.SetActive(false);
+           // gameObject.SetActive(false);
 
             Debug.Log("water collected!");
         }

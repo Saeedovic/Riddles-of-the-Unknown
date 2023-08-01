@@ -24,6 +24,7 @@ public class TutorialManager : MonoBehaviour
     PlayerCon playerCont;
     PlayerInteractor interactor;
     Safe_System safe;
+    [SerializeField]  InventoryHandler inventoryHandler;
 
     DisplayStats stats;
 
@@ -37,6 +38,10 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] GameObject safeObjRef;
     [SerializeField] public GameObject phoneObjRef;
     [SerializeField] GameObject inventoryObjRef;
+
+    [SerializeField] GameObject WaterBottleIntro;
+
+
 
 
     public Button camAppButton;
@@ -92,7 +97,27 @@ public class TutorialManager : MonoBehaviour
 
     PhoneManager pManager;
 
-  
+
+    public GameObject EcoPointScanText;
+    public GameObject SafeCabinTriggerPoint;
+
+    public GameObject NeedSafeNoteKeyCodeNote;
+    public GameObject KeyCodeNote;
+
+    public GameObject CabinDoorObj;
+    public GameObject CaveDoorObj;
+
+    public GameObject Cave2WallBlockObj;
+
+
+    bool WaterIntro = false;
+
+
+
+
+
+
+
 
     //---- Live Playtest ----- //
 
@@ -128,6 +153,7 @@ public class TutorialManager : MonoBehaviour
         playerCont = playerObjRef.GetComponent<PlayerCon>();
         interactor = playerObjRef.GetComponent<PlayerInteractor>();
         safe = safeObjRef.GetComponent<Safe_System>();
+        inventoryHandler = GetComponent<InventoryHandler>();
 
 
         collectableCounterObj.SetActive(false);
@@ -139,6 +165,8 @@ public class TutorialManager : MonoBehaviour
         FoodScan.SetActive(false);
         WaterScan.SetActive(false);
         EcoScan.SetActive(false);
+        EcoPointScanText.SetActive(false);
+        WaterBottleIntro.SetActive(false);
 
     }
 
@@ -179,7 +207,6 @@ public class TutorialManager : MonoBehaviour
         {
             controlToAccessEcoPointText.SetActive(false);
         }
-
 
 
 
@@ -370,7 +397,7 @@ public class TutorialManager : MonoBehaviour
         {
             //Add UI that says Look for Highlighted obj Around you
 
-            popUps[31].SetActive(true);
+            popUps[43].SetActive(true);
 
 
         }
@@ -383,7 +410,7 @@ public class TutorialManager : MonoBehaviour
 
         if (popUpIndex == 12) //IndexLocation = 5
         {
-            popUps[31].SetActive(false);
+            popUps[43].SetActive(false); 
 
             onScreenInstructionUI.SetActive(true);
 
@@ -399,7 +426,7 @@ public class TutorialManager : MonoBehaviour
 
                 //Text PopUp w Audio thats says - mmm,Im feeling Quite Hungry (Disappears after like 5 Seconds)
 
-                source.PlayOneShot(hungryClip);
+                //source.PlayOneShot(hungryClip);
 
             //Text PopUp thats says - Do a Eco-Point Scan to look for food to consume (Deactivate this text after ecopoint is done)
 
@@ -437,6 +464,7 @@ public class TutorialManager : MonoBehaviour
                 interactionBox.SetActive(false);
                 FoodScan.SetActive(false);
 
+                InventoryHandler.Tutorial = true;
 
                 if (phoneObjRef.activeInHierarchy == true)
                 {
@@ -515,16 +543,18 @@ public class TutorialManager : MonoBehaviour
             onScreenInstructionUI.SetActive(true);
             camAppButton.interactable = true;
 
-
+            
             if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
             {
+
+                InventoryHandler.Tutorial = false;
                 wpSystem.locationIndex++;
 
                 app.ecopointScanned = false;
 
                 ActivateWayPoint = false;
 
-                source.PlayOneShot(thirstyClip);
+              //source.PlayOneShot(thirstyClip);
 
                 
 
@@ -551,65 +581,389 @@ public class TutorialManager : MonoBehaviour
         }
 
 
+
+
+
+        if (popUpIndex == 17) //This is where we want the Game to Start From
+        {
+            
+            qManager.CompleteCurrentQuest();
+            collectableCounterObj.SetActive(false);
+            onScreenInstructionUI.gameObject.transform.position -= new Vector3(173, 0, 0);
+            popUpIndex++;
+
+        }
+
         
 
-
-
-        if (popUpIndex == 17) 
+        if (popUpIndex == 18)
         {
+            WaterScan.SetActive(false);
 
 
-                EcoScan.SetActive(false);
-
-            if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
+            if (WaterIntro == false)
             {
-                wpSystem.locationIndex++;
+                WaterBottleIntro.SetActive(true);
 
-                app.ecopointScanned = false;
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    WaterBottleIntro.SetActive(false);
+                    WaterIntro = true;
 
+                    InventoryHandler.Tutorial = true;
+                }
+            }
+            
+
+
+            //check if player is in range <100 ..then deactivate waypoint
+            if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 100)
+            {
                 ActivateWayPoint = false;
 
+                EcoPointScanText.SetActive(true);
+
+                if (Vector3.Distance(SafeCabinTriggerPoint.transform.position, playerObjRef.transform.position) < 1) //IF Player Is inside Cabin
+                {
+
+                    qManager.currentQuestIndex = 4; //Goes to the Next Quest
+                    qManager.UpdateQuestText();
+
+                    EcoPointScanText.SetActive(false);
 
 
+                }
+                else if (Vector3.Distance(SafeCabinTriggerPoint.transform.position, playerObjRef.transform.position) > 5)
+                {
+                    EcoPointScanText.SetActive(true);
 
+                    qManager.currentQuestIndex = 3; //Goes to the Previous Quest
+                    qManager.UpdateQuestText();
 
-                //Check if Stamina is <= 25 if it is then follow line below
+                }
 
-                //Text PopUp w Audio thats says - Ah man, I wish I had better Stamina to Run longer (Disappears after like 5 Seconds)
+                if (NeedSafeNoteKeyCodeNote.activeInHierarchy == false) //IF the Selected Note has been interacted with then...
+                {
+                    EcoPointScanText.SetActive(false);
 
+                    wpSystem.locationIndex++; //2nd Village
+                    qManager.currentQuestIndex = 5; //Goes to the Next Quest
+                    qManager.UpdateQuestText();
 
+                    popUpIndex++;
+                }
 
-                //Trigger Stat App Part of the Tutorial
-
-                //when player upgrades using statpoint and clicks go back button
-
-                //popUpIndex++
+                Debug.Log(Vector3.Distance(SafeCabinTriggerPoint.transform.position, playerObjRef.transform.position));
 
 
             }
-            if (app.ecopointScanned == false)
+            //else if player range is >100 then Activate Waypoint!
+            else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 100)
             {
-               // EcoScan.SetActive(true);
+                ActivateWayPoint = true;
+
+                EcoPointScanText.SetActive(false);
+
+
+            }
+        }
+
+        if (popUpIndex == 19)
+        {
+            ActivateWayPoint = true;
+
+            if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 100)
+            {
+                ActivateWayPoint = false;
+                qManager.currentQuestIndex = 6; // This is Quest 6
+                qManager.UpdateQuestText();
+
+
+                EcoPointScanText.SetActive(true);
+
+
+            }
+            //else if player range is >100 then Activate Waypoint!
+            else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 100)
+            {
+                ActivateWayPoint = true;
+
+                qManager.currentQuestIndex = 5; //Goes to the Next Quest
+                qManager.UpdateQuestText();
+
+                EcoPointScanText.SetActive(false);
+
 
             }
 
-            if (cameraApp.activeInHierarchy == true && app.ecopointScanned == true)
+            if (KeyCodeNote.activeInHierarchy == false) //IF the Selected Note has been interacted with then...
             {
-                Debug.Log("EcoPoint Scanned");
-                EcoScan.SetActive(false);
-            }
+                EcoPointScanText.SetActive(false);
 
-            if (stats.currentStamina == 50)
-            {
-                //Play Audio of Feeling Tired
+                wpSystem.locationIndex++; //Safe Location
+                qManager.currentQuestIndex = 7; // This is Quest 7
+                qManager.UpdateQuestText();
 
-                source.PlayOneShot(tiredClip);
-
+                popUpIndex++;
             }
 
         }
 
-        if(popUpIndex == 18)
+        if (popUpIndex == 20)
+        {
+            ActivateWayPoint = true;
+
+            if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
+            {
+                ActivateWayPoint = false;
+
+
+                if (safeObjRef.tag == "Untagged") //IF the Selected Note has been interacted with then...
+                {
+                    Debug.Log("Unlocked Safe");
+                    qManager.currentQuestIndex = 8; // This is Quest 8
+                    qManager.UpdateQuestText();
+
+                    wpSystem.locationIndex = 6; //Key Location
+
+                    
+
+                    if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 5)
+                    {
+                        ActivateWayPoint = false;
+
+                    }
+                    //else if player range is >100 then Activate Waypoint!
+                    else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 10)
+                    {
+                        ActivateWayPoint = true;
+
+
+                    }
+
+                    if (KeyItemInteractable.hasBeenCollected)
+                    {
+                        popUpIndex = 21;
+                    }
+
+
+
+                }
+
+
+            }
+            //else if player range is >100 then Activate Waypoint!
+            else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 10)
+            {
+                ActivateWayPoint = true;
+
+
+            }
+
+
+        }
+
+        if (popUpIndex == 21)
+        {
+
+            qManager.currentQuestIndex = 9; // This is Quest 9
+            qManager.UpdateQuestText();
+
+            wpSystem.locationIndex++; //CabinOnRiverSide
+            popUpIndex++;
+
+
+        }
+
+        if (popUpIndex == 22)
+        {
+            ActivateWayPoint = true;
+
+
+            if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 100)
+            {
+                ActivateWayPoint = false;
+
+                EcoPointScanText.SetActive(true);
+
+
+                //Check if Door is Opened
+                //If Door is Opened....Quest will Say Find Clues In Cabin
+                if (CabinDoorObj.activeInHierarchy == false)
+                {
+                    qManager.currentQuestIndex = 10; // This is Quest 9
+                    qManager.UpdateQuestText();
+
+                    wpSystem.locationIndex = 8; //Location - Cabin With Key
+
+
+                    if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
+                    {
+                        ActivateWayPoint = false;
+
+
+                    }
+                    else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 10)
+                    {
+                        ActivateWayPoint = true;
+
+                    }
+
+                    if (KeyItemInteractable.hasBeenCollected)
+                    {
+                        popUpIndex = 23;
+                    }
+
+                }
+
+                
+
+                //Ensure Player leaves the cabin with THE Second Key Collected
+
+                //Update the Waypoint to Cave 1  ...Quest will say find a use for key
+
+
+            }
+            //else if player range is >100 then Activate Waypoint!
+            else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 100)
+            {
+                ActivateWayPoint = true;
+
+                EcoPointScanText.SetActive(false);
+
+            }
+        }
+
+        if (popUpIndex == 23)
+        {
+            EcoPointScanText.SetActive(false);
+
+            qManager.currentQuestIndex = 11; // This is Quest 11
+            qManager.UpdateQuestText();
+
+            wpSystem.locationIndex = 9; //Cave
+            popUpIndex++;
+
+
+        }
+
+        if (popUpIndex == 24)
+        {
+            ActivateWayPoint = true;
+
+            if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 40)
+            {
+                ActivateWayPoint = false;
+
+                qManager.currentQuestIndex = 12; // Quest will say Explore the Cave
+                qManager.UpdateQuestText();
+            }
+            //else if player range is >100 then Activate Waypoint!
+            else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 40)
+            {
+                ActivateWayPoint = true;
+
+                qManager.currentQuestIndex = 11; // This is Quest 11
+                qManager.UpdateQuestText();
+            }
+
+            if (CaveDoorObj.activeInHierarchy == false)
+            {
+                qManager.currentQuestIndex = 13; // This is Quest 9
+                qManager.UpdateQuestText();
+
+                wpSystem.locationIndex = 10; //Location - Cave Room
+
+
+                if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
+                {
+                    ActivateWayPoint = false;
+
+
+                }
+                else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 10)
+                {
+                    ActivateWayPoint = true;
+
+                }
+
+                if (KeyItemInteractable.hasBeenCollected)
+                {
+                    popUpIndex = 25;
+                }
+            }
+
+        }
+
+        if (popUpIndex == 25)
+        {
+
+            qManager.currentQuestIndex = 14; // This is Quest 9
+            qManager.UpdateQuestText();
+
+            wpSystem.locationIndex = 11; //Cave2
+            popUpIndex++;
+
+
+        }
+
+        if (popUpIndex == 26)
+        {
+            ActivateWayPoint = true;
+
+            if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
+            {
+                ActivateWayPoint = false;
+
+                qManager.currentQuestIndex = 15; // This is Quest 9
+                qManager.UpdateQuestText();
+
+            }
+            //else if player range is >100 then Activate Waypoint!
+            else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 10)
+            {
+                ActivateWayPoint = true;
+
+                qManager.currentQuestIndex = 14; // This is Quest 9
+                qManager.UpdateQuestText();
+            }
+
+            if (Cave2WallBlockObj.activeInHierarchy == false)
+            {
+                qManager.currentQuestIndex = 16; // This is Quest 9
+                qManager.UpdateQuestText();
+
+                wpSystem.locationIndex = 12; //CaveExplore
+
+                if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 40)
+                {
+                    ActivateWayPoint = false;
+
+                }
+
+            }
+
+
+
+        }
+
+        if (popUpIndex == 27)
+        {
+            ActivateWayPoint = false;
+
+        }
+
+
+
+
+
+
+
+        //For Later
+
+        /*
+
+        if (popUpIndex == 18)
         {
             statAppButton.interactable = true;
             camAppButton.interactable = true;
@@ -680,9 +1034,6 @@ public class TutorialManager : MonoBehaviour
             }
         }
 
-
-
-
         if (popUpIndex == 21 || popUpIndex == 22) //IndexLocation = 1
         {
             inventoryAppButton.interactable = true;
@@ -695,8 +1046,6 @@ public class TutorialManager : MonoBehaviour
                 ActivateWayPoint = false;
 
                 app.ecopointScanned = false;
-
-               
 
             }
 
@@ -712,12 +1061,10 @@ public class TutorialManager : MonoBehaviour
                 EcoScan.SetActive(false);
             }
         }
+        */
+       
 
-        if (popUpIndex == 23) //IndexLocation = 5
-        {
-            ActivateWayPoint = false;
-            qManager.CompleteCurrentQuest();
-        }
+
 
         // -------------------------------------------------------FOR LIVE PLAYTEST ------------------------------------------------------------------ //
 
@@ -1002,27 +1349,5 @@ public class TutorialManager : MonoBehaviour
           }
         */
     }
-
-
-    public void HungryText()
-    {
-        hungTextPanel.SetActive(false);
-        //FoodScan.SetActive(true);
-    }
-
-    public void ThristyText()
-    {
-        thristyTextPanel.SetActive(false);
-        WaterScan.SetActive(true);
-
-    }
-
-    public void TiredText()
-    {
-       tiredTextPanel.SetActive(false);
-        EcoScan.SetActive(true);
-    }
-
-
 
 }
