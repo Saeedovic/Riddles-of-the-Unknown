@@ -58,3 +58,6 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+UserSettings/EditorUserSettings.asset
+Assets/BigAssets
+Assets/BigAssets.meta
