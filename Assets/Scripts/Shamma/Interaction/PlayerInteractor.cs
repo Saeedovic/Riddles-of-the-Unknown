@@ -121,13 +121,21 @@ public class PlayerInteractor : MonoBehaviour
     void OnObjectSelect(IInteractableObject newObj)
     {
         currentObject = newObj;
-        AddHighlightEffect();
+        if(currentObject.riverCheck())
+        {
+            AddHighlightEffect();
+        }
+
     }
 
     void OnObjectDeselect()
     {
-        RemoveHighlightEffect();
+        if (currentObject.riverCheck())
+        {
+            RemoveHighlightEffect();
+        }
         currentObject = null;
+
     }
 
     

@@ -64,4 +64,9 @@ public class NoteInteractable : PointOfInterest, IInteractableObject
     public void OnDeHighlight() { }
 
     public void OnHighlight() { }
+
+    public bool riverCheck()
+    {
+        return true;
+    }
 }

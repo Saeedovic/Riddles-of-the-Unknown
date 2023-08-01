@@ -61,4 +61,9 @@ public class UnlockableDoor : PointOfInterest, IInteractableObject
 
     public void OnHighlight() { }
 
+    public bool riverCheck()
+    {
+        return true;
+    }
+
 }

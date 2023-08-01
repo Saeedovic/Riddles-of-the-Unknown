@@ -35,6 +35,7 @@ public class WaterSource : PointOfInterest, IInteractableObject
         if (userThirst.questManager != null &&
             userThirst.questManager.quests[userThirst.questManager.currentQuestIndex] == "Drink water")
         {
+
             ProcessInteraction(user);
             userThirst.questManager.CompleteCurrentQuest();
 
@@ -50,6 +51,12 @@ public class WaterSource : PointOfInterest, IInteractableObject
     {
         user.inventoryHandler.waterBottle.RefillBottle(amountToAddToInventory);
         //userThirst.RefillThirst();
+
+        if(tutorialManager.WaterIntro == false)
+        {
+            tutorialManager.popUpIndex = 17;
+            
+        }
 
         AudioSource.PlayClipAtPoint(userThirst.AudioForDrinking, transform.position); // could move this to the water inventory item?
         userThirst.drankwater = true;
@@ -69,6 +76,11 @@ public class WaterSource : PointOfInterest, IInteractableObject
     public void OnHighlight(){}
 
     public void OnDeHighlight(){}
+
+    public bool riverCheck()
+    {
+        return false;
+    }
 
 
 }

@@ -60,5 +60,10 @@ public class FoodSource : PointOfInterest, IInteractableObject
 
     public void OnDeHighlight() { }
 
+    public bool riverCheck()
+    {
+        return true;
+    }
+
 
 }

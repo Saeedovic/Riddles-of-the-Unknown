@@ -15,4 +15,8 @@ public interface IInteractableObject
 
     public bool IsInteractable(); // add code here if you want conditions for the player to use this item,
                                   // otherwise just return true :P
+
+
+    public bool riverCheck();
+    
 }

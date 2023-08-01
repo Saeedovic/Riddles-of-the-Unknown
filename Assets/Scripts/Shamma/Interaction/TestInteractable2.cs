@@ -36,4 +36,9 @@ public class TestInteractable2 : MonoBehaviour, IInteractableObject
     {
         Debug.Log("hi, I'm highlighted");
     }
+
+    public bool riverCheck()
+    {
+        return true;
+    }
 }

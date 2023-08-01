@@ -110,7 +110,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject Cave2WallBlockObj;
 
 
-    bool WaterIntro = false;
+   public bool WaterIntro = false;
 
 
 
