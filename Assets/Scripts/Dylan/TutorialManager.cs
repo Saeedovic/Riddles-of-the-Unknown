@@ -110,10 +110,12 @@ public class TutorialManager : MonoBehaviour
     public GameObject Cave2WallBlockObj;
 
 
+
    public bool WaterIntro = false;
 
 
-
+    public Camera ThirdPersonCam;
+    public GameObject playerWatch;
 
 
 
@@ -178,6 +180,8 @@ public class TutorialManager : MonoBehaviour
         playerHunger = playerObjRef.GetComponent<HungerSystem>();
         onScreenInstructionUI.SetActive(false);
 
+        ThirdPersonCam.enabled = true;
+
 
 
     }
@@ -189,8 +193,23 @@ public class TutorialManager : MonoBehaviour
         collectableCountText.text = collectableCount.ToString("0");
 
 
+        if(phoneObjRef.activeInHierarchy == true || playerWatch.activeInHierarchy == true)
+        {
+            ThirdPersonCam.enabled = false;
+        }
 
-        if(phoneObjRef.activeInHierarchy == true && cameraApp.activeInHierarchy == false && statAllocationApp.activeInHierarchy == false && inventoryApp.activeInHierarchy == false)
+        if(Input.GetKeyDown(KeyCode.U) && ThirdPersonCam.enabled == false)
+        {
+            ThirdPersonCam.enabled = true;
+
+        }else if(Input.GetKeyDown(KeyCode.U) && ThirdPersonCam.enabled == true)
+        {
+            ThirdPersonCam.enabled = false;
+        }
+
+
+
+        if (phoneObjRef.activeInHierarchy == true && cameraApp.activeInHierarchy == false && statAllocationApp.activeInHierarchy == false && inventoryApp.activeInHierarchy == false)
         {
             phoneControlsGUIText.SetActive(true);
         }
@@ -605,15 +624,16 @@ public class TutorialManager : MonoBehaviour
             {
                 WaterBottleIntro.SetActive(true);
 
-                if (Input.GetKeyDown(KeyCode.Return))
-                {
-                    WaterBottleIntro.SetActive(false);
-                    WaterIntro = true;
-
-                    InventoryHandler.Tutorial = true;
-                }
+                WaterIntro = true;
+                
             }
-            
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                WaterBottleIntro.SetActive(false);
+
+                InventoryHandler.Tutorial = true;
+            }
+
 
 
             //check if player is in range <100 ..then deactivate waypoint
