@@ -6,12 +6,22 @@ public class NormalDoorInteractable : PointOfInterest, IInteractableObject
 {
     [SerializeField] bool isInteractable = true;
 
+    [SerializeField] private Animator CabinDoor;
+    [SerializeField] private string doorOpen = "CabinDoorOpen";
+
+    public BoxCollider DoorBoxCollider;
+
+
     public void Interact(PlayerInteractor user)
     {
         Debug.Log("hello! you just clicked me");
 
         SetScannabilityOff();
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
+
+        CabinDoor.Play(doorOpen, 0, 0.0f);
+        DoorBoxCollider.enabled = false;
+
         isInteractable = false;
 
     }

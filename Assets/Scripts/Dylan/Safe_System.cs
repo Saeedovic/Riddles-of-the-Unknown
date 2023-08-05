@@ -9,9 +9,8 @@ using UnityEngine.UI;
 
 public class Safe_System : MonoBehaviour
 {
-
-    [SerializeField] GameObject keyToSpawn;
-    [SerializeField] Vector3 keySpawnPos;
+    [SerializeField] private Animator safeDoor;
+    [SerializeField] private string doorOpen = "SafeDoorOpen";
 
 
     public Button NextNumDown_1st_Digit;
@@ -31,13 +30,17 @@ public class Safe_System : MonoBehaviour
     [SerializeField] public GameObject Safe_Guide_Text;
 
 
+    public MeshCollider SafeObjMeshCollider;
     public GameObject Safe_Gameobject;
     public GameObject SafeCam;
     public GameObject DefaultCam;
 
+    public Transform Safe_Dial;
 
 
-     public int First_Digit_Amount;
+
+
+    public int First_Digit_Amount;
     [SerializeField] public int Second_Digit_Amount;
     [SerializeField] public int Third_Digit_Amount;
 
@@ -138,18 +141,24 @@ public class Safe_System : MonoBehaviour
 
     public void NextNumber1stD() 
     {
+        RotateDial();
         First_Digit_Amount += 1;
         First_Digit_Text.text = First_Digit_Amount.ToString();
     }
 
     public void NextNumber2stD()
     {
+
+        RotateDial();
+
         Second_Digit_Amount += 1;
         Second_Digit_Text.text = Second_Digit_Amount.ToString();
     }
 
     public void NextNumber3stD()
     {
+
+        RotateDial();
 
         Third_Digit_Amount += 1;
         Third_Digit_Text.text = Third_Digit_Amount.ToString();
@@ -162,25 +171,42 @@ public class Safe_System : MonoBehaviour
 
     public void PrevNumber1stD()
     {
+        RotateDial();
+
+
         First_Digit_Amount -= 1;
         First_Digit_Text.text = First_Digit_Amount.ToString();
     }
     public void PrevNumber2stD()
     {
+        RotateDial();
+
+
         Second_Digit_Amount -= 1;
         Second_Digit_Text.text = Second_Digit_Amount.ToString();
     }
     public void PrevNumber3stD()
     {
+        RotateDial();
+
         Third_Digit_Amount -= 1;
         Third_Digit_Text.text = Third_Digit_Amount.ToString();
+    }
+
+    public void RotateDial()
+    {
+        Safe_Dial.transform.Rotate(new Vector3(0, 0, 20));
     }
 
     
 
     IEnumerator UnlockedSafe()
     {
+        safeDoor.Play(doorOpen, 0, 0.0f);
+
         yield return new WaitForSeconds(2);
+        SafeObjMeshCollider.convex = false;
+
 
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -188,8 +214,6 @@ public class Safe_System : MonoBehaviour
         PhoneManager.Instance.phoneIsUseable = true;
         WatchManager.watchShouldBeUseable = true;
 
-
-        Instantiate(keyToSpawn, keySpawnPos, Quaternion.identity);
 
         Destroy(UnlockedText);
 
