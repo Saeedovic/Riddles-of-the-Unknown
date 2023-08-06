@@ -8054,9 +8054,9 @@ RectTransform:
   - {fileID: 6752302731743543130}
   - {fileID: 6752302731144908131}
   - {fileID: 6752302731343758514}
+  - {fileID: 6752302732714820181}
   - {fileID: 6752302732243272521}
   - {fileID: 6752302732062851904}
-  - {fileID: 6752302732714820181}
   - {fileID: 6752302731181422003}
   - {fileID: 6752302731696625744}
   m_Father: {fileID: 6752302731568710226}
@@ -12287,6 +12287,7 @@ MonoBehaviour:
   isRunning: 0
   playerAudio: {fileID: 6752302732002452987}
   AudioClipForGameEnvironment: {fileID: 8300000, guid: be422060e2f366e42a2b4ece394a46ea, type: 3}
+  soundPlayed: 0
 --- !u!114 &6752302732002452968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12446,6 +12447,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stat: {fileID: 11400000, guid: b6245377328d7b84a9ecfcb558511632, type: 2}
   beginDelay: 0
+  playerCon: {fileID: 0}
+  WatchObjRef: {fileID: 0}
+  DrinkWaterWarning: {fileID: 0}
+  EatFoodWarning: {fileID: 0}
+  GameOverPanel: {fileID: 0}
+  playAgain: {fileID: 0}
+  exit: {fileID: 0}
   currentStamina: 100
   currentHunger: 100
   currentThirst: 100
@@ -13514,7 +13522,7 @@ RectTransform:
   m_Children:
   - {fileID: 6173889347072079750}
   m_Father: {fileID: 6752302731303628036}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -14438,7 +14446,7 @@ RectTransform:
   m_Children:
   - {fileID: 6973499272082246198}
   m_Father: {fileID: 6752302731303628036}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -17973,7 +17981,7 @@ RectTransform:
   m_Children:
   - {fileID: 1260188107987020761}
   m_Father: {fileID: 6752302731303628036}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

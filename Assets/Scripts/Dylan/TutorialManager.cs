@@ -117,6 +117,12 @@ public class TutorialManager : MonoBehaviour
     public Camera ThirdPersonCam;
     public GameObject playerWatch;
 
+    public BoxCollider popUpCollider11;
+    public BoxCollider popUpCollider12;
+    public BoxCollider popUpCollider16;
+    public BoxCollider popUpCollider18;
+
+
 
 
 
@@ -132,7 +138,11 @@ public class TutorialManager : MonoBehaviour
     public GameObject inventoryApp;
     public GameObject statAllocationApp;
 
+    public GameObject notesApp;
+
     public bool ActivateWayPoint;
+
+    bool noteTutorial = false;
 
   //  public GameObject tutorialWayPointLocation;
 
@@ -417,6 +427,7 @@ public class TutorialManager : MonoBehaviour
             //Add UI that says Look for Highlighted obj Around you
 
             popUps[43].SetActive(true);
+            popUpCollider11.enabled = false;
 
 
         }
@@ -430,6 +441,7 @@ public class TutorialManager : MonoBehaviour
         if (popUpIndex == 12) //IndexLocation = 5
         {
             popUps[43].SetActive(false); 
+            popUpCollider12.enabled = false;
 
             onScreenInstructionUI.SetActive(true);
 
@@ -474,6 +486,7 @@ public class TutorialManager : MonoBehaviour
             interactionBox.SetActive(false);
             phoneObjRef.SetActive(false);
 
+            interactor.enabled = false;
             mainCam.SetActive(false);
                 tutCam.SetActive(true);
                 phoneObjRef.SetActive(true);
@@ -561,8 +574,10 @@ public class TutorialManager : MonoBehaviour
         {
             onScreenInstructionUI.SetActive(true);
             camAppButton.interactable = true;
+            interactor.enabled = true;
+            popUpCollider16.enabled = false;
 
-            
+
             if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
             {
 
@@ -630,6 +645,8 @@ public class TutorialManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 WaterBottleIntro.SetActive(false);
+                popUpCollider18.enabled = false;
+
 
                 InventoryHandler.Tutorial = true;
             }
@@ -690,6 +707,15 @@ public class TutorialManager : MonoBehaviour
 
         if (popUpIndex == 19)
         {
+            if(NoteContainer.uiToDisplayNote.gameObject.activeInHierarchy == false && noteTutorial == false)
+            {
+                noteAppButton.interactable = true;
+
+                popUpIndex = 44;
+            }
+
+
+
             ActivateWayPoint = true;
 
             if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 100)
@@ -976,6 +1002,72 @@ public class TutorialManager : MonoBehaviour
 
 
 
+        //Notes
+
+        if (popUpIndex == 44)
+        {
+
+            interactor.enabled = false;
+            phoneObjRef.SetActive(false);
+            mainCam.SetActive(false);
+            tutCam.SetActive(true);
+
+
+            phoneObjRef.SetActive(true);
+
+            if(notesApp.activeInHierarchy == true)
+            {
+                popUpIndex = 45;
+            }
+
+        }
+
+        if(popUpIndex == 45)
+        {
+            onScreenInstructionUI.SetActive(false);
+            noteAppBackButton.interactable = false;
+
+            if(NoteContainer.uiToDisplayNote.gameObject.activeInHierarchy == true) 
+            {
+                popUpIndex = 46;
+            }
+        }
+
+        if (popUpIndex == 46)
+        {
+            if(Input.GetKeyDown(KeyCode.Return))
+            {
+                popUpIndex = 47;
+            }
+        }
+        if (popUpIndex == 47)
+        {
+            noteAppBackButton.interactable = true;
+
+            if (notesApp.activeInHierarchy == false)
+            {
+
+                mainCam.SetActive(true);
+                tutCam.SetActive(false);
+                interactor.enabled = true;
+
+                noteTutorial = true;
+                popUpIndex = 19;
+            }
+        }
+
+
+
+        //Notes
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1082,7 +1174,7 @@ public class TutorialManager : MonoBehaviour
             }
         }
         */
-       
+
 
 
 
