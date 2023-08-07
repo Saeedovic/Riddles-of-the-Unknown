@@ -76,6 +76,7 @@ public class StaminaSystem : MonoBehaviour
     public void UpdateStaminaBar()
     {
         staminaBar.value = stats.currentStamina;
+        secondStaminaBar.maxValue = stats.maxStamina;
 
 
         if (secondStaminaBar.value <= 20)

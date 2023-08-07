@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Android;
 
 public class XPManager : MonoBehaviour
 {
@@ -29,7 +30,8 @@ public class XPManager : MonoBehaviour
     public bool playerIncreasedThristStat;
 
 
-
+    TutorialManager tutorialManager;
+    public GameObject tManager;
 
 
 
@@ -40,7 +42,10 @@ public class XPManager : MonoBehaviour
 
     private void Awake()
     {
+        tutorialManager = tManager.GetComponent<TutorialManager>();
         stat = GetComponent<DisplayStats>();
+
+        cS.PlayerLevel = 1;
 
         if (cS.PlayerLevel == 1)
         {
@@ -50,7 +55,7 @@ public class XPManager : MonoBehaviour
 
             requiredXp = 100;
             cS.PlayerXP = 0;
-            cS.PlayerStatPoint = 0;
+            
             //cS.PlayerHealth = 100;
             cS.PlayerStamina = 100;
             cS.PlayerHunger = 100;
@@ -76,6 +81,10 @@ public class XPManager : MonoBehaviour
         requiredXpText.text = requiredXp.ToString("0");
 
        // maxHealthText.text= cS.MaxPlayerHealth.ToString("0");
+        stat.maxHunger = cS.MaxPlayerHunger;
+        stat.maxStamina = cS.MaxPlayerStamina;
+        stat.maxThirst = cS.MaxPlayerThrist;
+
         maxstaminaText.text = cS.MaxPlayerStamina.ToString("0");
         maxHungerText.text= cS.MaxPlayerHunger.ToString("0");
         maxThristText.text= cS.MaxPlayerThrist.ToString("0");
@@ -83,9 +92,10 @@ public class XPManager : MonoBehaviour
         stat.currentPlayerStatPoint = cS.PlayerStatPoint;
         currentPlayerStatPointText.text = stat.currentPlayerStatPoint.ToString("0");
 
-        levelText.text = cS.PlayerLevel.ToString("0");
 
         level = cS.PlayerLevel;
+
+        levelText.text = cS.PlayerLevel.ToString("0");
         currentXp = cS.PlayerXP;
 
 
@@ -104,14 +114,8 @@ public class XPManager : MonoBehaviour
 
 
         //Check if Stat Point is = 0, IF not then allow to upgrade 
-        if (cS.PlayerStatPoint == 0)
-        {
-            
-            upgradeStamina.interactable = true;
-            upgradeHunger.interactable = true;
-            upgradeThrist.interactable = true;
-
-        }else if(cS.PlayerStatPoint >= 1)
+       
+        if(cS.PlayerStatPoint == 0 || cS.PlayerStatPoint >= 1)
         {
            // AudioSource.PlayClipAtPoint(AudioForUnlockingStats, transform.position);
 
@@ -154,6 +158,7 @@ public class XPManager : MonoBehaviour
 
             currentXp = currentXp - requiredXp;
             cS.PlayerLevel++;
+            level = cS.PlayerLevel;
 
 
             //increase player stat point
@@ -208,6 +213,14 @@ public class XPManager : MonoBehaviour
 
     public void InceaseStatStamina()
     {
+
+        if(cS.PlayerStatPoint == 0)
+        {
+            cS.PlayerStatPoint = 0;
+        }
+        else
+        {
+
         playerIncreasedStaminaStat = true;
         stat.currentPlayerStatPoint -= 1;
         cS.MaxPlayerStamina += 10;
@@ -216,36 +229,50 @@ public class XPManager : MonoBehaviour
        // stat.currentStamina += cS.staminaStatPointInc;
         cS.PlayerStatPoint = stat.currentPlayerStatPoint;
         currentPlayerStatPointText.text = cS.PlayerStatPoint.ToString("0");
+        }
 
     }
 
     public void InceaseStatHunger()
     {
-        playerIncreasedHungerStat = true;
-        stat.currentPlayerStatPoint -= 1;
-        cS.MaxPlayerHunger += 10;
-        
-        maxHungerText.text = cS.MaxPlayerHunger.ToString("0");
 
-        //stat.currentHunger += cS.hungerStatPointInc;
-        cS.PlayerStatPoint = stat.currentPlayerStatPoint;
-        currentPlayerStatPointText.text = cS.PlayerStatPoint.ToString("0");
+        if (cS.PlayerStatPoint == 0)
+        {
+            cS.PlayerStatPoint = 0;
+        }
+        else
+        {
+            playerIncreasedHungerStat = true;
+            stat.currentPlayerStatPoint -= 1;
+            cS.MaxPlayerHunger += 10;
 
+            maxHungerText.text = cS.MaxPlayerHunger.ToString("0");
+
+            //stat.currentHunger += cS.hungerStatPointInc;
+            cS.PlayerStatPoint = stat.currentPlayerStatPoint;
+            currentPlayerStatPointText.text = cS.PlayerStatPoint.ToString("0");
+        }
     }
 
 
     public void InceaseStatThrist()
     {
-        playerIncreasedThristStat = true;   
-        stat.currentPlayerStatPoint -= 1;
-        cS.MaxPlayerThrist += 10;
-      
-        maxThristText.text = cS.MaxPlayerThrist.ToString("0");
+        if (cS.PlayerStatPoint == 0)
+        {
+            cS.PlayerStatPoint = 0;
+        }
+        else
+        {
+            playerIncreasedThristStat = true;
+            stat.currentPlayerStatPoint -= 1;
+            cS.MaxPlayerThrist += 10;
 
-        //stat.currentThrist += cS.thristStatPointInc;
-        cS.PlayerStatPoint = stat.currentPlayerStatPoint;
-        currentPlayerStatPointText.text = cS.PlayerStatPoint.ToString("0");
+            maxThristText.text = cS.MaxPlayerThrist.ToString("0");
 
+            //stat.currentThrist += cS.thristStatPointInc;
+            cS.PlayerStatPoint = stat.currentPlayerStatPoint;
+            currentPlayerStatPointText.text = cS.PlayerStatPoint.ToString("0");
+        }
 
     }
 }

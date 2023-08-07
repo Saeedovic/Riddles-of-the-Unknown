@@ -63,6 +63,8 @@ public class ThirstSystem : MonoBehaviour
     void UpdateThirstBar()
     {
         thirstBar.value = stats.currentThirst;
+        secondThirstBar.maxValue = stats.maxThirst;
+
 
         if (secondThirstBar.value <= 20)
         {

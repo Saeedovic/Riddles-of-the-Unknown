@@ -59,9 +59,6 @@ public class DisplayStats : MonoBehaviour
         currentThirst = stat.PlayerThrist;
 
         //maxHealth
-        maxStamina = stat.MaxPlayerStamina;
-        maxHunger = stat.MaxPlayerHunger;
-        maxThirst = stat.MaxPlayerThrist;
 
         DrinkWaterWarning.SetActive(false);
         EatFoodWarning.SetActive(false);
@@ -107,7 +104,9 @@ public class DisplayStats : MonoBehaviour
 
     public void Update()
     {
-
+        maxStamina = stat.MaxPlayerStamina;
+        maxHunger = stat.MaxPlayerHunger;
+        maxThirst = stat.MaxPlayerThrist;
 
 
         #region If Running
@@ -227,6 +226,7 @@ public class DisplayStats : MonoBehaviour
         stamina.text = currentStamina.ToString("0");
         hunger.text = currentHunger.ToString("0");
         thrist.text = currentThirst.ToString("0");
+
 
 
 

@@ -54,6 +54,7 @@ public class HungerSystem : MonoBehaviour
     void UpdateHungerBar()
     {
         hungerBar.value = stats.currentHunger;
+        secondHungerBar.maxValue = stats.maxHunger;
 
 
         if (secondHungerBar.value <= 20)

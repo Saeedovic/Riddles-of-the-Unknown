@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.XPath;
@@ -144,6 +145,10 @@ public class TutorialManager : MonoBehaviour
 
     bool noteTutorial = false;
 
+    public bool statTutorial = false;
+
+    public int originalPopUpIndex;
+
   //  public GameObject tutorialWayPointLocation;
 
     public GameObject tutCam;
@@ -192,7 +197,7 @@ public class TutorialManager : MonoBehaviour
 
         ThirdPersonCam.enabled = true;
 
-
+        originalPopUpIndex = 1;
 
     }
 
@@ -237,8 +242,17 @@ public class TutorialManager : MonoBehaviour
             controlToAccessEcoPointText.SetActive(false);
         }
 
+        //Stat Point Check
 
+        if (xpManager.level == 2 && statTutorial == false && popUpIndex == 16)
+        {
+            //Save  Current PopUpIndex (Before Stat Tutorial Begins)
+            
+           
+            popUpIndex = 48;
+        }
 
+        //Stat Point Check
 
 
         for (int i = 0; i < popUps.Length; i++)
@@ -246,6 +260,8 @@ public class TutorialManager : MonoBehaviour
             if (i == popUpIndex)
             {
                 popUps[i].SetActive(true);
+
+                originalPopUpIndex++;
             }
             else
             {
@@ -1052,7 +1068,67 @@ public class TutorialManager : MonoBehaviour
                 interactor.enabled = true;
 
                 noteTutorial = true;
+
+                onScreenInstructionUI.SetActive(true);
                 popUpIndex = 19;
+            }
+        }
+
+
+
+
+        if (popUpIndex == 48)
+        {
+            interactor.enabled = false;
+
+
+            statAppButton.interactable = true;
+            camAppButton.interactable = true;
+
+            onScreenInstructionUI.SetActive(false);
+
+            phoneObjRef.SetActive(false);
+
+            mainCam.SetActive(false);
+            tutCam.SetActive(true);
+            phoneObjRef.SetActive(true);
+
+            if (statAllocationApp.activeInHierarchy == true)
+            {
+
+                popUpIndex++;
+            }
+
+        }
+
+        if(popUpIndex == 49)
+        {
+            //statAppBackButton.interactable = false;
+
+            if (xpManager.playerIncreasedHungerStat == true || xpManager.playerIncreasedStaminaStat == true || xpManager.playerIncreasedThristStat == true)
+            {
+                statAppBackButton.interactable = true;
+                popUpIndex++;
+
+            }
+        }
+
+        if (popUpIndex == 50)
+        {
+            if (statAllocationApp.activeInHierarchy == false)
+            {
+                mainCam.SetActive(true);
+                tutCam.SetActive(false);
+
+                phoneObjRef.SetActive(false);
+
+                statTutorial = true;
+                interactor.enabled = true;
+
+                popUpIndex = 19;  //Set PopUpIndex To Old Index (Before Stat Tutorial Began)
+             
+
+
             }
         }
 
@@ -1108,7 +1184,7 @@ public class TutorialManager : MonoBehaviour
                 }
 
             }
-            
+
 
 
         }
@@ -1131,7 +1207,7 @@ public class TutorialManager : MonoBehaviour
 
             if (statAllocationApp.activeInHierarchy == false)
             {
-                
+
 
                 mainCam.SetActive(true);
                 tutCam.SetActive(false);
@@ -1141,7 +1217,7 @@ public class TutorialManager : MonoBehaviour
                 app.ecopointScanned = true;
 
                 popUpIndex++;
-                
+
 
             }
         }

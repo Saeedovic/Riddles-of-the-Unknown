@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Jeff
   description: 
-  PlayerStamina: 100.02751
-  PlayerHunger: 0
-  PlayerThrist: 88.49413
-  PlayerLevel: 1
+  PlayerStamina: 100.0222
+  PlayerHunger: 86.18061
+  PlayerThrist: 67.53654
+  PlayerLevel: 2
   PlayerXP: 0
-  PlayerStatPoint: 1
+  PlayerStatPoint: 5
   MaxPlayerStamina: 100
   MaxPlayerHunger: 100
   MaxPlayerThrist: 100
@@ -34,4 +34,4 @@ MonoBehaviour:
   hungerStatPointInc: 5
   thristStatPointInc: 5
   xpMultiplier: 1.25
-  death: 1
+  death: 0
