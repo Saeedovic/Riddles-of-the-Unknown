@@ -8,8 +8,8 @@ TerrainLayer:
   m_PrefabAsset: {fileID: 0}
   m_Name: DemoDirt
   m_DiffuseTexture: {fileID: 2800000, guid: 250baef16a0c95c458b3d2c8d8abe8f1, type: 3}
-  m_NormalMapTexture: {fileID: 2800000, guid: 215a97c9f2f44114f8b68456ec1aa5b8, type: 3}
-  m_MaskMapTexture: {fileID: 2800000, guid: b9e40c213655dae4890e3d1407672dfc, type: 3}
+  m_NormalMapTexture: {fileID: 2800000, guid: af1eb50b804498643aa133776118d743, type: 3}
+  m_MaskMapTexture: {fileID: 2800000, guid: 195d8a0c996d42246b403f080a275a2a, type: 3}
   m_TileSize: {x: 5, y: 5}
   m_TileOffset: {x: 0, y: 0}
   m_Specular: {r: 0, g: 0, b: 0, a: 0}

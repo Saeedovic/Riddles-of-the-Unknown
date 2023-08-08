@@ -11,6 +11,9 @@ public class NormalDoorInteractable : PointOfInterest, IInteractableObject
 
     public BoxCollider DoorBoxCollider;
 
+    public AudioSource playerAudio;
+    public AudioClip AudioClipForDoorOpening;
+
 
     public void Interact(PlayerInteractor user)
     {
@@ -21,8 +24,14 @@ public class NormalDoorInteractable : PointOfInterest, IInteractableObject
 
         CabinDoor.Play(doorOpen, 0, 0.0f);
         DoorBoxCollider.enabled = false;
-
         isInteractable = false;
+
+        playerAudio.clip = AudioClipForDoorOpening;
+
+        playerAudio.loop = false;
+        playerAudio.Play();
+
+
 
     }
 

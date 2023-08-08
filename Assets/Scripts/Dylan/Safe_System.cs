@@ -51,6 +51,9 @@ public class Safe_System : MonoBehaviour
 
     StarterAssets.FirstPersonController cont;
 
+    public AudioSource playerAudio;
+    public AudioClip AudioClipForSafeDial;
+    public AudioClip AudioClipForSafeDoorOpening;
 
 
 
@@ -142,6 +145,11 @@ public class Safe_System : MonoBehaviour
     public void NextNumber1stD() 
     {
         RotateDial();
+
+        playerAudio.clip = AudioClipForSafeDial;
+        playerAudio.loop = false;
+        playerAudio.Play();
+
         First_Digit_Amount += 1;
         First_Digit_Text.text = First_Digit_Amount.ToString();
     }
@@ -151,6 +159,10 @@ public class Safe_System : MonoBehaviour
 
         RotateDial();
 
+        playerAudio.clip = AudioClipForSafeDial;
+        playerAudio.loop = false;
+        playerAudio.Play();
+
         Second_Digit_Amount += 1;
         Second_Digit_Text.text = Second_Digit_Amount.ToString();
     }
@@ -159,6 +171,10 @@ public class Safe_System : MonoBehaviour
     {
 
         RotateDial();
+
+        playerAudio.clip = AudioClipForSafeDial;
+        playerAudio.loop = false;
+        playerAudio.Play();
 
         Third_Digit_Amount += 1;
         Third_Digit_Text.text = Third_Digit_Amount.ToString();
@@ -173,6 +189,9 @@ public class Safe_System : MonoBehaviour
     {
         RotateDial();
 
+        playerAudio.clip = AudioClipForSafeDial;
+        playerAudio.loop = false;
+        playerAudio.Play();
 
         First_Digit_Amount -= 1;
         First_Digit_Text.text = First_Digit_Amount.ToString();
@@ -181,6 +200,9 @@ public class Safe_System : MonoBehaviour
     {
         RotateDial();
 
+        playerAudio.clip = AudioClipForSafeDial;
+        playerAudio.loop = false;
+        playerAudio.Play();
 
         Second_Digit_Amount -= 1;
         Second_Digit_Text.text = Second_Digit_Amount.ToString();
@@ -188,6 +210,10 @@ public class Safe_System : MonoBehaviour
     public void PrevNumber3stD()
     {
         RotateDial();
+
+        playerAudio.clip = AudioClipForSafeDial;
+        playerAudio.loop = false;
+        playerAudio.Play();
 
         Third_Digit_Amount -= 1;
         Third_Digit_Text.text = Third_Digit_Amount.ToString();
@@ -203,6 +229,13 @@ public class Safe_System : MonoBehaviour
     IEnumerator UnlockedSafe()
     {
         safeDoor.Play(doorOpen, 0, 0.0f);
+
+        playerAudio.clip = AudioClipForSafeDoorOpening;
+
+        playerAudio.loop = false;
+        playerAudio.Play();
+
+       
 
         yield return new WaitForSeconds(2);
         SafeObjMeshCollider.convex = false;

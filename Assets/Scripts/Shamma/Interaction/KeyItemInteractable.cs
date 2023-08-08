@@ -8,7 +8,9 @@ public class KeyItemInteractable : PointOfInterest, IInteractableObject
     [SerializeField] bool isCollectable = true;
     [SerializeField] KeyObject keyObject;
     public static bool hasBeenCollected = false; // probably want to change this to an event call of some kind
-    
+
+    public AudioSource playerAudio;
+    public AudioClip AudioClipForPickingUpKey;
 
     public void Interact(PlayerInteractor user)
     {
@@ -23,6 +25,14 @@ public class KeyItemInteractable : PointOfInterest, IInteractableObject
 
             hasBeenCollected = true;
             gameObject.SetActive(false);
+
+            playerAudio.clip = AudioClipForPickingUpKey;
+
+            playerAudio.loop = false;
+            playerAudio.volume = 1;
+            playerAudio.Play();
+
+
 
             Debug.Log("you've picked up a key");
         }

@@ -90,6 +90,7 @@ public class TutorialManager : MonoBehaviour
     public AudioClip hungryClip;
 
 
+
     public GameObject phoneControlsGUIText;
     public GameObject controlToAccessEcoPointText;
     public GameObject fullScreenCam;
@@ -155,6 +156,10 @@ public class TutorialManager : MonoBehaviour
     public GameObject mainCam;
 
     HungerSystem playerHunger;
+
+
+    public AudioSource playerAudio;
+    public AudioClip phone_Ringing;
 
 
 
@@ -330,6 +335,12 @@ public class TutorialManager : MonoBehaviour
         {
             if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
             {
+                playerAudio.clip = phone_Ringing;
+
+                playerAudio.loop = true;
+                playerAudio.Play();
+
+
                 popUps[6].SetActive(true);
 
                 wpSystem.locationIndex++;
@@ -345,8 +356,10 @@ public class TutorialManager : MonoBehaviour
 
         if (popUpIndex == 6) //Take a Picture - 2
         {
+           
             if (Input.GetKeyDown(KeyCode.K))
             {
+                playerAudio.Stop();
                 popUps[6].SetActive(false);
 
                 popUpIndex++;
