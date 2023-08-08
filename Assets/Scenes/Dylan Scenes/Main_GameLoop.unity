@@ -24,7 +24,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 4
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
@@ -25335,6 +25335,7 @@ MonoBehaviour:
   - {fileID: 1345994693}
   - {fileID: 1936062437}
   popUpIndex: 0
+  inventoryHandler: {fileID: 0}
   playerObjRef: {fileID: 849172829}
   PhoneAppRef: {fileID: 567141410}
   WaypointSystemRef: {fileID: 26558333}
@@ -25342,6 +25343,7 @@ MonoBehaviour:
   safeObjRef: {fileID: 721972893}
   phoneObjRef: {fileID: 541900446}
   inventoryObjRef: {fileID: 0}
+  WaterBottleIntro: {fileID: 0}
   camAppButton: {fileID: 0}
   statAppButton: {fileID: 0}
   inventoryAppButton: {fileID: 0}
@@ -25372,10 +25374,27 @@ MonoBehaviour:
   controlToAccessEcoPointText: {fileID: 0}
   fullScreenCam: {fileID: 0}
   onScreenInstructionUI: {fileID: 0}
+  EcoPointScanText: {fileID: 0}
+  SafeCabinTriggerPoint: {fileID: 0}
+  NeedSafeNoteKeyCodeNote: {fileID: 0}
+  KeyCodeNote: {fileID: 0}
+  CabinDoorObj: {fileID: 0}
+  CaveDoorObj: {fileID: 0}
+  Cave2WallBlockObj: {fileID: 0}
+  WaterIntro: 0
+  ThirdPersonCam: {fileID: 0}
+  playerWatch: {fileID: 0}
+  popUpCollider11: {fileID: 0}
+  popUpCollider12: {fileID: 0}
+  popUpCollider16: {fileID: 0}
+  popUpCollider18: {fileID: 0}
   cameraApp: {fileID: 567141410}
   inventoryApp: {fileID: 336613568}
   statAllocationApp: {fileID: 1270085448}
+  notesApp: {fileID: 0}
   ActivateWayPoint: 0
+  statTutorial: 0
+  originalPopUpIndex: 0
   tutCam: {fileID: 0}
   mainCam: {fileID: 0}
 --- !u!1 &1856799336 stripped
@@ -27153,10 +27172,6 @@ PrefabInstance:
       propertyPath: wayPoint.Array.data[2]
       value: 
       objectReference: {fileID: 513712284}
-    - target: {fileID: 734203889562015570, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
-      propertyPath: noteCollectedIcon
-      value: 
-      objectReference: {fileID: 21300000, guid: 537adc154512e61439ea2d44d5932946, type: 3}
     - target: {fileID: 1644117688113795101, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -27213,22 +27228,6 @@ PrefabInstance:
       propertyPath: m_Effectors.Array.data[0].m_Style.color.r
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5879587269628658527, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5879587269628658527, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5879587269628658527, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 11500000, guid: 236f659eee1eb874db61be43888eeaef, type: 3}
-    - target: {fileID: 5879587269628658527, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 6752302732002452969, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
       propertyPath: m_Name
       value: Player
@@ -27281,21 +27280,9 @@ PrefabInstance:
       propertyPath: questText
       value: 
       objectReference: {fileID: 920849210}
-    - target: {fileID: 6752302732002452991, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6752302732175860859, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
       propertyPath: rigWeightSmoothTime
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6752302732384298385, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
-      propertyPath: near clip plane
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 6752302732384298389, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.23
       objectReference: {fileID: 0}
     - target: {fileID: 7174645414499285160, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
       propertyPath: m_AnchorMax.x
@@ -27305,10 +27292,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7289806870976473079, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
-      propertyPath: m_Avatar
-      value: 
-      objectReference: {fileID: 9000000, guid: 7405a2b0834010d4caa0d0a3bbee7b41, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e397c3ca46e9d354893176f381fe6ff7, type: 3}
 --- !u!1 &2061253927

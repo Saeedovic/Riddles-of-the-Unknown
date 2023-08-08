@@ -13,6 +13,7 @@ public class PlayerCon : MonoBehaviour
     public float gravityFactor = -20f;
     [SerializeField] float regularHeight = 2f;
     [SerializeField] float crouchHeight = 1f;
+    [SerializeField] float crouchAdjustSpeed = 1f;
     
     public KeyCode runKey = KeyCode.LeftShift;
     public KeyCode crouchKey = KeyCode.C;
@@ -127,12 +128,12 @@ public class PlayerCon : MonoBehaviour
         if (Input.GetKey(crouchKey) && controller.isGrounded && !isRunning)
         {
             currentSpeed /= crouchDivider;
-            controller.height = crouchHeight;
+            controller.height = Mathf.Lerp(controller.height, crouchHeight, Time.deltaTime * crouchAdjustSpeed);
             isCrouching = true;
         }
         else
         {
-            controller.height = regularHeight;
+            controller.height = Mathf.Lerp(controller.height, regularHeight, Time.deltaTime * crouchAdjustSpeed);
             isCrouching = false;
         }
 
