@@ -29,6 +29,10 @@ public class PlayerCon : MonoBehaviour
 
     Animator animator;
 
+    [SerializeField] AudioSource walkingAudioSource;
+    [SerializeField] AudioClip walkingAudio;
+    [SerializeField] AudioClip runningAudio;
+
     public AudioSource playerAudio;
     public AudioClip AudioClipForGameEnvironment;
 
@@ -119,6 +123,23 @@ public class PlayerCon : MonoBehaviour
         {
             isWalking = false;
             isRunning = false;
+        }
+
+        if (isWalking && walkingAudioSource.clip != walkingAudio)
+        {
+            walkingAudioSource.Stop();
+            walkingAudioSource.clip = walkingAudio;
+        }
+        if (isRunning && walkingAudioSource.clip != runningAudio)
+        {
+            walkingAudioSource.Stop();
+            walkingAudioSource.clip = runningAudio;
+        }
+
+        
+        if (isWalking || isRunning && !walkingAudioSource.isPlaying)
+        {
+            walkingAudioSource.Play();
         }
 
         animator.SetBool("isWalking", isWalking);
