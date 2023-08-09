@@ -124,7 +124,7 @@ public class PhoneManager : MonoBehaviour
         if (!phoneActive)
         {
             phoneScreen.SetActive(true);
-            PhoneMainMenu.RefreshPhone();
+           // PhoneMainMenu.RefreshPhone();
 
             StopCoroutine(SetHandForPhoneOff());
             StartCoroutine(SetHandForPhoneOn());

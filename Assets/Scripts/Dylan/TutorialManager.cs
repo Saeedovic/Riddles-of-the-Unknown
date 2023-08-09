@@ -22,6 +22,7 @@ public class TutorialManager : MonoBehaviour
     PhoneCameraApp app;
     WayPointSystem wpSystem;
     WatchManager watchManager;
+    PhoneManager phoneManager;
     PlayerCon playerCont;
     PlayerInteractor interactor;
     Safe_System safe;
@@ -36,6 +37,8 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] GameObject PhoneAppRef;
     [SerializeField] GameObject WaypointSystemRef;
     [SerializeField] GameObject WatchObjRef;
+    [SerializeField] GameObject PhoneManagerObjRef;
+
     [SerializeField] GameObject safeObjRef;
     [SerializeField] public GameObject phoneObjRef;
     [SerializeField] GameObject inventoryObjRef;
@@ -152,7 +155,10 @@ public class TutorialManager : MonoBehaviour
 
   //  public GameObject tutorialWayPointLocation;
 
-    public GameObject tutCam;
+    public GameObject tutCamWatch;
+    public GameObject tutCamPhone;
+
+
     public GameObject mainCam;
 
     HungerSystem playerHunger;
@@ -172,6 +178,7 @@ public class TutorialManager : MonoBehaviour
         app = PhoneAppRef.GetComponent<PhoneCameraApp>();
         wpSystem = WaypointSystemRef.GetComponent<WayPointSystem>();
         watchManager = WatchObjRef.GetComponent<WatchManager>();
+        phoneManager = PhoneManagerObjRef.GetComponent<PhoneManager>();
         playerCont = playerObjRef.GetComponent<PlayerCon>();
         interactor = playerObjRef.GetComponent<PlayerInteractor>();
         safe = safeObjRef.GetComponent<Safe_System>();
@@ -195,7 +202,8 @@ public class TutorialManager : MonoBehaviour
     private void Start()
     {
         mainCam.SetActive(true);
-        tutCam.SetActive(false);
+        tutCamWatch.SetActive(false);
+        tutCamPhone.SetActive(false);
 
         playerHunger = playerObjRef.GetComponent<HungerSystem>();
         onScreenInstructionUI.SetActive(false);
@@ -203,6 +211,8 @@ public class TutorialManager : MonoBehaviour
         ThirdPersonCam.enabled = true;
 
         originalPopUpIndex = 1;
+
+      //  tutCam.transform.position = new Vector3(0.0549999997f, 0.38499999f, -0.145999998f);
 
     }
 
@@ -313,12 +323,12 @@ public class TutorialManager : MonoBehaviour
             popUps[5].SetActive(true);
 
             mainCam.SetActive(false);
-            tutCam.SetActive(true);
+            tutCamWatch.SetActive(true);
 
             if (Input.GetKeyDown(KeyCode.J))
             {
                 mainCam.SetActive(true);
-                tutCam.SetActive(false);
+                tutCamWatch.SetActive(false);
 
                 Time.timeScale = 1;
 
@@ -379,7 +389,9 @@ public class TutorialManager : MonoBehaviour
 
             interactor.enabled = false;
             mainCam.SetActive(false);
-            tutCam.SetActive(true);
+
+            tutCamPhone.SetActive(true);
+
 
 
             if(Input.GetKeyDown(KeyCode.K)) 
@@ -390,7 +402,7 @@ public class TutorialManager : MonoBehaviour
             if (cameraApp.activeInHierarchy == true)  //Add condition to check if player is in radius of Village
             {
                 mainCam.SetActive(true);
-                tutCam.SetActive(false);
+                tutCamPhone.SetActive(false);
                 interactor.enabled = true;
 
                 popUpIndex++;
@@ -513,12 +525,16 @@ public class TutorialManager : MonoBehaviour
             onScreenInstructionUI.SetActive(false);
 
             interactionBox.SetActive(false);
-            phoneObjRef.SetActive(false);
+            //phoneObjRef.SetActive(false);
+           // phoneManager.SetPhoneState(true); //close phone
 
             interactor.enabled = false;
             mainCam.SetActive(false);
-                tutCam.SetActive(true);
-                phoneObjRef.SetActive(true);
+            tutCamPhone.SetActive(true);
+                //phoneObjRef.SetActive(true);
+            phoneManager.SetPhoneState(false); // open Phone
+
+
 
             if (collectableCount == 2)
             {
@@ -586,11 +602,11 @@ public class TutorialManager : MonoBehaviour
             if (inventoryApp.activeInHierarchy == false)
             {
                 mainCam.SetActive(true);
-                tutCam.SetActive(false);
+                tutCamPhone.SetActive(false);
 
                 popUps[15].SetActive(false);
 
-                phoneObjRef.SetActive(false);
+                phoneManager.SetPhoneState(true); //Turn Phone Off
 
                 ActivateWayPoint = true;
 
@@ -1037,14 +1053,15 @@ public class TutorialManager : MonoBehaviour
         {
 
             interactor.enabled = false;
-            phoneObjRef.SetActive(false);
+     
             mainCam.SetActive(false);
-            tutCam.SetActive(true);
+            tutCamPhone.SetActive(true);
 
 
-            phoneObjRef.SetActive(true);
+            phoneManager.SetPhoneState(false); // open Phone
 
-            if(notesApp.activeInHierarchy == true)
+
+            if (notesApp.activeInHierarchy == true)
             {
                 popUpIndex = 45;
             }
@@ -1077,7 +1094,7 @@ public class TutorialManager : MonoBehaviour
             {
 
                 mainCam.SetActive(true);
-                tutCam.SetActive(false);
+                tutCamPhone.SetActive(false);
                 interactor.enabled = true;
 
                 noteTutorial = true;
@@ -1100,11 +1117,10 @@ public class TutorialManager : MonoBehaviour
 
             onScreenInstructionUI.SetActive(false);
 
-            phoneObjRef.SetActive(false);
-
             mainCam.SetActive(false);
-            tutCam.SetActive(true);
-            phoneObjRef.SetActive(true);
+            tutCamPhone.SetActive(true);
+            phoneManager.SetPhoneState(false); // open Phone
+
 
             if (statAllocationApp.activeInHierarchy == true)
             {
@@ -1131,9 +1147,10 @@ public class TutorialManager : MonoBehaviour
             if (statAllocationApp.activeInHierarchy == false)
             {
                 mainCam.SetActive(true);
-                tutCam.SetActive(false);
+                tutCamPhone.SetActive(false);
 
-                phoneObjRef.SetActive(false);
+                phoneManager.SetPhoneState(true); // Close Phone
+
 
                 statTutorial = true;
                 interactor.enabled = true;
