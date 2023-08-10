@@ -21,8 +21,20 @@ public class StatAppIntroTrigger : MonoBehaviour
     {
         if (collider.gameObject.tag == "Player")
         {
+            StartCoroutine(BetterStatsVoiceOver());
             tManager.popUpIndex = 48;
             this.gameObject.SetActive(false);
         }
+    }
+
+
+    IEnumerator BetterStatsVoiceOver()
+    {
+        //Add Voice that says Damn I've been walking a while, I wish i was more fit for this!
+
+
+        yield return new WaitForSeconds(2);
+
+        
     }
 }

@@ -127,6 +127,11 @@ public class TutorialManager : MonoBehaviour
     public BoxCollider popUpCollider16;
     public BoxCollider popUpCollider18;
 
+    public GameObject village1_Block_1;
+    public GameObject village1_Block_2;
+
+
+
 
 
 
@@ -210,8 +215,6 @@ public class TutorialManager : MonoBehaviour
 
         ThirdPersonCam.enabled = true;
 
-        originalPopUpIndex = 1;
-
       //  tutCam.transform.position = new Vector3(0.0549999997f, 0.38499999f, -0.145999998f);
 
     }
@@ -256,18 +259,6 @@ public class TutorialManager : MonoBehaviour
         {
             controlToAccessEcoPointText.SetActive(false);
         }
-
-        //Stat Point Check
-
-        if (xpManager.level == 2 && statTutorial == false && popUpIndex == 16)
-        {
-            //Save  Current PopUpIndex (Before Stat Tutorial Begins)
-            
-           
-            popUpIndex = 48;
-        }
-
-        //Stat Point Check
 
 
         for (int i = 0; i < popUps.Length; i++)
@@ -834,6 +825,7 @@ public class TutorialManager : MonoBehaviour
 
                     if (KeyItemInteractable.hasBeenCollected)
                     {
+                        village1_Block_2.SetActive(false);
                         popUpIndex = 21;
                     }
 
@@ -1100,6 +1092,8 @@ public class TutorialManager : MonoBehaviour
                 noteTutorial = true;
 
                 onScreenInstructionUI.SetActive(true);
+
+                village1_Block_1.SetActive(false);
                 popUpIndex = 19;
             }
         }

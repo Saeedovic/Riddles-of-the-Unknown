@@ -5,11 +5,15 @@ using UnityEngine;
 public class FlashlightController : MonoBehaviour
 {
     [SerializeField] GameObject flashLight;
-    bool flashLightIsOn = false;
+    public bool flashLightIsOn = false;
+
+    DayNightCycler TorchUI;
+    public GameObject sun;
 
     void Start()
     {
         flashLight.SetActive(false);
+        TorchUI = sun.GetComponent<DayNightCycler>();
     }
 
     void Update()
@@ -18,6 +22,7 @@ public class FlashlightController : MonoBehaviour
         {
             flashLight.SetActive(true);
             flashLightIsOn = true;
+            TorchUI.useTorchPopUp.SetActive(false);
         }
         else if (Input.GetKeyDown(KeyCode.F) && flashLightIsOn == true)
         {
