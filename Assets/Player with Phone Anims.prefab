@@ -9597,6 +9597,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flashLight: {fileID: 511715428180909339}
+  flashLightIsOn: 0
+  sun: {fileID: 0}
 --- !u!114 &5995194013963816688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9623,7 +9625,7 @@ AudioSource:
   m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 11092effdeed1cc44a35ccc7c88b6fd1, type: 3}
+  m_audioClip: {fileID: 8300000, guid: d5b04f2887fee7542ba75b2498b5cec8, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

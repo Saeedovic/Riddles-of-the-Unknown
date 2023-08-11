@@ -11,10 +11,16 @@ public class PhoneNotesApp : PhoneAppScreen
     public List<Button> allButtonsForCheckingNotes = new List<Button>();
     public Sprite noteCollectedIcon;
 
+    bool firstNoteAdded = false;
+
+    public AudioSource playerAudio;
+
+    public AudioClip voiceOverFirstNotePicked;
+
     // i tried to just set up an array for notes in start but for some reason couldn't initialise it properly.
     // count remained at 0 or array remained null even though other code in this func worked.
     // so, for now it's a list we add to, and we open notes at the corresponding number to the button in the app
-    
+
     public override void Start()
     {
         // set up buttons with the corresponding note slot value to call displaynote with.
@@ -41,6 +47,12 @@ public class PhoneNotesApp : PhoneAppScreen
         {
             if (notes[i] == null)
             {
+                if (!firstNoteAdded)
+                {
+                    playerAudio.PlayOneShot(voiceOverFirstNotePicked);
+                    firstNoteAdded = true;
+                }
+
                 notes[i] = newNote;
                 allButtonsForCheckingNotes[i].image.sprite = noteCollectedIcon;
                 // set the ui button to the note image here.

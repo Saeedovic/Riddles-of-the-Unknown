@@ -11,6 +11,11 @@ public class UseTorch : MonoBehaviour
     public GameObject TorchPrefab;
     public GameObject sun;
 
+    public AudioSource playerAudio;
+    public AudioClip voiceOverGladIGotMyTorch;
+
+    public AudioClip voiceOverIShouldTakeOutMyTorch;
+
 
     private void Start()
     {
@@ -22,7 +27,6 @@ public class UseTorch : MonoBehaviour
     {
         if (collider.gameObject.tag == "Player" && flashCont.flashLightIsOn == false)
         {
-            TorchUI.useTorchPopUp.SetActive(true);
             StartCoroutine(TorchIsOff());
             
         }
@@ -39,7 +43,11 @@ public class UseTorch : MonoBehaviour
     {
         //Add Voice that says Glad I got my FlashLight Along!
 
-        
+        playerAudio.clip = voiceOverGladIGotMyTorch;
+
+        playerAudio.loop = false;
+        playerAudio.Play();
+
 
         yield return new WaitForSeconds(2);
 
@@ -49,9 +57,15 @@ public class UseTorch : MonoBehaviour
     IEnumerator TorchIsOff()
     {
         //Add Voice that says Probably best to use my Torch right now..
+        playerAudio.clip = voiceOverIShouldTakeOutMyTorch;
+
+        playerAudio.loop = false;
+        playerAudio.Play();
 
 
         yield return new WaitForSeconds(2);
+
+        TorchUI.useTorchPopUp.SetActive(true);
 
 
     }

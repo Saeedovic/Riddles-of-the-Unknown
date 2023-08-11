@@ -9,6 +9,19 @@ public class UnlockableDoor : PointOfInterest, IInteractableObject
     [SerializeField] float boxDisplayTime = 2f;
     bool noKeyfound = true;
 
+    [SerializeField] private Animator CabinDoor;
+    [SerializeField] private string doorOpen = "CabinDoorOpen";
+
+    public BoxCollider DoorBoxCollider;
+
+    public AudioSource playerAudio;
+    public AudioClip AudioClipForDoorOpening;
+    public AudioClip NeedKeyVoiceOver;
+
+
+
+
+
     public void Interact(PlayerInteractor user)
     {
         if (!InventoryHandler.containsKeyObject)
@@ -32,9 +45,19 @@ public class UnlockableDoor : PointOfInterest, IInteractableObject
 
                 // would want to play the door opening anim here.
 
+                CabinDoor.Play(doorOpen, 0, 0.0f);
+                DoorBoxCollider.enabled = false;
+
+
+                playerAudio.clip = AudioClipForDoorOpening;
+
+                playerAudio.loop = false;
+                playerAudio.Play();
+
+
                 Debug.Log("door was opened!");
                 noKeyfound = false;
-                gameObject.SetActive(false);
+               // gameObject.SetActive(false);
 
                 break;
             }
@@ -49,6 +72,11 @@ public class UnlockableDoor : PointOfInterest, IInteractableObject
     IEnumerator DisplayKeyNeededTextbox()
     {
         keyNeededTextbox.SetActive(true);
+
+        playerAudio.clip = NeedKeyVoiceOver;
+
+        playerAudio.loop = false;
+        playerAudio.Play();
 
         yield return new WaitForSeconds(boxDisplayTime);
 

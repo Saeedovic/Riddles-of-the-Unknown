@@ -10,6 +10,12 @@ public class FlashlightController : MonoBehaviour
     DayNightCycler TorchUI;
     public GameObject sun;
 
+    public AudioSource playerAudio;
+    public AudioClip voiceOverMuchBetter;
+
+
+
+
     void Start()
     {
         flashLight.SetActive(false);
@@ -20,6 +26,11 @@ public class FlashlightController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F) && flashLightIsOn == false)
         {
+            playerAudio.clip = voiceOverMuchBetter;
+
+            playerAudio.loop = false;
+            playerAudio.Play();
+
             flashLight.SetActive(true);
             flashLightIsOn = true;
             TorchUI.useTorchPopUp.SetActive(false);

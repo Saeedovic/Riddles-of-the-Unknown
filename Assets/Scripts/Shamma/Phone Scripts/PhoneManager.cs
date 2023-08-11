@@ -10,7 +10,7 @@ public class PhoneManager : MonoBehaviour
 
 
     public  GameObject phoneScreen;
-    [SerializeField] List<GameObject> mainPhoneButtons; // used to set the input system up
+    public GameObject mainPhoneButton; // used to set the input system up
 
     [SerializeField] public Transform regularScreenPos;
     [SerializeField] Transform fullscreenScreenPos;
@@ -46,7 +46,7 @@ public class PhoneManager : MonoBehaviour
         PhoneMainMenu.InitPhone(phoneScreen); // pass the given phone screen to PhoneMainMenu for it to load app components into its list
 
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(mainPhoneButtons[0]);
+        EventSystem.current.SetSelectedGameObject(mainPhoneButton);
 
         phoneIsUseable = true;
         isFullscreen = true; // start "true" so that the fullscreen func can set itself to true on first use
@@ -82,7 +82,7 @@ public class PhoneManager : MonoBehaviour
                 if (phoneIsOut && !PhoneMainMenu.appIsOpen)
                 {
                     EventSystem.current.SetSelectedGameObject(null);
-                    EventSystem.current.SetSelectedGameObject(mainPhoneButtons[0]);
+                    EventSystem.current.SetSelectedGameObject(mainPhoneButton);
                 }
             }
 

@@ -13,24 +13,52 @@ public class DayNightCycler : MonoBehaviour
     bool torchTutorialDone = false;
 
 
+    public AudioSource playerAudio;
+
+    public AudioClip voiceOverItsGettingDark;
+
+    public AudioClip voiceOverBeautifulSky;
+
+    bool audio1HasPLayed = false;
+    bool audio2HasPLayed = false;
+
+
+
+
     void Update()
     {
         transform.Rotate(0.01f * timeFactor, 0, 0);
 
         if(SunObj.transform.localRotation.eulerAngles.x > 170)
         {
+            if (!audio1HasPLayed)
+            {
+            playerAudio.PlayOneShot(voiceOverBeautifulSky);
+                audio1HasPLayed = true;
+            }
+      
             Debug.Log("Its night Time");
+           
             StartCoroutine(UseTorch());
         }
     }
 
     IEnumerator UseTorch()
     {
+        
+        yield return new WaitForSeconds(5);
         //Add Voice that says mmm Its Quite Dark, Good thing i Have a Torch
-        yield return new WaitForSeconds(2);
+        if (!audio2HasPLayed)
+        {
+            playerAudio.PlayOneShot(voiceOverItsGettingDark);
+            audio2HasPLayed = true;
+        }
+    
+        yield return new WaitForSeconds(4);
 
         if(torchTutorialDone == false) 
         {
+
             useTorchPopUp.SetActive(true);
 
             if (Input.GetKeyDown(KeyCode.F))

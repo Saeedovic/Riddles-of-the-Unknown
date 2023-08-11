@@ -7,7 +7,9 @@ public class StatAppIntroTrigger : MonoBehaviour
     TutorialManager tManager;
     public GameObject tutObjRef;
 
- 
+    public AudioSource playerAudio;
+
+    public AudioClip WishIWasMoreFit;
 
 
     // Start is called before the first frame update
@@ -31,9 +33,12 @@ public class StatAppIntroTrigger : MonoBehaviour
     IEnumerator BetterStatsVoiceOver()
     {
         //Add Voice that says Damn I've been walking a while, I wish i was more fit for this!
+        playerAudio.clip = WishIWasMoreFit;
 
+        playerAudio.loop = false;
+        playerAudio.Play();
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(4);
 
         
     }
