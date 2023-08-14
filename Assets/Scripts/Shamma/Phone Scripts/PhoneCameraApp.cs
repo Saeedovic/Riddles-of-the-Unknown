@@ -34,7 +34,6 @@ public class PhoneCameraApp : PhoneAppScreen
     public static bool enteredFullscreen { get; private set; }
     public bool ecopointScanned;
 
-    public BlackoutEffect blackOuter;
     [SerializeField] SkinnedMeshRenderer[] playerModel;
     [SerializeField] MeshRenderer phoneModel;
 
@@ -105,7 +104,7 @@ public class PhoneCameraApp : PhoneAppScreen
         if (enteredFullscreen)
         {
             InitiateExitFullScreenMode();
-            //PhoneManager.Instance.StartCoroutine(PhoneManager.Instance.ExitBlackoutTransition());
+            PhoneManager.Instance.StartCoroutine(PhoneManager.Instance.ExitBlackoutTransition());
         }
 
         PhoneManager.onEnterFullscreen -= InitiateEnterFullscreenMode;
@@ -179,13 +178,17 @@ public class PhoneCameraApp : PhoneAppScreen
     void InitiateEnterFullscreenMode()
     {
         // need to let animation play out before we start up fullscreen
-        blackOuter.StartCoroutine(blackOuter.FadeInToBlack());
+        BlackoutEffect.Instance.StartCoroutine(BlackoutEffect.Instance.FadeInToBlack());
+        PhoneManager.Instance.phoneIsUseable = false;
+
         StartCoroutine(EnteringFullscreenTransition());
     }
 
     void InitiateExitFullScreenMode()
     {
-        blackOuter.StartCoroutine(blackOuter.FadeInToBlack());
+        BlackoutEffect.Instance.StartCoroutine(BlackoutEffect.Instance.FadeInToBlack());
+        PhoneManager.Instance.phoneIsUseable = false;
+
         PhoneManager.Instance.StartCoroutine(ExitingFullscreenTransition());
         Debug.Log("one");
     }
@@ -193,9 +196,9 @@ public class PhoneCameraApp : PhoneAppScreen
     // start transition back out, wait for completion
     IEnumerator EnteringFullscreenTransition()
     {
-        if (blackOuter.screenIsBlack)
+        if (BlackoutEffect.Instance.screenIsBlack)
         {
-            StartCoroutine(blackOuter.FadeOutOfBlack());
+            StartCoroutine(BlackoutEffect.Instance.FadeOutOfBlack());
             ProcessEnteringFullscreen();
             yield break;
         }
@@ -206,9 +209,9 @@ public class PhoneCameraApp : PhoneAppScreen
 
     IEnumerator ExitingFullscreenTransition()
     {
-        if (blackOuter.screenIsBlack)
+        if (BlackoutEffect.Instance.screenIsBlack)
         {
-            StartCoroutine(blackOuter.FadeOutOfBlack());
+            StartCoroutine(BlackoutEffect.Instance.FadeOutOfBlack());
             ProcessExitingFullscreen();
             Debug.Log("two B");
             yield break;
@@ -247,6 +250,8 @@ public class PhoneCameraApp : PhoneAppScreen
         }
         phoneModel.enabled = false;
 
+        PhoneManager.Instance.phoneIsUseable = true;
+
         onFullscreenEntered?.Invoke();
     }
 
@@ -278,6 +283,8 @@ public class PhoneCameraApp : PhoneAppScreen
             playerModel[i].enabled = true;
         }
         phoneModel.enabled = true;
+
+        PhoneManager.Instance.phoneIsUseable = true;
         Debug.Log("three");
         onFullscreenExited?.Invoke();
     }
