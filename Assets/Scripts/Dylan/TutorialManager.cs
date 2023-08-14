@@ -567,6 +567,7 @@ public class TutorialManager : MonoBehaviour
             inventoryAppButton.interactable = true;
 
             phoneManager.firstHighlightedPhoneButton = inventoryAppButton.gameObject;
+           // phoneManager.phoneIsUseable = false;
 
 
             onScreenInstructionUI.SetActive(false);
