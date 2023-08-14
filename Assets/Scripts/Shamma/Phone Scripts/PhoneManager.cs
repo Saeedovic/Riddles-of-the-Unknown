@@ -9,8 +9,8 @@ public class PhoneManager : MonoBehaviour
     public static PhoneManager Instance;
 
 
-    public  GameObject phoneScreen;
-    public GameObject mainPhoneButton; // used to set the input system up
+    public GameObject phoneScreen;
+    public GameObject firstHighlightedPhoneButton; // used to set the input system up
 
     [SerializeField] public Transform regularScreenPos;
     [SerializeField] Transform fullscreenScreenPos;
@@ -28,6 +28,11 @@ public class PhoneManager : MonoBehaviour
     public static bool isFullscreen { get; private set; }
     public static bool phoneIsOut { get; private set; }
     [HideInInspector] public bool phoneIsUseable;
+    [HideInInspector] public bool fullscreenIsSettable;
+
+    PhoneCameraApp cameraApp; // camera app needs a bunch of code specifically for it...
+    BlackoutEffect blackOuter;
+    [HideInInspector] public bool cameraAppOpen;
 
 
     [SerializeField] Rig rightHandRig;
@@ -46,12 +51,16 @@ public class PhoneManager : MonoBehaviour
         PhoneMainMenu.InitPhone(phoneScreen); // pass the given phone screen to PhoneMainMenu for it to load app components into its list
 
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(mainPhoneButton);
+        EventSystem.current.SetSelectedGameObject(firstHighlightedPhoneButton);
 
         phoneIsUseable = true;
+        fullscreenIsSettable = true;
         isFullscreen = true; // start "true" so that the fullscreen func can set itself to true on first use
         phoneIsOut = true;
         SetPhoneState(phoneIsOut); // close phone.
+
+        cameraApp = GetComponentInChildren<PhoneCameraApp>();
+        blackOuter = cameraApp.blackOuter;
 
         PhoneMainMenu.onAppOpen += ResetFullscreenVal;
         PhoneMainMenu.onAppClose += ForceFullscreenOff; // need to know if we should switch to fullscreen or no
@@ -72,7 +81,7 @@ public class PhoneManager : MonoBehaviour
             }
 
             // open or close phone
-            if (Input.GetKeyDown(KeyCode.K))
+            if (Input.GetKeyDown(KeyCode.K) && phoneIsUseable)
             {
                 AudioSource.PlayClipAtPoint(AudioForOpeningPhone, transform.position);
 
@@ -82,12 +91,12 @@ public class PhoneManager : MonoBehaviour
                 if (phoneIsOut && !PhoneMainMenu.appIsOpen)
                 {
                     EventSystem.current.SetSelectedGameObject(null);
-                    EventSystem.current.SetSelectedGameObject(mainPhoneButton);
+                    EventSystem.current.SetSelectedGameObject(firstHighlightedPhoneButton);
                 }
             }
 
             // control fullscreen state
-            if (Input.GetKeyDown(KeyCode.P) && phoneIsOut)
+            if (Input.GetKeyDown(KeyCode.P) && phoneIsOut && fullscreenIsSettable)
             {
                 SetFullscreen(isFullscreen);
             }
@@ -117,14 +126,14 @@ public class PhoneManager : MonoBehaviour
         uiCursor.localPosition = selectedTransform.anchorMax;
     }
 
-
+    // use the current phone state to determine whether we should be turning off or on.
     public void SetPhoneState(bool phoneActive)
     {
         // when phone is inactive, make it active, and vice versa.
         if (!phoneActive)
         {
             phoneScreen.SetActive(true);
-           // PhoneMainMenu.RefreshPhone();
+           //PhoneMainMenu.RefreshPhone();
 
             StopCoroutine(SetHandForPhoneOff());
             StartCoroutine(SetHandForPhoneOn());
@@ -162,15 +171,21 @@ public class PhoneManager : MonoBehaviour
             // if false, make app not fullscreen. if true, make it fullscreen
             if (isFullscreen)
             {
-                transform.position = fullscreenScreenPos.position;
-                transform.rotation = fullscreenScreenPos.rotation;
+                if (!cameraAppOpen)
+                {
+                    transform.position = fullscreenScreenPos.position;
+                    transform.rotation = fullscreenScreenPos.rotation;
+                }
                 
                 onEnterFullscreen?.Invoke();
             }
             else
             {
-                transform.position = regularScreenPos.position;
-                transform.rotation = regularScreenPos.rotation;
+                if (!cameraAppOpen)
+                {
+                    transform.position = regularScreenPos.position;
+                    transform.rotation = regularScreenPos.rotation;
+                }
 
                 onExitFullscreen?.Invoke();
             }
@@ -200,8 +215,6 @@ public class PhoneManager : MonoBehaviour
 
     IEnumerator SetHandForPhoneOn()
     {
-        
-
         rightHandRig.weight = Mathf.MoveTowards(rightHandRig.weight, 1, rigWeightSmoothVelocity);
 
         if (rightHandRig.weight == 1)
@@ -215,8 +228,6 @@ public class PhoneManager : MonoBehaviour
     
     IEnumerator SetHandForPhoneOff()
     {
-        
-
         rightHandRig.weight = Mathf.MoveTowards(rightHandRig.weight, 0, rigWeightSmoothVelocity);
 
         if (rightHandRig.weight == 0)
@@ -226,5 +237,18 @@ public class PhoneManager : MonoBehaviour
 
         yield return null;
         StartCoroutine(SetHandForPhoneOff());
+    }
+
+    public IEnumerator ExitBlackoutTransition()
+    {
+        if (blackOuter.screenIsBlack)
+        {
+            StartCoroutine(blackOuter.FadeOutOfBlack());
+            cameraApp.ProcessExitingFullscreen();
+            yield break;
+        }
+
+        yield return null;
+        StartCoroutine(ExitBlackoutTransition());
     }
 }

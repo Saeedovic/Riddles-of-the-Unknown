@@ -162,47 +162,55 @@ public class XPManager : MonoBehaviour
 
 
             //increase player stat point
-            stat.currentPlayerStatPoint += 5;
-            cS.PlayerStatPoint = stat.currentPlayerStatPoint;
-
-            //Formula Round to Nearest 10th
-            requiredXp = (requiredXp + 1) * cS.xpMultiplier;
-            requiredXp = requiredXp / 10;
-            requiredXp = Mathf.Round(requiredXp);
-            requiredXp = requiredXp * 10;
-
-            //Level increased , REWARD PLAYER WITH 10+ ON THEIR STATS
-            //stat.currentHealth += 10;
-            //stat.currentStamina += 10;
-
-           /* if(cS.PlayerLevel == 2)
+            if (stat != null)
             {
-                stat.currentHunger += 20;
-                stat.currentThrist += 20;
+                stat.currentPlayerStatPoint += 5;
+                cS.PlayerStatPoint = stat.currentPlayerStatPoint;
+
+                //Formula Round to Nearest 10th
+                requiredXp = (requiredXp + 1) * cS.xpMultiplier;
+                requiredXp = requiredXp / 10;
+                requiredXp = Mathf.Round(requiredXp);
+                requiredXp = requiredXp * 10;
+
+                //Level increased , REWARD PLAYER WITH 10+ ON THEIR STATS
+                //stat.currentHealth += 10;
+                //stat.currentStamina += 10;
+
+                /* if(cS.PlayerLevel == 2)
+                 {
+                     stat.currentHunger += 20;
+                     stat.currentThrist += 20;
 
 
-                cS.MaxPlayerHealth += 50;
-                cS.MaxPlayerStamina += 50;
+                     cS.MaxPlayerHealth += 50;
+                     cS.MaxPlayerStamina += 50;
 
-                cS.MaxPlayerHunger += 50;
-                cS.MaxPlayerThrist += 50;
-            }*/
-            
+                     cS.MaxPlayerHunger += 50;
+                     cS.MaxPlayerThrist += 50;
+                 }*/
 
-         //   stat.health.text = stat.currentHealth.ToString("0");
-            stat.stamina.text = stat.currentStamina.ToString("0");
-            stat.hunger.text = stat.currentHunger.ToString("0");
-            stat.thrist.text= stat.currentThirst.ToString("0");
 
-            levelText.text = cS.PlayerLevel.ToString("0");
-            requiredXpText.text = requiredXp.ToString("0");
+                //   stat.health.text = stat.currentHealth.ToString("0");
+                stat.stamina.text = stat.currentStamina.ToString("0");
+                stat.hunger.text = stat.currentHunger.ToString("0");
+                stat.thrist.text = stat.currentThirst.ToString("0");
 
-          //  maxHealthText.text = cS.MaxPlayerHealth.ToString("0");
-            maxstaminaText.text = cS.MaxPlayerStamina.ToString("0");
-            maxHungerText.text = cS.MaxPlayerHunger.ToString("0");
-            maxThristText.text = cS.MaxPlayerThrist.ToString("0");
+                levelText.text = cS.PlayerLevel.ToString("0");
+                requiredXpText.text = requiredXp.ToString("0");
 
-            currentPlayerStatPointText.text = cS.PlayerStatPoint.ToString("0");
+                //  maxHealthText.text = cS.MaxPlayerHealth.ToString("0");
+                maxstaminaText.text = cS.MaxPlayerStamina.ToString("0");
+                maxHungerText.text = cS.MaxPlayerHunger.ToString("0");
+                maxThristText.text = cS.MaxPlayerThrist.ToString("0");
+
+                currentPlayerStatPointText.text = cS.PlayerStatPoint.ToString("0");
+            }
+            else
+            {
+                Debug.LogWarning("player stats reference is null! please make sure displaystats is set up on the player object.");
+                break;
+            }
 
         }
 
