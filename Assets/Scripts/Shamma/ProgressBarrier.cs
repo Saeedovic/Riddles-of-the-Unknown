@@ -5,16 +5,15 @@ using UnityEngine;
 
 public class ProgressBarrier : MonoBehaviour
 {
-    [SerializeField] Vector3 directionToPush;
-    [SerializeField] float turnSpeed = 1;
+    [SerializeField] Transform directionToPush;
     [SerializeField] float turnForce = 1;
-    [SerializeField] float maxAngleTillMovement = 1;
-    [SerializeField] float maxDistTillTarget = 1;
+    [SerializeField] float maxAngleTillStartPush = 1;
+    [SerializeField] float maxStoppingDist = 1;
     [SerializeField] float maxMovementSpeed = 1;
 
     GameObject player;
     PlayerCon controls;
-    PlayerCameraController camera;
+    new PlayerCameraController camera;
 
     bool turningDone;
     bool pushingDone;
@@ -22,9 +21,9 @@ public class ProgressBarrier : MonoBehaviour
     private void Start()
     {
         // set up direction if left null
-        if (directionToPush == Vector3.zero) 
+        //if (directionToPush == Vector3.zero) 
         {
-            directionToPush = transform.forward;
+            //directionToPush = transform.forward;
         }
     }
 
@@ -48,10 +47,13 @@ public class ProgressBarrier : MonoBehaviour
 
     IEnumerator TurnPlayer()
     {
-        player.transform.forward = Vector3.RotateTowards(player.transform.position, directionToPush, turnForce, turnSpeed * Time.deltaTime);
+        //player.transform.forward = Vector3.RotateTowards(player.transform.position, directionToPush, turnForce, turnSpeed * Time.deltaTime);
+        Quaternion dir = Quaternion.LookRotation(directionToPush.forward);
+        player.transform.rotation = Quaternion.Slerp(player.transform.rotation, dir, turnForce * Time.deltaTime);
+
         Debug.Log("turn");
 
-        if (Vector3.Angle(player.transform.forward, directionToPush) <= maxAngleTillMovement)
+        if (Vector3.Angle(player.transform.forward, directionToPush.forward) <= maxAngleTillStartPush)
         {
             turningDone = true;
             StartCoroutine(PushPlayer());
@@ -65,10 +67,10 @@ public class ProgressBarrier : MonoBehaviour
     IEnumerator PushPlayer()
     {
 
-        player.transform.position = Vector3.MoveTowards(player.transform.position, directionToPush, maxMovementSpeed);
+        player.transform.position = Vector3.MoveTowards(player.transform.position, directionToPush.position, maxMovementSpeed);
         Debug.Log("push");
 
-        if (Vector3.Distance(player.transform.position, directionToPush) >= maxDistTillTarget && turningDone)
+        if (Vector3.Distance(player.transform.position, directionToPush.position) <= maxStoppingDist && turningDone)
         {
             pushingDone = true;
             Debug.Log("done the pushh");
