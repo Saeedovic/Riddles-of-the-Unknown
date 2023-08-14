@@ -563,11 +563,11 @@ public class TutorialManager : MonoBehaviour
         if (popUpIndex == 13)   //This Is the Start Of the inventory Tutorial
         {
 
-            camAppButton.interactable = false;
+           camAppButton.interactable = false;
             inventoryAppButton.interactable = true;
 
-            phoneManager.firstHighlightedPhoneButton = inventoryAppButton.gameObject;
-           // phoneManager.phoneIsUseable = false;
+           phoneManager.firstHighlightedPhoneButton = inventoryAppButton.gameObject;
+          // phoneManager.phoneIsUseable = false;
 
 
             onScreenInstructionUI.SetActive(false);
@@ -582,8 +582,8 @@ public class TutorialManager : MonoBehaviour
                 //phoneObjRef.SetActive(true);
 
             phoneManager.SetPhoneState(false); // open Phone
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(phoneManager.firstHighlightedPhoneButton);
+           EventSystem.current.SetSelectedGameObject(null);
+           EventSystem.current.SetSelectedGameObject(phoneManager.firstHighlightedPhoneButton);
 
 
 
