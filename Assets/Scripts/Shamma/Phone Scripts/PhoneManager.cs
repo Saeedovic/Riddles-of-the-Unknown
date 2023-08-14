@@ -31,7 +31,7 @@ public class PhoneManager : MonoBehaviour
     [HideInInspector] public bool fullscreenIsSettable;
 
     PhoneCameraApp cameraApp; // camera app needs a bunch of code specifically for it...
-    BlackoutEffect blackOuter;
+    [SerializeField] BlackoutEffect blackOuter;
     [HideInInspector] public bool cameraAppOpen;
 
 
@@ -60,7 +60,7 @@ public class PhoneManager : MonoBehaviour
         SetPhoneState(phoneIsOut); // close phone.
 
         cameraApp = GetComponentInChildren<PhoneCameraApp>();
-        blackOuter = cameraApp.blackOuter;
+        BlackoutEffect.Instance = blackOuter;
 
         PhoneMainMenu.onAppOpen += ResetFullscreenVal;
         PhoneMainMenu.onAppClose += ForceFullscreenOff; // need to know if we should switch to fullscreen or no
@@ -241,9 +241,9 @@ public class PhoneManager : MonoBehaviour
 
     public IEnumerator ExitBlackoutTransition()
     {
-        if (blackOuter.screenIsBlack)
+        if (BlackoutEffect.Instance.screenIsBlack)
         {
-            StartCoroutine(blackOuter.FadeOutOfBlack());
+            StartCoroutine(BlackoutEffect.Instance.FadeOutOfBlack());
             cameraApp.ProcessExitingFullscreen();
             yield break;
         }

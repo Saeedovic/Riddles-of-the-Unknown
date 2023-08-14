@@ -13,6 +13,9 @@ public class BlackoutEffect : MonoBehaviour
     public bool screenIsBlack { get; private set; }
     public bool faderRunning { get; private set; }
 
+    public static BlackoutEffect Instance;
+
+
     private void OnEnable()
     {
         imageToFade = GetComponent<Image>();
