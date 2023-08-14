@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Animations.Rigging;
 
 public class PlayerCon : MonoBehaviour
 {
@@ -24,6 +25,10 @@ public class PlayerCon : MonoBehaviour
     bool isWalking = false;
     public bool isRunning = false;
     bool isCrouching = false;
+
+    bool movingLeft = false;
+    bool movingRight = false;
+    bool movingBack = false;
 
     
 
@@ -51,24 +56,12 @@ public class PlayerCon : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         controller = GetComponent<CharacterController>();
         soundPlayed = false;
-
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
      void Update()
     {
         // other code
         {
-            // for adjusting mouse state in scenarios like the safe puzzle
-            if (Input.GetMouseButtonDown(0) && !PhoneManager.Instance.mouseShouldBeUseable)
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-            if (Input.GetKeyDown(KeyCode.Escape) && PhoneManager.Instance.mouseShouldBeUseable)
-            {
-                Cursor.lockState = CursorLockMode.None;
-            }
-
             if (!soundPlayed)
             {
                 playerAudio.clip = AudioClipForGameEnvironment;
@@ -89,70 +82,21 @@ public class PlayerCon : MonoBehaviour
 
         Vector3 move = transform.TransformDirection(moveInput);
 
-        {/*
-            bool isWalking;
-
-            if ((horizontal < 0.5f || horizontal > 0.5f) || (vertical < 0.5f || vertical > 0.5f))
-            {
-                isWalking = true;
-            }
-            else
-            {
-                isWalking = false;
-            }
-
-            animator.SetBool("isWalking", isWalking);*/
-        }
 
         
         // run controls, animator bool setting 
         float currentSpeed = walkSpeed;
 
-        if (Input.GetKey(runKey) && vertical > 0)
-        {
-            currentSpeed *= runMultiplier;
-            isWalking = false;
-            isRunning = true;
-        }
-        else if (Mathf.Abs(horizontal) > 0.5f || Mathf.Abs(vertical) > 0.5f)
-        {
-            isWalking = true;
-            isRunning = false;
-        }
-        else
-        {
-            isWalking = false;
-            isRunning = false;
-        }
-
-        if (isWalking && walkingAudioSource.clip != walkingAudio)
-        {
-            walkingAudioSource.Stop();
-            walkingAudioSource.clip = walkingAudio;
-        }
-        if (isRunning && walkingAudioSource.clip != runningAudio)
-        {
-            walkingAudioSource.Stop();
-            walkingAudioSource.clip = runningAudio;
-        }
-
-        
-        if (isWalking || isRunning)
-        {
-            if (!walkingAudioSource.isPlaying)
-            {
-                walkingAudioSource.Play();
-            }
-        }
-
-        if (!isWalking && !isRunning)
-        {
-            walkingAudioSource.Stop();
-        }
+        DetermineRunState(currentSpeed, horizontal, vertical);
 
         animator.SetBool("isWalking", isWalking);
         animator.SetBool("isRunning", isRunning);
         //animator.SetFloat("moveSpeed", (move.x * move.z) * currentSpeed);
+
+
+
+        PlayMovementSoundEffect();
+        
 
         if (Input.GetKey(crouchKey) && controller.isGrounded && !isRunning)
         {
@@ -166,18 +110,7 @@ public class PlayerCon : MonoBehaviour
             isCrouching = false;
         }
 
-        {
-        /*
-        if (currentSpeed > 8 && isWalking)
-        {
-            animator.SetBool("startRunning", true);
-        }
-        if (currentSpeed < 8 && !isWalking)
-        {
-            animator.SetBool("startRunning", false);
-        }
-        */
-        }
+       
 
         // apply movement vector to char
         controller.Move(move * currentSpeed * Time.deltaTime);
@@ -195,4 +128,56 @@ public class PlayerCon : MonoBehaviour
      }
 
 
+    void DetermineRunState(float currentSpeed, float horizInput, float vertInput)
+    {
+        if (Input.GetKey(runKey) && vertInput > 0)
+        {
+            currentSpeed *= runMultiplier;
+            isWalking = false;
+            isRunning = true;
+        }
+        else if (Mathf.Abs(horizInput) > 0.5f || Mathf.Abs(vertInput) > 0.5f)
+        {
+            isWalking = true;
+            isRunning = false;
+        }
+        else
+        {
+            isWalking = false;
+            isRunning = false;
+        }
+    }
+
+
+    void PlayMovementSoundEffect()
+    {
+        // check if we should switch to walking or running clips
+        if (isWalking && walkingAudioSource.clip != walkingAudio)
+        {
+            walkingAudioSource.Stop();
+            walkingAudioSource.clip = walkingAudio;
+        }
+        if (isRunning && walkingAudioSource.clip != runningAudio)
+        {
+            walkingAudioSource.Stop();
+            walkingAudioSource.clip = runningAudio;
+        }
+
+        // play the clip when we're moving and it isn't already playing
+        if ((isWalking || isRunning) && !walkingAudioSource.isPlaying)
+        {
+            walkingAudioSource.Play();
+        }
+
+        if (!isWalking && !isRunning)
+        {
+            walkingAudioSource.Stop();
+        }
+    }
+
+
+    public void SetFingerRigState(Rig rig)
+    {
+
+    }
 }

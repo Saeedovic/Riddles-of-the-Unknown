@@ -34,6 +34,10 @@ public class PhoneCameraApp : PhoneAppScreen
     public static bool enteredFullscreen { get; private set; }
     public bool ecopointScanned;
 
+    public BlackoutEffect blackOuter;
+    [SerializeField] SkinnedMeshRenderer[] playerModel;
+    [SerializeField] MeshRenderer phoneModel;
+
     public delegate void OnFullscreening();
     public static OnFullscreening onFullscreenEntered;
     public static OnFullscreening onFullscreenExited;
@@ -52,7 +56,7 @@ public class PhoneCameraApp : PhoneAppScreen
         enteredFullscreen = false;
         ecopointScanned = false;
         fullscreenUI.SetActive(false);
-        //ExitFullScreenMode();
+        //InitiateExitFullScreenMode();
     }
 
     protected void Update()
@@ -88,21 +92,28 @@ public class PhoneCameraApp : PhoneAppScreen
     public override void OnOpenApp()
     {
         base.OnOpenApp();
+
         picTakingButton.onClick.AddListener(TakeSnapshot);
-        PhoneManager.onEnterFullscreen += EnterFullscreenMode;
-        PhoneManager.onExitFullscreen += ExitFullScreenMode;
+        PhoneManager.onEnterFullscreen += InitiateEnterFullscreenMode;
+        PhoneManager.onExitFullscreen += InitiateExitFullScreenMode;
+
+        PhoneManager.Instance.cameraAppOpen = true;
     }
 
     public override void OnCloseApp()
     {
         if (enteredFullscreen)
         {
-            ExitFullScreenMode();
+            InitiateExitFullScreenMode();
+            //PhoneManager.Instance.StartCoroutine(PhoneManager.Instance.ExitBlackoutTransition());
         }
 
-        PhoneManager.onEnterFullscreen -= EnterFullscreenMode;
-        PhoneManager.onExitFullscreen -= ExitFullScreenMode;
+        PhoneManager.onEnterFullscreen -= InitiateEnterFullscreenMode;
+        PhoneManager.onExitFullscreen -= InitiateExitFullScreenMode;
         picTakingButton?.onClick.RemoveListener(TakeSnapshot);
+
+        PhoneManager.Instance.cameraAppOpen = false; 
+
         base.OnCloseApp();
     }
 
@@ -115,7 +126,18 @@ public class PhoneCameraApp : PhoneAppScreen
         pictureTaken = true;
 
         StartCoroutine(TakeSnapShotTimer());
+    }
 
+
+    void TakeSnapshotFullscreen()
+    {
+        AudioSource.PlayClipAtPoint(AudioForSnapShot, transform.position);
+
+        lastPicTakenInFullscreen.texture = toTexture2D(cameraDisplayTexture);
+
+        pictureTaken = true;
+
+        StartCoroutine(TakeSnapShotTimer());
     }
 
     // courtesy of stackoverflow. 
@@ -146,9 +168,58 @@ public class PhoneCameraApp : PhoneAppScreen
         yield return new WaitForSeconds(2);
         ecopointScanned = false;
 
+     }
+
+    void ExecuteEcopoint()
+    {
+        ecopointScanner.InputHandle();
+        StartCoroutine(EcoPointBoolCheck());
     }
 
-    void EnterFullscreenMode()
+    void InitiateEnterFullscreenMode()
+    {
+        // need to let animation play out before we start up fullscreen
+        blackOuter.StartCoroutine(blackOuter.FadeInToBlack());
+        StartCoroutine(EnteringFullscreenTransition());
+    }
+
+    void InitiateExitFullScreenMode()
+    {
+        blackOuter.StartCoroutine(blackOuter.FadeInToBlack());
+        PhoneManager.Instance.StartCoroutine(ExitingFullscreenTransition());
+        Debug.Log("one");
+    }
+
+    // start transition back out, wait for completion
+    IEnumerator EnteringFullscreenTransition()
+    {
+        if (blackOuter.screenIsBlack)
+        {
+            StartCoroutine(blackOuter.FadeOutOfBlack());
+            ProcessEnteringFullscreen();
+            yield break;
+        }
+
+        yield return null;
+        StartCoroutine(EnteringFullscreenTransition());
+    }
+
+    IEnumerator ExitingFullscreenTransition()
+    {
+        if (blackOuter.screenIsBlack)
+        {
+            StartCoroutine(blackOuter.FadeOutOfBlack());
+            ProcessExitingFullscreen();
+            Debug.Log("two B");
+            yield break;
+        }
+        Debug.Log("two A");
+        yield return null;
+        PhoneManager.Instance.StartCoroutine(ExitingFullscreenTransition());
+    }
+
+
+    void ProcessEnteringFullscreen()
     {
         enteredFullscreen = true;
         fullscreenUI.SetActive(true);
@@ -170,11 +241,17 @@ public class PhoneCameraApp : PhoneAppScreen
 
         phoneObject.transform.position = cameraFullscreenPhonePos;
 
+        for (int i = 0; i < playerModel.Length; i++)
+        {
+            playerModel[i].enabled = false;
+        }
+        phoneModel.enabled = false;
 
         onFullscreenEntered?.Invoke();
     }
 
-    void ExitFullScreenMode()
+
+    public void ProcessExitingFullscreen()
     {
         enteredFullscreen = false;
         fullscreenUI.SetActive(false);
@@ -196,25 +273,14 @@ public class PhoneCameraApp : PhoneAppScreen
 
         phoneObject.transform.position = PhoneManager.Instance.regularScreenPos.position;
 
-
+        for (int i = 0; i < playerModel.Length; i++)
+        {
+            playerModel[i].enabled = true;
+        }
+        phoneModel.enabled = true;
+        Debug.Log("three");
         onFullscreenExited?.Invoke();
     }
 
-    void TakeSnapshotFullscreen()
-    {
-        AudioSource.PlayClipAtPoint(AudioForSnapShot, transform.position);
-
-        lastPicTakenInFullscreen.texture = toTexture2D(cameraDisplayTexture);
-
-        pictureTaken = true;
-
-        StartCoroutine(TakeSnapShotTimer());
-    }
-
-    void ExecuteEcopoint()
-    {
-        ecopointScanner.InputHandle();
-        StartCoroutine(EcoPointBoolCheck());
-    }
 
 }
