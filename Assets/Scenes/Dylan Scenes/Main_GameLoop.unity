@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 7.223529, g: 5.229665, b: 7.3495045, a: 1}
+  m_IndirectSpecularColor: {r: 6.6408286, g: 4.4688206, b: 5.2425027, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -28569,6 +28569,24 @@ PrefabInstance:
       propertyPath: playerModel
       value: 
       objectReference: {fileID: 1700105522}
+    - target: {fileID: 7758947926352219390, guid: 7c1d1c1fc70150c46bd22969b0c5d102, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: 8d1658eef936aa84dbed6cc0dcd3a471, type: 3}
+    - target: {fileID: 7758947926352219390, guid: 7c1d1c1fc70150c46bd22969b0c5d102, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 2993360cd62023d4abc570db2fabccf3, type: 2}
+    - target: {fileID: 7758947926352219390, guid: 7c1d1c1fc70150c46bd22969b0c5d102, type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
+        'mixamorig:LeftHandIndex1'\n\tTransform 'mixamorig:LeftHandPinky2'\n\tTransform
+        'mixamorig:RightHandRing2'\n\tTransform 'mixamorig:Spine1'\n\tTransform 'mixamorig:RightArm'\n\tTransform
+        'mixamorig:LeftLeg'\n\tTransform 'mixamorig:LeftShoulder'\n\tTransform 'mixamorig:RightHandRing1'\n\tand
+        more ...\n\tFrom animation clip 'Idle'"
+      objectReference: {fileID: 0}
     - target: {fileID: 7860680498361013153, guid: 7c1d1c1fc70150c46bd22969b0c5d102, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

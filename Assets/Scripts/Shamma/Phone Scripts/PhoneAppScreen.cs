@@ -17,19 +17,6 @@ public abstract class PhoneAppScreen : MonoBehaviour
         hasFullscreenAsOption = true;
     }
 
-    private void Update()
-    {
-        if(EventSystem.current.currentSelectedGameObject == null)
-        {
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(firstHighlightedButton);
-
-            Debug.Log("Button Reset " + this.gameObject.name);
-        }
-        Debug.Log(EventSystem.current.currentSelectedGameObject);
-
-
-    }
 
     public virtual void OnOpenApp()
     {
@@ -38,8 +25,6 @@ public abstract class PhoneAppScreen : MonoBehaviour
         //PhoneMainMenu.onAppClose += OnCloseApp;
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(firstHighlightedButton); // make sure new UI screen is selected properly
-
-        Debug.Log("App Opened " + this.gameObject.name);
 
         PhoneManager.Instance.playerUI.SetActive(false); // switch off stats so they don't cover the app screen
 
