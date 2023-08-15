@@ -258,7 +258,10 @@ public class TutorialManager : MonoBehaviour
 
         ThirdPersonCam.enabled = true;
 
-      //  tutCam.transform.position = new Vector3(0.0549999997f, 0.38499999f, -0.145999998f);
+        phoneManager.phoneIsUseable = false;
+
+
+        //  tutCam.transform.position = new Vector3(0.0549999997f, 0.38499999f, -0.145999998f);
 
     }
 
@@ -386,6 +389,7 @@ public class TutorialManager : MonoBehaviour
         {
             if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
             {
+                phoneManager.phoneIsUseable = true;
                 playerAudio.clip = phone_Ringing;
 
                 playerAudio.loop = true;
@@ -436,9 +440,18 @@ public class TutorialManager : MonoBehaviour
 
             tutCamPhone.SetActive(true);
 
+            phoneManager.firstHighlightedPhoneButton = camAppButton.gameObject;
+            phoneManager.phoneIsUseable = false;
+
+            if (PhoneMainMenu.appIsOpen == false)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(phoneManager.firstHighlightedPhoneButton);
+            }
 
 
-            if(Input.GetKeyDown(KeyCode.K)) 
+
+            if (Input.GetKeyDown(KeyCode.K)) 
             {
                 phoneObjRef.SetActive(true);
             }
@@ -500,6 +513,7 @@ public class TutorialManager : MonoBehaviour
         {
             if (cameraApp.activeInHierarchy == false)
             {
+                phoneManager.phoneIsUseable = true;
 
                 popUpIndex++;
                 collectableCounterObj.SetActive(true);
@@ -567,7 +581,7 @@ public class TutorialManager : MonoBehaviour
             inventoryAppButton.interactable = true;
 
            phoneManager.firstHighlightedPhoneButton = inventoryAppButton.gameObject;
-          // phoneManager.phoneIsUseable = false;
+           phoneManager.phoneIsUseable = false;
 
 
             onScreenInstructionUI.SetActive(false);
@@ -582,8 +596,12 @@ public class TutorialManager : MonoBehaviour
                 //phoneObjRef.SetActive(true);
 
             phoneManager.SetPhoneState(false); // open Phone
-           EventSystem.current.SetSelectedGameObject(null);
-           EventSystem.current.SetSelectedGameObject(phoneManager.firstHighlightedPhoneButton);
+
+            if(PhoneMainMenu.appIsOpen == false)
+            {
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(phoneManager.firstHighlightedPhoneButton);
+            }
 
 
 
@@ -616,13 +634,6 @@ public class TutorialManager : MonoBehaviour
                 }
         
             }
-
-            if(cameraApp.activeInHierarchy == true )
-            {
-                cameraApp.SetActive(false);
-                inventoryApp.SetActive(true);
-            }
-
         } 
 
 
@@ -680,7 +691,7 @@ public class TutorialManager : MonoBehaviour
             camAppButton.interactable = true;
             interactor.enabled = true;
             popUpCollider16.enabled = false;
-
+            phoneManager.phoneIsUseable = true;
 
             if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
             {
@@ -1146,6 +1157,16 @@ public class TutorialManager : MonoBehaviour
 
             phoneManager.SetPhoneState(false); // open Phone
 
+            phoneManager.firstHighlightedPhoneButton = noteAppButton.gameObject;
+            phoneManager.phoneIsUseable = false;
+
+            if (PhoneMainMenu.appIsOpen == false)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(phoneManager.firstHighlightedPhoneButton);
+            }
+
+
 
             if (notesApp.activeInHierarchy == true)
             {
@@ -1178,6 +1199,7 @@ public class TutorialManager : MonoBehaviour
 
             if (notesApp.activeInHierarchy == false)   //This is the end of the Notes App Tutorial
             {
+                phoneManager.phoneIsUseable = true;
 
                 mainCam.SetActive(true);
                 tutCamPhone.SetActive(false);
@@ -1209,6 +1231,15 @@ public class TutorialManager : MonoBehaviour
             tutCamPhone.SetActive(true);
             phoneManager.SetPhoneState(false); // open Phone
 
+            phoneManager.firstHighlightedPhoneButton = statAppButton.gameObject;
+            phoneManager.phoneIsUseable = false;
+
+            if (PhoneMainMenu.appIsOpen == false)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(phoneManager.firstHighlightedPhoneButton);
+            }
+
 
             if (statAllocationApp.activeInHierarchy == true)
             {
@@ -1234,6 +1265,8 @@ public class TutorialManager : MonoBehaviour
         {
             if (statAllocationApp.activeInHierarchy == false)  //This is the end of the Stat App Tutorial
             {
+                phoneManager.phoneIsUseable = true;
+
                 mainCam.SetActive(true);
                 tutCamPhone.SetActive(false);
 

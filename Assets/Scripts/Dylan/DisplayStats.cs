@@ -72,7 +72,7 @@ public class DisplayStats : MonoBehaviour
     }
     public void Start()
     {
-
+        watchManager = WatchObjRef.GetComponent<WatchManager>();
         playerCon = GetComponent<PlayerCon>();
 
         #region Stats Equal Max-Values
@@ -134,7 +134,6 @@ public class DisplayStats : MonoBehaviour
         else if(currentStamina >= 0.5f)
         {
            playerCon.runMultiplier = 2;
-
         }
 
 
@@ -171,20 +170,24 @@ public class DisplayStats : MonoBehaviour
         if (currentHunger <= 20) //Needs to be Revised accoding to new values
         {
             //Activate Watch and Tell the Player to Drink Water OR they will die!
-            WatchObjRef.SetActive(true);
+            watchManager.SetWatchState(false);
             EatFoodWarning.SetActive(true);
 
-           
+            if (Input.GetKeyDown(KeyCode.J))
+            {
+                watchManager.SetWatchState(true);
+                EatFoodWarning.SetActive(false);
+            }
         }
         if(currentThirst <= 20)
         {
             //Activate Watch and Tell the Player to Eat Food OR they will die!
-            WatchObjRef.SetActive(true);
+            watchManager.SetWatchState(false);
             DrinkWaterWarning.SetActive(true);
 
             if (Input.GetKeyDown(KeyCode.J))
             {
-                WatchObjRef.SetActive(false);
+                watchManager.SetWatchState(true);
                 DrinkWaterWarning.SetActive(false);
             }
         }

@@ -15,6 +15,11 @@ public class WatchManager : MonoBehaviour
     public static bool watchIsOut { get; private set; }
     public static bool watchShouldBeUseable = true;
 
+    public AudioSource playerAudio;
+    public AudioClip AudioClipForWatch;
+
+    public bool soundPlayed;
+
 
     void Start()
     {
@@ -35,15 +40,25 @@ public class WatchManager : MonoBehaviour
         // when watch is inactive, make it active, and vice versa.
         if (!watchActive)
         {
-            AudioSource.PlayClipAtPoint(AudioForWatch, transform.position);
+            //AudioSource.PlayClipAtPoint(AudioForWatch, transform.position);
             watchObj.SetActive(true);
+
+            if (!soundPlayed)
+            {
+                playerAudio.clip = AudioClipForWatch;
+
+                playerAudio.Play();
+
+
+                soundPlayed = true;
+            }
 
             StopCoroutine(SetHandForWatchOff());
             StartCoroutine(SetHandForWatchOn());
         }
         else
         {
-            AudioSource.PlayClipAtPoint(AudioForWatch, transform.position);
+           // AudioSource.PlayClipAtPoint(AudioForWatch, transform.position);
             watchObj.SetActive(false);
 
             StopCoroutine(SetHandForWatchOn());

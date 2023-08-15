@@ -87,14 +87,14 @@ public class PlayerCon : MonoBehaviour
         // run controls, animator bool setting 
         float currentSpeed = walkSpeed;
 
-        DetermineRunState(currentSpeed, horizontal, vertical);
+       currentSpeed = DetermineRunState(currentSpeed, horizontal, vertical);
 
         animator.SetBool("isWalking", isWalking);
         animator.SetBool("isRunning", isRunning);
         //animator.SetFloat("moveSpeed", (move.x * move.z) * currentSpeed);
 
 
-
+       
         PlayMovementSoundEffect();
         
 
@@ -128,7 +128,7 @@ public class PlayerCon : MonoBehaviour
      }
 
 
-    void DetermineRunState(float currentSpeed, float horizInput, float vertInput)
+    float DetermineRunState(float currentSpeed, float horizInput, float vertInput)
     {
         if (Input.GetKey(runKey) && vertInput > 0)
         {
@@ -146,6 +146,8 @@ public class PlayerCon : MonoBehaviour
             isWalking = false;
             isRunning = false;
         }
+
+        return currentSpeed;
     }
 
 

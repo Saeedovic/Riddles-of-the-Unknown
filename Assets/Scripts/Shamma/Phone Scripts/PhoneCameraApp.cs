@@ -179,7 +179,7 @@ public class PhoneCameraApp : PhoneAppScreen
     {
         // need to let animation play out before we start up fullscreen
         BlackoutEffect.Instance.StartCoroutine(BlackoutEffect.Instance.FadeInToBlack());
-        PhoneManager.Instance.phoneIsUseable = false;
+       // PhoneManager.Instance.phoneIsUseable = false;
 
         StartCoroutine(EnteringFullscreenTransition());
     }
@@ -187,7 +187,7 @@ public class PhoneCameraApp : PhoneAppScreen
     void InitiateExitFullScreenMode()
     {
         BlackoutEffect.Instance.StartCoroutine(BlackoutEffect.Instance.FadeInToBlack());
-        PhoneManager.Instance.phoneIsUseable = false;
+       // PhoneManager.Instance.phoneIsUseable = false;
 
         PhoneManager.Instance.StartCoroutine(ExitingFullscreenTransition());
         Debug.Log("one");
@@ -250,7 +250,7 @@ public class PhoneCameraApp : PhoneAppScreen
         }
         phoneModel.enabled = false;
 
-        PhoneManager.Instance.phoneIsUseable = true;
+       // PhoneManager.Instance.phoneIsUseable = true;
 
         onFullscreenEntered?.Invoke();
     }
@@ -284,7 +284,7 @@ public class PhoneCameraApp : PhoneAppScreen
         }
         phoneModel.enabled = true;
 
-        PhoneManager.Instance.phoneIsUseable = true;
+        //PhoneManager.Instance.phoneIsUseable = true;
         Debug.Log("three");
         onFullscreenExited?.Invoke();
     }
