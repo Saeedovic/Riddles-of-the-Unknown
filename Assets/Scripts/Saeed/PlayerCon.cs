@@ -22,13 +22,13 @@ public class PlayerCon : MonoBehaviour
     private CharacterController controller;
     private Vector3 forceOfGravity;
 
-    bool isWalking = false;
+    bool isWalkingForward = false;
     public bool isRunning = false;
     bool isCrouching = false;
 
-    bool movingLeft = false;
-    bool movingRight = false;
-    bool movingBack = false;
+    bool isWalkingLeft = false;
+    bool isWalkingRight = false;
+    bool isWalkingBack = false;
 
     
 
@@ -89,7 +89,10 @@ public class PlayerCon : MonoBehaviour
 
         currentSpeed = DetermineRunState(currentSpeed, horizontal, vertical);
 
-        animator.SetBool("isWalking", isWalking);
+        animator.SetBool("isWalkingForward", isWalkingForward);
+        animator.SetBool("isWalkingLeft", isWalkingLeft);
+        animator.SetBool("isWalkingRight", isWalkingRight);
+        animator.SetBool("isWalkingBack", isWalkingBack);
         animator.SetBool("isRunning", isRunning);
         //animator.SetFloat("moveSpeed", (move.x * move.z) * currentSpeed);
 
@@ -130,23 +133,61 @@ public class PlayerCon : MonoBehaviour
 
     float DetermineRunState(float currentSpeed, float horizInput, float vertInput)
     {
-        if (Input.GetKey(runKey) && vertInput > 0)
+        if (Input.GetKey(runKey) && (vertInput > 0 || horizInput > 0))
         {
             currentSpeed *= runMultiplier;
-            isWalking = false;
+            isWalkingForward = false;
+            isWalkingLeft = false;
+            isWalkingRight = false;
+            isWalkingBack = false;
             isRunning = true;
         }
-        else if (Mathf.Abs(horizInput) > 0.5f || Mathf.Abs(vertInput) > 0.5f)
+        else if (horizInput > 0.5f)
         {
-            isWalking = true;
+            isWalkingForward = false;
+            isWalkingLeft = false;
+            isWalkingRight = true;
+            isWalkingBack = false;
             isRunning = false;
+            //Debug.Log("one");
+        }
+        else if (-0.5f > horizInput)
+        {
+            isWalkingForward = false;
+            isWalkingLeft = true;
+            isWalkingRight = false;
+            isWalkingBack = false;
+            isRunning = false;
+            //Debug.Log("two");
+        }
+        else if (vertInput > 0.5f)
+        {
+            isWalkingForward = true;
+            isWalkingLeft = false;
+            isWalkingRight = false;
+            isWalkingBack = false;
+            isRunning = false;
+            //Debug.Log("three");
+        }
+        else if (-0.5f > vertInput)
+        {
+            isWalkingForward = false;
+            isWalkingLeft = false;
+            isWalkingRight = false;
+            isWalkingBack = true;
+            isRunning = false;
+            //Debug.Log("four");
         }
         else
         {
-            isWalking = false;
+            isWalkingForward = false;
+            isWalkingLeft = false;
+            isWalkingRight = false;
+            isWalkingBack = false;
             isRunning = false;
         }
 
+        //Debug.Log(horizInput + ", " + vertInput);
         return currentSpeed;
     }
 
@@ -154,7 +195,9 @@ public class PlayerCon : MonoBehaviour
     void PlayMovementSoundEffect()
     {
         // check if we should switch to walking or running clips
-        if (isWalking && walkingAudioSource.clip != walkingAudio)
+        if ((isWalkingForward || isWalkingBack
+            || isWalkingLeft || isWalkingRight)
+            && walkingAudioSource.clip != walkingAudio)
         {
             walkingAudioSource.Stop();
             walkingAudioSource.clip = walkingAudio;
@@ -166,12 +209,15 @@ public class PlayerCon : MonoBehaviour
         }
 
         // play the clip when we're moving and it isn't already playing
-        if ((isWalking || isRunning) && !walkingAudioSource.isPlaying)
+        if ((isWalkingForward || isWalkingBack
+            || isWalkingLeft || isWalkingRight
+            || isRunning) && !walkingAudioSource.isPlaying)
         {
             walkingAudioSource.Play();
         }
 
-        if (!isWalking && !isRunning)
+        if (!isWalkingForward && !isRunning
+            && !isWalkingBack && !isWalkingLeft && !isWalkingRight)
         {
             walkingAudioSource.Stop();
         }
