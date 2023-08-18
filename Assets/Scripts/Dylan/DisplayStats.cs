@@ -18,6 +18,8 @@ public class DisplayStats : MonoBehaviour
     [SerializeField] GameObject EatFoodWarning;
 
     [SerializeField] GameObject GameOverPanel;
+    [SerializeField] GameObject In_Game_UI;
+
     public GameObject playAgain;
     public GameObject exit;
 
@@ -48,6 +50,14 @@ public class DisplayStats : MonoBehaviour
     public TextMeshProUGUI hunger;
     public TextMeshProUGUI thrist;
 
+    bool hungerWarningHasBeenMade;
+    bool thirstWarningHasBeenMade;
+
+    public AudioSource playerAudio;
+
+    public AudioClip voiceOverHungerWarning;
+
+    public AudioClip voiceOverThirstWarning;
 
     #endregion
     private void Awake()
@@ -63,11 +73,6 @@ public class DisplayStats : MonoBehaviour
         DrinkWaterWarning.SetActive(false);
         EatFoodWarning.SetActive(false);
         GameOverPanel.SetActive(false);
-
-
-
-
-
 
     }
     public void Start()
@@ -167,11 +172,17 @@ public class DisplayStats : MonoBehaviour
 
 
         #region WARNING CHECKS: If Thirst OR Hunger is LESS than 20%
-        if (currentHunger <= 20) //Needs to be Revised accoding to new values
+        if (currentHunger <= 20 && hungerWarningHasBeenMade == false) //Needs to be Revised accoding to new values
         {
             //Activate Watch and Tell the Player to Drink Water OR they will die!
             watchManager.SetWatchState(false);
             EatFoodWarning.SetActive(true);
+
+            playerAudio.PlayOneShot(voiceOverHungerWarning);
+
+            StartCoroutine(TutorialManager.DisplaySubs("Maaaaan I'm hungry. Let me see if I got anything in the inventory app", 4.5f));
+
+            hungerWarningHasBeenMade = true;
 
             if (Input.GetKeyDown(KeyCode.J))
             {
@@ -179,11 +190,17 @@ public class DisplayStats : MonoBehaviour
                 EatFoodWarning.SetActive(false);
             }
         }
-        if(currentThirst <= 20)
+        if(currentThirst <= 20 && thirstWarningHasBeenMade == false)
         {
             //Activate Watch and Tell the Player to Eat Food OR they will die!
             watchManager.SetWatchState(false);
             DrinkWaterWarning.SetActive(true);
+
+            playerAudio.PlayOneShot(voiceOverThirstWarning);
+
+            StartCoroutine(TutorialManager.DisplaySubs("Got to stay hydrated or I might pass out!", 2.5f));
+
+            thirstWarningHasBeenMade = true;
 
             if (Input.GetKeyDown(KeyCode.J))
             {
@@ -197,10 +214,12 @@ public class DisplayStats : MonoBehaviour
         if (EatFoodWarning.activeInHierarchy == true && currentHunger >= 20) //Needs to be Revised accoding to new values
         {
             EatFoodWarning.SetActive(false);
+            hungerWarningHasBeenMade = false;
         }
         if (DrinkWaterWarning.activeInHierarchy == true && currentThirst >= 20)
         {
             DrinkWaterWarning.SetActive(false);
+            thirstWarningHasBeenMade = false;
         }
         #endregion
 
@@ -242,14 +261,25 @@ public class DisplayStats : MonoBehaviour
         UpdateUI();
     }
 
+    public void HungerWarning()
+    {
+        if (hungerWarningHasBeenMade == false)
+        {
+            StartCoroutine(TutorialManager.DisplaySubs("I'm starving, I need to eat Something Asap", 2f));
+
+            hungerWarningHasBeenMade = true;
+        }
+    }
+
 
     public void Die()
     {
         stat.death = true;
         Debug.Log("you have died");
 
+        In_Game_UI.SetActive(false);
         GameOverPanel.SetActive(true);
-
+        playerCon.enabled = false;
         if (EventSystem.current.currentSelectedGameObject != playAgain && EventSystem.current.currentSelectedGameObject != exit)
         {
 

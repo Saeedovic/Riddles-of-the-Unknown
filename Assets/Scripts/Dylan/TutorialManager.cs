@@ -26,14 +26,14 @@ public class TutorialManager : MonoBehaviour
     PlayerCon playerCont;
     PlayerInteractor interactor;
     Safe_System safe;
-    [SerializeField]  InventoryHandler inventoryHandler;
+    [SerializeField] InventoryHandler inventoryHandler;
 
     DisplayStats stats;
 
 
 
 
-    [SerializeField] public  GameObject playerObjRef;
+    [SerializeField] public GameObject playerObjRef;
     [SerializeField] GameObject PhoneAppRef;
     [SerializeField] GameObject WaypointSystemRef;
     [SerializeField] GameObject WatchObjRef;
@@ -62,7 +62,7 @@ public class TutorialManager : MonoBehaviour
     public Button noteAppBackButton;
     public Button settingAppBackButton;
 
- 
+
 
 
     //---- Live Playtest ----- //
@@ -116,7 +116,7 @@ public class TutorialManager : MonoBehaviour
 
 
 
-   public bool WaterIntro = false;
+    public bool WaterIntro = false;
 
 
     public Camera ThirdPersonCam;
@@ -158,7 +158,7 @@ public class TutorialManager : MonoBehaviour
 
     public int originalPopUpIndex;
 
-  //  public GameObject tutorialWayPointLocation;
+    //  public GameObject tutorialWayPointLocation;
 
     public GameObject tutCamWatch;
     public GameObject tutCamPhone;
@@ -180,8 +180,8 @@ public class TutorialManager : MonoBehaviour
 
 
     public AudioClip voiceOverForReachingVillage1;
-  //  public AudioClip voiceOverForLeavingVillage1;
-   // public AudioClip voiceOverForInventoryApp;
+    //  public AudioClip voiceOverForLeavingVillage1;
+    // public AudioClip voiceOverForInventoryApp;
     public AudioClip voiceOverForFollowingPathToReachVillage;
     public AudioClip voiceOverAfterDrinkingWater;
     public AudioClip voiceOverIveGotABadFeeling;
@@ -200,15 +200,54 @@ public class TutorialManager : MonoBehaviour
 
     public AudioClip voiceOverSmartWatch;
 
+    public AudioClip voiceOverFirstCutScene_1;
+    public AudioClip voiceOverFirstCutScene_2;
+    public AudioClip voiceOver1AfterFirstCutScene;
+    public AudioClip voiceOver2AfterFirstCutScene;
+
+
+
+
+
     bool audio1HasPLayed = false;
     bool audio2HasPLayed = false;
     bool audio3HasPLayed = false;
     bool audio4HasPLayed = false;
 
+    bool voiceOverFirstCutScene_1_Has_Played = false;
+
+    bool FirstHalf = false;
+    bool SecondHalf = false;
 
 
 
 
+
+
+    [SerializeField] private Animator FirstCutScene;
+    [SerializeField] private string FirstCutSceneContainer = "Intro_Cutscene";
+
+    [SerializeField] private Animator Right_Bus_Door;
+    [SerializeField] private string RightBusDoorContainer = "Right_Bus_Door_Closing";
+
+    [SerializeField] private Animator Left_Bus_Door;
+    [SerializeField] private string LeftBusDoorContainer = "Left_Bus_Door_Closing";
+
+    public Camera FirstCutSceneCamera;
+
+    public GameObject Quest_Canvas;
+
+
+    public static GameObject staticSubtitleObj;
+    public static TextMeshProUGUI staticSubTextBox;
+    public bool subActive = true;
+    public static TextMeshProUGUI staticSubButtonText;
+
+    public GameObject subtitleObj;
+    public TextMeshProUGUI subTextBox;
+    public TextMeshProUGUI subButtonText;
+
+    public PlayerCameraController playerCameraController;
 
 
 
@@ -216,6 +255,10 @@ public class TutorialManager : MonoBehaviour
 
     private void Awake()
     {
+        staticSubtitleObj = subtitleObj;
+        staticSubTextBox = subTextBox;
+        staticSubButtonText = subButtonText;
+
         qManager = playerObjRef.GetComponent<QuestManager>();
         xpManager = playerObjRef.GetComponent<XPManager>();
         stats = playerObjRef.GetComponent<DisplayStats>();
@@ -231,6 +274,7 @@ public class TutorialManager : MonoBehaviour
         unlockableCabinDoor = CabinWKeyDoor.GetComponent<UnlockableDoor>();
         unlockableCaveDoor = CaveWKeyDoor.GetComponent<UnlockableDoor>();
 
+        playerCameraController.GetComponent<PlayerCameraController>().enabled = false;
 
 
         collectableCounterObj.SetActive(false);
@@ -249,6 +293,9 @@ public class TutorialManager : MonoBehaviour
 
     private void Start()
     {
+        FirstCutSceneCamera.enabled = true;     // NEEDS TO BE TRUE
+        StartCoroutine(FirstCutsceneAnimation());    //NEEDS TO BE UN COMMENTED
+
         mainCam.SetActive(true);
         tutCamWatch.SetActive(false);
         tutCamPhone.SetActive(false);
@@ -256,12 +303,9 @@ public class TutorialManager : MonoBehaviour
         playerHunger = playerObjRef.GetComponent<HungerSystem>();
         onScreenInstructionUI.SetActive(false);
 
-        ThirdPersonCam.enabled = true;
+        ThirdPersonCam.enabled = false;
 
         phoneManager.phoneIsUseable = false;
-
-
-        //  tutCam.transform.position = new Vector3(0.0549999997f, 0.38499999f, -0.145999998f);
 
     }
 
@@ -269,720 +313,823 @@ public class TutorialManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        collectableCountText.text = collectableCount.ToString("0");
 
-
-        if(phoneObjRef.activeInHierarchy == true || playerWatch.activeInHierarchy == true)
+        if (FirstCutSceneCamera.enabled == false)
         {
-            ThirdPersonCam.enabled = false;
-        }
-
-        if(Input.GetKeyDown(KeyCode.U) && ThirdPersonCam.enabled == false)
-        {
-            ThirdPersonCam.enabled = true;
-
-        }else if(Input.GetKeyDown(KeyCode.U) && ThirdPersonCam.enabled == true)
-        {
-            ThirdPersonCam.enabled = false;
-        }
+            playerObjRef.GetComponent<PlayerCon>().enabled = true;
+            playerCameraController.GetComponent<PlayerCameraController>().enabled = true;
+            collectableCountText.text = collectableCount.ToString("0");
 
 
-
-        if (phoneObjRef.activeInHierarchy == true && cameraApp.activeInHierarchy == false && statAllocationApp.activeInHierarchy == false && inventoryApp.activeInHierarchy == false)
-        {
-            phoneControlsGUIText.SetActive(true);
-        }
-        else
-        {
-            phoneControlsGUIText.SetActive(false);
-        }
-        if(cameraApp.activeInHierarchy == true && fullScreenCam.activeInHierarchy != true)
-        {
-            phoneControlsGUIText.SetActive(false);
-            controlToAccessEcoPointText.SetActive(true);
-        }
-        if (fullScreenCam.activeInHierarchy == true || cameraApp.activeInHierarchy != true || statAllocationApp.activeInHierarchy == true || inventoryApp.activeInHierarchy == true)
-        {
-            controlToAccessEcoPointText.SetActive(false);
-        }
-
-
-        for (int i = 0; i < popUps.Length; i++)
-        {
-            if (i == popUpIndex)
+            if (phoneObjRef.activeInHierarchy == true || playerWatch.activeInHierarchy == true)
             {
-                popUps[i].SetActive(true);
+                ThirdPersonCam.enabled = false;
+            }
 
-                originalPopUpIndex++;
+            if (Input.GetKeyDown(KeyCode.U) && ThirdPersonCam.enabled == false)
+            {
+                ThirdPersonCam.enabled = true;
+
+            }
+            else if (Input.GetKeyDown(KeyCode.U) && ThirdPersonCam.enabled == true)
+            {
+                ThirdPersonCam.enabled = false;
+            }
+
+
+
+            if (phoneObjRef.activeInHierarchy == true && cameraApp.activeInHierarchy == false && statAllocationApp.activeInHierarchy == false && inventoryApp.activeInHierarchy == false)
+            {
+                phoneControlsGUIText.SetActive(true);
             }
             else
             {
-                popUps[i].SetActive(false);
-
+                phoneControlsGUIText.SetActive(false);
             }
-        }
-
-
-
-
-
-
-        if (popUpIndex == 0) // WASD MOVEMENT
-        {
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+            if (cameraApp.activeInHierarchy == true && fullScreenCam.activeInHierarchy != true)
             {
-                popUpIndex++;
-                qManager.CompleteCurrentQuest(); //Go to Dave's Shack
+                phoneControlsGUIText.SetActive(false);
+                controlToAccessEcoPointText.SetActive(true);
             }
-        }
-
-        if (popUpIndex == 1)   //WayPoint
-        {
-            ActivateWayPoint = true;
-
-            popUpIndex++;
-        }
-        if (popUpIndex == 2)
-        {
-            
-
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (fullScreenCam.activeInHierarchy == true || cameraApp.activeInHierarchy != true || statAllocationApp.activeInHierarchy == true || inventoryApp.activeInHierarchy == true)
             {
-                playerAudio.clip = voiceOverSmartWatch;
-
-                playerAudio.loop = false;
-                playerAudio.Play();
-
-                watchManager.SetWatchState(false);
-
-                popUpIndex++;  //watch popup activated
-            }
-        }
-
-        if (popUpIndex == 3)   //Watch is Active
-        {
-            interactor.enabled = false;
-            Time.timeScale = 0;
-
-            popUps[5].SetActive(true);
-
-            mainCam.SetActive(false);
-            tutCamWatch.SetActive(true);
-
-            if (Input.GetKeyDown(KeyCode.J))
-            {
-                mainCam.SetActive(true);
-                tutCamWatch.SetActive(false);
-
-                Time.timeScale = 1;
-
-                interactor.enabled = true;
-                popUps[5].SetActive(false);
-                watchManager.SetWatchState(true);
-
-                popUpIndex++;
-
-            }
-        }
-
-        if (popUpIndex == 4) //Investigate the village
-        {
-            if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
-            {
-                phoneManager.phoneIsUseable = true;
-                playerAudio.clip = phone_Ringing;
-
-                playerAudio.loop = true;
-                playerAudio.Play();
-
-
-                popUps[6].SetActive(true);
-
-                wpSystem.locationIndex++;
-
-                ActivateWayPoint = false;
-                qManager.CompleteCurrentQuest();  //Investigate the Village
-
-                popUpIndex = 6;
-
-            }
-        }
-
-
-        if (popUpIndex == 6) //Take a Picture - 2
-        {
-            if (!audio1HasPLayed)
-            {
-                playerAudio.PlayOneShot(voiceOverUghMyDamnPhone);
-                audio1HasPLayed = true;
-            }
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                playerAudio.Stop();
-                popUps[6].SetActive(false);
-
-                popUpIndex++;
-
-            }
-
-        }
-
-        if (popUpIndex == 7) //Take a Picture - 3   //Make All Buttons Except Camera Button Uninteractable
-        {
-
-            noteAppButton.interactable = false;
-            inventoryAppButton.interactable = false;
-            statAppButton.interactable = false;
-            settingAppButton.interactable = false;
-
-            interactor.enabled = false;
-            mainCam.SetActive(false);
-
-            tutCamPhone.SetActive(true);
-
-            phoneManager.firstHighlightedPhoneButton = camAppButton.gameObject;
-            phoneManager.phoneIsUseable = false;
-
-            if (PhoneMainMenu.appIsOpen == false)
-            {
-                EventSystem.current.SetSelectedGameObject(null);
-                EventSystem.current.SetSelectedGameObject(phoneManager.firstHighlightedPhoneButton);
+                controlToAccessEcoPointText.SetActive(false);
             }
 
 
-
-            if (Input.GetKeyDown(KeyCode.K)) 
+            for (int i = 0; i < popUps.Length; i++)
             {
-                phoneObjRef.SetActive(true);
-            }
-
-            if (cameraApp.activeInHierarchy == true)  //Add condition to check if player is in radius of Village
-            {
-                mainCam.SetActive(true);
-                tutCamPhone.SetActive(false);
-                interactor.enabled = true;
-
-                popUpIndex++;
-
-            }
-        }
-
-        if (popUpIndex == 8) //Take a Picture - 4   
-        {
-
-            camAppBackButton.interactable = false;
-
-            if (cameraApp.activeInHierarchy == true && Input.GetKeyDown(KeyCode.P))
-            {
-                camAppFullScreenBackButton.interactable = false;
-                camAppBackButton.interactable = true;
-
-                popUpIndex++;
-            }
-
-            //if Statement to check if they close phone, they shouldnt be allwoed to
-           
-
-            //Make GoBack Button Uninteractable
-
-
-        }
-
-        if (popUpIndex == 9) //Take a Picture - 5
-        {
-
-
-
-            if (cameraApp.activeInHierarchy == true && app.ecopointScanned == true)
-            {
-                camAppFullScreenBackButton.interactable = true;
-
-                popUpIndex++;
-            }
-
-            //if Statement to check if they close phone, they shouldnt be allwoed to
-            
-
-
-            //Make GoBack Button Uninteractable
-
-
-        }
-
-        if (popUpIndex == 10) //Take a Picture - 6
-        {
-            if (cameraApp.activeInHierarchy == false)
-            {
-                phoneManager.phoneIsUseable = true;
-
-                popUpIndex++;
-                collectableCounterObj.SetActive(true);
-
-            }
-        }
-
-        if(popUpIndex == 11)
-        {
-            //Add UI that says Look for Highlighted obj Around you
-
-            popUps[43].SetActive(true);
-            popUpCollider11.enabled = false;
-
-        }
-
-
-
-        // -------------------------------------------------------FOR LIVE PLAYTEST ------------------------------------------------------------------ //
-
-
-
-        if (popUpIndex == 12) //IndexLocation = 5
-        {
-            popUps[43].SetActive(false); 
-            popUpCollider12.enabled = false;
-
-            onScreenInstructionUI.SetActive(true);
-
-            if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
-            {
-                
-                wpSystem.locationIndex++;
-
-                ActivateWayPoint = false;
-
-                app.ecopointScanned = false;
-
-
-                //Text PopUp w Audio thats says - mmm,Im feeling Quite Hungry (Disappears after like 5 Seconds)
-
-                //source.PlayOneShot(hungryClip);
-
-            //Text PopUp thats says - Do a Eco-Point Scan to look for food to consume (Deactivate this text after ecopoint is done)
-
-            }
-
-            if (app.ecopointScanned == false)
-            {
-                Debug.Log("EcoPoint Scanned");
-                FoodScan.SetActive(true);
-            }
-            //player will look for item and consume it.
-
-            //Once Consumed Phone will open And showcase how the Inventory App Works!
-
-
-        }
-
-
-        if (popUpIndex == 13)   //This Is the Start Of the inventory Tutorial
-        {
-
-           camAppButton.interactable = false;
-            inventoryAppButton.interactable = true;
-
-           phoneManager.firstHighlightedPhoneButton = inventoryAppButton.gameObject;
-           phoneManager.phoneIsUseable = false;
-
-
-            onScreenInstructionUI.SetActive(false);
-
-            interactionBox.SetActive(false);
-            //phoneObjRef.SetActive(false);
-           // phoneManager.SetPhoneState(true); //close phone
-
-            interactor.enabled = false;
-            mainCam.SetActive(false);
-            tutCamPhone.SetActive(true);
-                //phoneObjRef.SetActive(true);
-
-            phoneManager.SetPhoneState(false); // open Phone
-
-            if(PhoneMainMenu.appIsOpen == false)
-            {
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(phoneManager.firstHighlightedPhoneButton);
-            }
-
-
-
-            if (collectableCount == 2)
-            {
-                playerAudio.clip = voiceOverAfterEatingFood;
-
-                playerAudio.loop = false;
-                playerAudio.Play();
-
-                interactionBox.SetActive(false);
-                FoodScan.SetActive(false);
-
-                InventoryHandler.Tutorial = true;
-
-                if (phoneObjRef.activeInHierarchy == true)
+                if (i == popUpIndex)
                 {
-                    popUps[13].SetActive(true);
-         
+                    popUps[i].SetActive(true);
+
+                    originalPopUpIndex++;
                 }
-                if (inventoryApp.activeInHierarchy == true )
+                else
                 {
-                    
+                    popUps[i].SetActive(false);
 
-                    popUps[13].SetActive(false);
-                    popUps[14].SetActive(true);
+                }
+            }
+
+
+
+
+
+
+            if (popUpIndex == 0) // WASD MOVEMENT
+            {
+                if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+                {
+                    popUpIndex++;
+                    qManager.CompleteCurrentQuest(); //Go to Dave's Shack
+                }
+            }
+
+            if (popUpIndex == 1)   //WayPoint
+            {
+                ActivateWayPoint = true;
+
+                popUpIndex++;
+            }
+            if (popUpIndex == 2)
+            {
+               // StartCoroutine(DisplaySubs("Ohh right, I remember now. ", 2.5f));
+
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    playerAudio.clip = voiceOverSmartWatch;
+
+                    playerAudio.loop = false;
+                    playerAudio.Play();
+
+                    watchManager.SetWatchState(false);
+
+                    popUpIndex++;  //watch popup activated
+                }
+            }
+
+            if (popUpIndex == 3)   //Watch is Active
+            {
+                interactor.enabled = false;
+                Time.timeScale = 0;
+
+                popUps[5].SetActive(true);
+
+                mainCam.SetActive(false);
+                tutCamWatch.SetActive(true);
+
+                if (Input.GetKeyDown(KeyCode.J))
+                {
+                    mainCam.SetActive(true);
+                    tutCamWatch.SetActive(false);
+
+                    Time.timeScale = 1;
+
+                    interactor.enabled = true;
+                    popUps[5].SetActive(false);
+                    watchManager.SetWatchState(true);
 
                     popUpIndex++;
 
                 }
-        
             }
-        } 
 
-
-
-        if(popUpIndex == 14)
-        {
-            inventoryAppBackButton.interactable = false;
-
-
-            interactionBox.SetActive(false);
-
-            if (confirmBox.activeInHierarchy == true)
+            if (popUpIndex == 4) //Investigate the village
             {
-                Debug.Log(popUpIndex);
-                popUps[14].SetActive(false);
-                popUps[15].SetActive(true);
+                if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
+                {
+                    phoneManager.phoneIsUseable = true;
+                    playerAudio.clip = phone_Ringing;
 
+                    playerAudio.loop = true;
+                    playerAudio.Play();
+
+
+                    popUps[6].SetActive(true);
+
+                    wpSystem.locationIndex++;
+
+                    ActivateWayPoint = false;
+                    qManager.CompleteCurrentQuest();  //Investigate the Village
+
+                    popUpIndex = 6;
+
+                }
+            }
+
+
+            if (popUpIndex == 6) //Take a Picture - 2
+            {
+                if (!audio1HasPLayed)
+                {
+                    playerAudio.PlayOneShot(voiceOverUghMyDamnPhone);
+
+                    StartCoroutine(DisplaySubs("Ugh!, My Damn Phone!", 1.5f));
+
+                    audio1HasPLayed = true;
+                }
+                if (Input.GetKeyDown(KeyCode.K))
+                {
+                    playerAudio.Stop();
+                    popUps[6].SetActive(false);
+
+                    popUpIndex++;
+
+                }
+
+            }
+
+            if (popUpIndex == 7) //Take a Picture - 3   //Make All Buttons Except Camera Button Uninteractable
+            {
+
+                noteAppButton.interactable = false;
+                inventoryAppButton.interactable = false;
+                statAppButton.interactable = false;
+                settingAppButton.interactable = false;
+
+                interactor.enabled = false;
+                mainCam.SetActive(false);
+
+                tutCamPhone.SetActive(true);
+
+                phoneManager.firstHighlightedPhoneButton = camAppButton.gameObject;
+                phoneManager.phoneIsUseable = false;
+
+                if (PhoneMainMenu.appIsOpen == false)
+                {
+                    EventSystem.current.SetSelectedGameObject(null);
+                    EventSystem.current.SetSelectedGameObject(phoneManager.firstHighlightedPhoneButton);
+                }
+
+
+
+                if (Input.GetKeyDown(KeyCode.K))
+                {
+                    phoneObjRef.SetActive(true);
+                }
+
+                if (cameraApp.activeInHierarchy == true)  //Add condition to check if player is in radius of Village
+                {
+                    mainCam.SetActive(true);
+                    tutCamPhone.SetActive(false);
+                    interactor.enabled = true;
+
+                    popUpIndex++;
+
+                }
+            }
+
+            if (popUpIndex == 8) //Take a Picture - 4   
+            {
+
+                camAppBackButton.interactable = false;
+
+                if (cameraApp.activeInHierarchy == true && Input.GetKeyDown(KeyCode.P))
+                {
+                    camAppFullScreenBackButton.interactable = false;
+                    camAppBackButton.interactable = true;
+
+                    popUpIndex++;
+                }
+
+                //if Statement to check if they close phone, they shouldnt be allwoed to
+
+
+                //Make GoBack Button Uninteractable
+
+
+            }
+
+            if (popUpIndex == 9) //Take a Picture - 5
+            {
+
+
+
+                if (cameraApp.activeInHierarchy == true && app.ecopointScanned == true)
+                {
+                    camAppFullScreenBackButton.interactable = true;
+
+                    popUpIndex++;
+                }
+
+                //if Statement to check if they close phone, they shouldnt be allwoed to
+
+
+
+                //Make GoBack Button Uninteractable
+
+
+            }
+
+            if (popUpIndex == 10) //Take a Picture - 6
+            {
+                if (cameraApp.activeInHierarchy == false)
+                {
+                    phoneManager.phoneIsUseable = true;
+
+                    popUpIndex++;
+                    collectableCounterObj.SetActive(true);
+
+                }
+            }
+
+            if (popUpIndex == 11)
+            {
+                //Add UI that says Look for Highlighted obj Around you
+
+                popUps[43].SetActive(true);
+                popUpCollider11.enabled = false;
+
+            }
+
+
+
+            // -------------------------------------------------------FOR LIVE PLAYTEST ------------------------------------------------------------------ //
+
+
+
+            if (popUpIndex == 12) //IndexLocation = 5
+            {
+                popUps[43].SetActive(false);
+                popUpCollider12.enabled = false;
+
+                onScreenInstructionUI.SetActive(true);
+
+                if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
+                {
+
+                    wpSystem.locationIndex++;
+
+                    ActivateWayPoint = false;
+
+                    app.ecopointScanned = false;
+
+
+                    //Text PopUp w Audio thats says - mmm,Im feeling Quite Hungry (Disappears after like 5 Seconds)
+
+                    //source.PlayOneShot(hungryClip);
+
+                    //Text PopUp thats says - Do a Eco-Point Scan to look for food to consume (Deactivate this text after ecopoint is done)
+
+                }
+
+                if (app.ecopointScanned == false)
+                {
+                    Debug.Log("EcoPoint Scanned");
+                    FoodScan.SetActive(true);
+                }
+                //player will look for item and consume it.
+
+                //Once Consumed Phone will open And showcase how the Inventory App Works!
+
+
+            }
+
+
+            if (popUpIndex == 13)   //This Is the Start Of the inventory Tutorial
+            {
+
+                camAppButton.interactable = false;
+                inventoryAppButton.interactable = true;
+
+                phoneManager.firstHighlightedPhoneButton = inventoryAppButton.gameObject;
+                phoneManager.phoneIsUseable = false;
+
+
+                onScreenInstructionUI.SetActive(false);
+
+                interactionBox.SetActive(false);
+                //phoneObjRef.SetActive(false);
+                // phoneManager.SetPhoneState(true); //close phone
+
+                interactor.enabled = false;
+                mainCam.SetActive(false);
+                tutCamPhone.SetActive(true);
+                //phoneObjRef.SetActive(true);
+
+                phoneManager.SetPhoneState(false); // open Phone
+
+                if (PhoneMainMenu.appIsOpen == false)
+                {
+                    EventSystem.current.SetSelectedGameObject(null);
+                    EventSystem.current.SetSelectedGameObject(phoneManager.firstHighlightedPhoneButton);
+                }
+
+
+
+                if (collectableCount == 2)
+                {
+                    playerAudio.clip = voiceOverAfterEatingFood;
+
+                    playerAudio.loop = false;
+                    playerAudio.Play();
+
+
+
+                    interactionBox.SetActive(false);
+                    FoodScan.SetActive(false);
+
+                    InventoryHandler.Tutorial = true;
+
+                    if (phoneObjRef.activeInHierarchy == true)
+                    {
+                        popUps[13].SetActive(true);
+
+                    }
+                    if (inventoryApp.activeInHierarchy == true)
+                    {
+
+
+                        popUps[13].SetActive(false);
+                        popUps[14].SetActive(true);
+
+                        popUpIndex++;
+
+                    }
+
+                }
+            }
+
+
+
+            if (popUpIndex == 14)
+            {
+                StartCoroutine(DisplaySubs("I hope these foods don't get me sick.", 2.5f));
+                inventoryAppBackButton.interactable = false;
+
+
+                interactionBox.SetActive(false);
+
+                if (confirmBox.activeInHierarchy == true)
+                {
+                    Debug.Log(popUpIndex);
+                    popUps[14].SetActive(false);
+                    popUps[15].SetActive(true);
+
+                    popUpIndex++;
+
+                }
+            }
+
+            if (popUpIndex == 15)
+            {
+                camAppButton.interactable = true;
+                inventoryAppBackButton.interactable = true;
+
+                phoneManager.firstHighlightedPhoneButton = camAppButton.gameObject;
+
+                interactionBox.SetActive(false);
+
+                popUps[14].SetActive(false);
+
+
+                //Once Player clicks on Go Back they will be put back into the game loop
+                if (inventoryApp.activeInHierarchy == false)
+                {
+                    mainCam.SetActive(true);
+                    tutCamPhone.SetActive(false);
+
+                    popUps[15].SetActive(false);
+
+                    phoneManager.SetPhoneState(true); //Turn Phone Off
+
+                    ActivateWayPoint = true;
+
+                    popUpIndex++;
+
+                }
+            }
+
+            if (popUpIndex == 16)  //This Is the End Of the inventory Tutorial
+            {
+                onScreenInstructionUI.SetActive(true);
+                camAppButton.interactable = true;
+                interactor.enabled = true;
+                popUpCollider16.enabled = false;
+                phoneManager.phoneIsUseable = true;
+
+                if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
+                {
+
+                    InventoryHandler.Tutorial = false;
+                    wpSystem.locationIndex++;
+
+                    app.ecopointScanned = false;
+
+                    ActivateWayPoint = false;
+
+                    //source.PlayOneShot(thirstyClip);
+
+
+
+                    //Text PopUp w Audio thats says - Jeez, Now I'm Feeling Quite Thristy (Disappears after like 5 Seconds)
+
+                    //Text PopUp thats says - Do a Eco-Point Scan to look for Water to consume (Deactivate this text after ecopoint is done)
+
+                    //player will look for item and consume it.
+
+
+                }
+
+                if (app.ecopointScanned == false)
+                {
+                    WaterScan.SetActive(true);
+
+                }
+
+                if (cameraApp.activeInHierarchy == true && app.ecopointScanned == true)
+                {
+                    Debug.Log("EcoPoint Scanned");
+                    WaterScan.SetActive(false);
+                }
+            }
+
+
+
+
+
+            if (popUpIndex == 17) //This is where we want the Game to Start From
+            {
+
+                qManager.CompleteCurrentQuest();
+                collectableCounterObj.SetActive(false);
+                onScreenInstructionUI.gameObject.transform.position -= new Vector3(173, 0, 0);
                 popUpIndex++;
 
             }
-        }
-
-        if(popUpIndex == 15)
-        {
-            camAppButton.interactable = true;
-            inventoryAppBackButton.interactable = true;
-
-            phoneManager.firstHighlightedPhoneButton = camAppButton.gameObject;
-
-            interactionBox.SetActive(false);
-
-            popUps[14].SetActive(false);
 
 
-            //Once Player clicks on Go Back they will be put back into the game loop
-            if (inventoryApp.activeInHierarchy == false)
+
+            if (popUpIndex == 18)
             {
-                mainCam.SetActive(true);
-                tutCamPhone.SetActive(false);
+                WaterScan.SetActive(false);
 
-                popUps[15].SetActive(false);
+                if (WaterIntro == false)
+                {
+                    playerAudio.clip = voiceOverAfterDrinkingWater;
 
-                phoneManager.SetPhoneState(true); //Turn Phone Off
+                    playerAudio.loop = false;
+                    playerAudio.Play();
+                    StartCoroutine(DisplaySubs("I feel much more Energetic after that!", 2.5f));
+
+
+                    WaterBottleIntro.SetActive(true);
+
+                    WaterIntro = true;
+
+                }
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    WaterBottleIntro.SetActive(false);
+                    popUpCollider18.enabled = false;
+
+
+                    InventoryHandler.Tutorial = true;
+                }
+
+                //check if player is in range <100 ..then deactivate waypoint
+                if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 100)
+                {
+                    if (!audio2HasPLayed)
+                    {
+                        playerAudio.PlayOneShot(voiceOverForReachingVillage1);
+
+                        StartCoroutine(DisplaySubs("Alright now. I am pretty sure Dave's other shack is here and I will need to look around.", 5.5f));
+
+                        audio2HasPLayed = true;
+                    }
+
+                    ActivateWayPoint = false;
+
+                    EcoPointScanText.SetActive(true);
+
+                    if (Vector3.Distance(SafeCabinTriggerPoint.transform.position, playerObjRef.transform.position) < 1) //IF Player Is inside Cabin
+                    {
+
+                        qManager.currentQuestIndex = 4; //Goes to the Next Quest
+                        qManager.UpdateQuestText();
+
+                        EcoPointScanText.SetActive(false);
+
+
+                    }
+                    else if (Vector3.Distance(SafeCabinTriggerPoint.transform.position, playerObjRef.transform.position) > 5)
+                    {
+                        EcoPointScanText.SetActive(true);
+
+                        qManager.currentQuestIndex = 3; //Goes to the Previous Quest
+                        qManager.UpdateQuestText();
+
+                    }
+
+                    if (NeedSafeNoteKeyCodeNote.activeInHierarchy == false) //IF the Selected Note has been interacted with then...
+                    {
+                        EcoPointScanText.SetActive(false);
+
+                        wpSystem.locationIndex++; //2nd Village
+                        qManager.currentQuestIndex = 5; //Goes to the Next Quest
+                        qManager.UpdateQuestText();
+
+                        popUpIndex++;
+                    }
+
+                    Debug.Log(Vector3.Distance(SafeCabinTriggerPoint.transform.position, playerObjRef.transform.position));
+
+
+                }
+                //else if player range is >100 then Activate Waypoint!
+                else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 100)
+                {
+                    ActivateWayPoint = true;
+
+                    EcoPointScanText.SetActive(false);
+
+
+                }
+            }
+
+            if (popUpIndex == 19)
+            {
+                if (NoteContainer.uiToDisplayNote.gameObject.activeInHierarchy == false && noteTutorial == false)
+                {
+                    noteAppButton.interactable = true;
+
+                    popUpIndex = 44;
+                }
+
+
 
                 ActivateWayPoint = true;
 
-                popUpIndex++;
-
-            }
-        }
-
-        if(popUpIndex == 16)  //This Is the End Of the inventory Tutorial
-        {
-            onScreenInstructionUI.SetActive(true);
-            camAppButton.interactable = true;
-            interactor.enabled = true;
-            popUpCollider16.enabled = false;
-            phoneManager.phoneIsUseable = true;
-
-            if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
-            {
-
-                InventoryHandler.Tutorial = false;
-                wpSystem.locationIndex++;
-
-                app.ecopointScanned = false;
-
-                ActivateWayPoint = false;
-
-              //source.PlayOneShot(thirstyClip);
-
-                
-
-                //Text PopUp w Audio thats says - Jeez, Now I'm Feeling Quite Thristy (Disappears after like 5 Seconds)
-
-                //Text PopUp thats says - Do a Eco-Point Scan to look for Water to consume (Deactivate this text after ecopoint is done)
-
-                //player will look for item and consume it.
-
-
-            }
-
-            if (app.ecopointScanned == false)
-            {
-                WaterScan.SetActive(true);
-
-            }
-
-            if (cameraApp.activeInHierarchy == true && app.ecopointScanned == true)
-            {
-                Debug.Log("EcoPoint Scanned");
-                WaterScan.SetActive(false);
-            }
-        }
-
-
-
-
-
-        if (popUpIndex == 17) //This is where we want the Game to Start From
-        {
-            
-            qManager.CompleteCurrentQuest();
-            collectableCounterObj.SetActive(false);
-            onScreenInstructionUI.gameObject.transform.position -= new Vector3(173, 0, 0);
-            popUpIndex++;
-
-        }
-
-        
-
-        if (popUpIndex == 18)
-        {
-            WaterScan.SetActive(false);
-
-            if (WaterIntro == false)
-            {
-                playerAudio.clip = voiceOverAfterDrinkingWater;
-
-                playerAudio.loop = false;
-                playerAudio.Play();
-
-
-                WaterBottleIntro.SetActive(true);
-
-                WaterIntro = true;
-                
-            }
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                WaterBottleIntro.SetActive(false);
-                popUpCollider18.enabled = false;
-
-
-                InventoryHandler.Tutorial = true;
-            }
-
-            //check if player is in range <100 ..then deactivate waypoint
-            if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 100)
-            {
-                if (!audio2HasPLayed)
+                if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 100)
                 {
-                  playerAudio.PlayOneShot(voiceOverForReachingVillage1);
-                  audio2HasPLayed = true;
-                }
-
-                ActivateWayPoint = false;
-
-                EcoPointScanText.SetActive(true);
-
-                if (Vector3.Distance(SafeCabinTriggerPoint.transform.position, playerObjRef.transform.position) < 1) //IF Player Is inside Cabin
-                {
-
-                    qManager.currentQuestIndex = 4; //Goes to the Next Quest
+                    ActivateWayPoint = false;
+                    qManager.currentQuestIndex = 6; // This is Quest 6
                     qManager.UpdateQuestText();
 
-                    EcoPointScanText.SetActive(false);
+                    if (!audio3HasPLayed)
+                    {
+                        playerAudio.PlayOneShot(voiceOverSeeVillage2);
 
+                        StartCoroutine(DisplaySubs("I see the other village. Lets head over there and investigate.", 3.5f));
 
-                }
-                else if (Vector3.Distance(SafeCabinTriggerPoint.transform.position, playerObjRef.transform.position) > 5)
-                {
+                        audio3HasPLayed = true;
+                    }
+
                     EcoPointScanText.SetActive(true);
 
-                    qManager.currentQuestIndex = 3; //Goes to the Previous Quest
-                    qManager.UpdateQuestText();
 
                 }
-
-                if (NeedSafeNoteKeyCodeNote.activeInHierarchy == false) //IF the Selected Note has been interacted with then...
+                //else if player range is >100 then Activate Waypoint!
+                else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 100)
                 {
-                    EcoPointScanText.SetActive(false);
+                    ActivateWayPoint = true;
 
-                    wpSystem.locationIndex++; //2nd Village
                     qManager.currentQuestIndex = 5; //Goes to the Next Quest
                     qManager.UpdateQuestText();
 
+                    EcoPointScanText.SetActive(false);
+
+
+                }
+
+                if (KeyCodeNote.activeInHierarchy == false) //IF the Selected Note has been interacted with then...
+                {
+
+                    playerAudio.clip = voiceOverFoundKeyCode;
+
+                    playerAudio.loop = false;
+                    playerAudio.Play();
+
+                    StartCoroutine(DisplaySubs("Yes!! Here are the codes to the safe. Now I can head back and crack that sucker open and see what's inside..", 3.5f));
+
+
+                    EcoPointScanText.SetActive(false);
+
+                    wpSystem.locationIndex++; //Safe Location
+                    qManager.currentQuestIndex = 7; // This is Quest 7
+                    qManager.UpdateQuestText();
+
                     popUpIndex++;
                 }
 
-                Debug.Log(Vector3.Distance(SafeCabinTriggerPoint.transform.position, playerObjRef.transform.position));
-
-
             }
-            //else if player range is >100 then Activate Waypoint!
-            else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 100)
+
+            if (popUpIndex == 20)
             {
                 ActivateWayPoint = true;
 
-                EcoPointScanText.SetActive(false);
-
-
-            }
-        }
-
-        if (popUpIndex == 19)
-        {
-            if(NoteContainer.uiToDisplayNote.gameObject.activeInHierarchy == false && noteTutorial == false)
-            {
-                noteAppButton.interactable = true;
-
-                popUpIndex = 44;
-            }
-
-
-
-            ActivateWayPoint = true;
-
-            if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 100)
-            {
-                ActivateWayPoint = false;
-                qManager.currentQuestIndex = 6; // This is Quest 6
-                qManager.UpdateQuestText();
-
-                if (!audio3HasPLayed)
+                if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
                 {
-                    playerAudio.PlayOneShot(voiceOverSeeVillage2);
-                    audio3HasPLayed = true; 
+                    ActivateWayPoint = false;
+
+
+                    if (safeObjRef.tag == "Untagged") //IF the Selected Note has been interacted with then...
+                    {
+                        Debug.Log("Unlocked Safe");
+                        qManager.currentQuestIndex = 8; // This is Quest 8
+                        qManager.UpdateQuestText();
+
+                        wpSystem.locationIndex = 6; //Key Location
+
+
+
+                        if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 5)
+                        {
+                            ActivateWayPoint = false;
+
+                        }
+                        //else if player range is >100 then Activate Waypoint!
+                        else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 10)
+                        {
+                            ActivateWayPoint = true;
+
+
+                        }
+
+                        if (KeyItemInteractable.hasBeenCollected)
+                        {
+                            village1_Block_2.SetActive(false);
+                            popUpIndex = 21;
+                        }
+
+
+
+                    }
+
+
+                }
+                //else if player range is >100 then Activate Waypoint!
+                else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 10)
+                {
+                    ActivateWayPoint = true;
+
+
                 }
 
-                EcoPointScanText.SetActive(true);
-
-
-            }
-            //else if player range is >100 then Activate Waypoint!
-            else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 100)
-            {
-                ActivateWayPoint = true;
-
-                qManager.currentQuestIndex = 5; //Goes to the Next Quest
-                qManager.UpdateQuestText();
-
-                EcoPointScanText.SetActive(false);
-
 
             }
 
-            if (KeyCodeNote.activeInHierarchy == false) //IF the Selected Note has been interacted with then...
+            if (popUpIndex == 21)
             {
 
-                playerAudio.clip = voiceOverFoundKeyCode;
-
-                playerAudio.loop = false;
-                playerAudio.Play();
-
-                EcoPointScanText.SetActive(false);
-
-                wpSystem.locationIndex++; //Safe Location
-                qManager.currentQuestIndex = 7; // This is Quest 7
+                qManager.currentQuestIndex = 9; // This is Quest 9
                 qManager.UpdateQuestText();
 
+                wpSystem.locationIndex++; //CabinOnRiverSide
                 popUpIndex++;
-            }
-
-        }
-
-        if (popUpIndex == 20)
-        {
-            ActivateWayPoint = true;
-
-            if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
-            {
-                ActivateWayPoint = false;
-
-
-                if (safeObjRef.tag == "Untagged") //IF the Selected Note has been interacted with then...
-                {
-                    Debug.Log("Unlocked Safe");
-                    qManager.currentQuestIndex = 8; // This is Quest 8
-                    qManager.UpdateQuestText();
-
-                    wpSystem.locationIndex = 6; //Key Location
-
-                    
-
-                    if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 5)
-                    {
-                        ActivateWayPoint = false;
-
-                    }
-                    //else if player range is >100 then Activate Waypoint!
-                    else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 10)
-                    {
-                        ActivateWayPoint = true;
-
-
-                    }
-
-                    if (KeyItemInteractable.hasBeenCollected)
-                    {
-                        village1_Block_2.SetActive(false);
-                        popUpIndex = 21;
-                    }
-
-
-
-                }
 
 
             }
-            //else if player range is >100 then Activate Waypoint!
-            else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 10)
+
+            if (popUpIndex == 22)
             {
                 ActivateWayPoint = true;
 
 
-            }
-
-
-        }
-
-        if (popUpIndex == 21)
-        {
-
-            qManager.currentQuestIndex = 9; // This is Quest 9
-            qManager.UpdateQuestText();
-
-            wpSystem.locationIndex++; //CabinOnRiverSide
-            popUpIndex++;
-
-
-        }
-
-        if (popUpIndex == 22)
-        {
-            ActivateWayPoint = true;
-
-
-            if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 100)
-            {
-                ActivateWayPoint = false;
-
-                EcoPointScanText.SetActive(true);
-
-
-                //Check if Door is Opened
-                //If Door is Opened....Quest will Say Find Clues In Cabin
-                if (unlockableCabinDoor.DoorBoxCollider.enabled == false)
+                if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 100)
                 {
-                    if (!audio4HasPLayed)
+                    ActivateWayPoint = false;
+
+                    EcoPointScanText.SetActive(true);
+
+
+                    //Check if Door is Opened
+                    //If Door is Opened....Quest will Say Find Clues In Cabin
+                    if (unlockableCabinDoor.DoorBoxCollider.enabled == false)
                     {
-                        playerAudio.PlayOneShot(voiceOverLetsSeeWhatsInside);
-                        audio4HasPLayed = true;
+                        if (!audio4HasPLayed)
+                        {
+                            playerAudio.PlayOneShot(voiceOverLetsSeeWhatsInside);
+
+                            StartCoroutine(DisplaySubs("Lets see what's inside here..", 1.5f));
+
+                            audio4HasPLayed = true;
+                        }
+
+                        qManager.currentQuestIndex = 10; // This is Quest 9
+                        qManager.UpdateQuestText();
+
+                        wpSystem.locationIndex = 8; //Location - Cabin With Key
+
+
+                        if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
+                        {
+                            ActivateWayPoint = false;
+
+
+                        }
+                        else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 10)
+                        {
+                            ActivateWayPoint = true;
+
+                        }
+
+                        if (KeyItemInteractable.hasBeenCollected)
+                        {
+                            popUpIndex = 23;
+                        }
+
                     }
 
-                    qManager.currentQuestIndex = 10; // This is Quest 9
+
+
+                    //Ensure Player leaves the cabin with THE Second Key Collected
+
+                    //Update the Waypoint to Cave 1  ...Quest will say find a use for key
+
+
+                }
+                //else if player range is >100 then Activate Waypoint!
+                else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 100)
+                {
+                    ActivateWayPoint = true;
+
+                    EcoPointScanText.SetActive(false);
+
+                }
+            }
+
+            if (popUpIndex == 23)
+            {
+                EcoPointScanText.SetActive(false);
+
+                qManager.currentQuestIndex = 11; // This is Quest 11
+                qManager.UpdateQuestText();
+
+                wpSystem.locationIndex = 9; //Cave
+                popUpIndex++;
+
+
+            }
+
+            if (popUpIndex == 24)
+            {
+                ActivateWayPoint = true;
+
+                if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 40)
+                {
+                    ActivateWayPoint = false;
+
+                    qManager.currentQuestIndex = 12; // Quest will say Explore the Cave
+                    qManager.UpdateQuestText();
+                }
+                //else if player range is >100 then Activate Waypoint!
+                else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 40)
+                {
+                    ActivateWayPoint = true;
+
+                    qManager.currentQuestIndex = 11; // This is Quest 11
+                    qManager.UpdateQuestText();
+                }
+
+                if (CaveDoorObj.activeInHierarchy == false)
+                {
+                    qManager.currentQuestIndex = 13; // This is Quest 9
                     qManager.UpdateQuestText();
 
-                    wpSystem.locationIndex = 8; //Location - Cabin With Key
+                    wpSystem.locationIndex = 10; //Location - Cave Room
 
 
                     if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
@@ -999,296 +1146,310 @@ public class TutorialManager : MonoBehaviour
 
                     if (KeyItemInteractable.hasBeenCollected)
                     {
-                        popUpIndex = 23;
+                        popUpIndex = 25;
                     }
-
                 }
 
-                
+            }
 
-                //Ensure Player leaves the cabin with THE Second Key Collected
+            if (popUpIndex == 25)
+            {
 
-                //Update the Waypoint to Cave 1  ...Quest will say find a use for key
+                qManager.currentQuestIndex = 14; // This is Quest 9
+                qManager.UpdateQuestText();
+
+                wpSystem.locationIndex = 11; //Cave2
+                popUpIndex++;
 
 
             }
-            //else if player range is >100 then Activate Waypoint!
-            else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 100)
+
+            if (popUpIndex == 26)
             {
                 ActivateWayPoint = true;
-
-                EcoPointScanText.SetActive(false);
-
-            }
-        }
-
-        if (popUpIndex == 23)
-        {
-            EcoPointScanText.SetActive(false);
-
-            qManager.currentQuestIndex = 11; // This is Quest 11
-            qManager.UpdateQuestText();
-
-            wpSystem.locationIndex = 9; //Cave
-            popUpIndex++;
-
-
-        }
-
-        if (popUpIndex == 24)
-        {
-            ActivateWayPoint = true;
-
-            if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 40)
-            {
-                ActivateWayPoint = false;
-
-                qManager.currentQuestIndex = 12; // Quest will say Explore the Cave
-                qManager.UpdateQuestText();
-            }
-            //else if player range is >100 then Activate Waypoint!
-            else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 40)
-            {
-                ActivateWayPoint = true;
-
-                qManager.currentQuestIndex = 11; // This is Quest 11
-                qManager.UpdateQuestText();
-            }
-
-            if (CaveDoorObj.activeInHierarchy == false)
-            {
-                qManager.currentQuestIndex = 13; // This is Quest 9
-                qManager.UpdateQuestText();
-
-                wpSystem.locationIndex = 10; //Location - Cave Room
-
 
                 if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
                 {
                     ActivateWayPoint = false;
 
+                    qManager.currentQuestIndex = 15; // This is Quest 9
+                    qManager.UpdateQuestText();
 
                 }
+                //else if player range is >100 then Activate Waypoint!
                 else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 10)
                 {
                     ActivateWayPoint = true;
 
+                    qManager.currentQuestIndex = 14; // This is Quest 9
+                    qManager.UpdateQuestText();
                 }
 
-                if (KeyItemInteractable.hasBeenCollected)
+                if (unlockableCaveDoor.DoorBoxCollider.enabled == false)
                 {
-                    popUpIndex = 25;
+                    qManager.currentQuestIndex = 16; // This is Quest 9
+                    qManager.UpdateQuestText();
+
+                    wpSystem.locationIndex = 12; //CaveExplore
+
+                    if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 40)
+                    {
+                        ActivateWayPoint = false;
+
+                    }
+
                 }
+
+
+
             }
 
-        }
-
-        if (popUpIndex == 25)
-        {
-
-            qManager.currentQuestIndex = 14; // This is Quest 9
-            qManager.UpdateQuestText();
-
-            wpSystem.locationIndex = 11; //Cave2
-            popUpIndex++;
-
-
-        }
-
-        if (popUpIndex == 26)
-        {
-            ActivateWayPoint = true;
-
-            if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
+            if (popUpIndex == 27)
             {
                 ActivateWayPoint = false;
 
-                qManager.currentQuestIndex = 15; // This is Quest 9
-                qManager.UpdateQuestText();
-
-            }
-            //else if player range is >100 then Activate Waypoint!
-            else if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) >= 10)
-            {
-                ActivateWayPoint = true;
-
-                qManager.currentQuestIndex = 14; // This is Quest 9
-                qManager.UpdateQuestText();
             }
 
-            if (unlockableCaveDoor.DoorBoxCollider.enabled == false)
+
+
+
+            //Notes
+
+            if (popUpIndex == 44) //This is the Start of the Notes App Tutorial
             {
-                qManager.currentQuestIndex = 16; // This is Quest 9
-                qManager.UpdateQuestText();
 
-                wpSystem.locationIndex = 12; //CaveExplore
+                interactor.enabled = false;
 
-                if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 40)
+                mainCam.SetActive(false);
+                tutCamPhone.SetActive(true);
+
+
+                phoneManager.SetPhoneState(false); // open Phone
+
+                phoneManager.firstHighlightedPhoneButton = noteAppButton.gameObject;
+                phoneManager.phoneIsUseable = false;
+
+                if (PhoneMainMenu.appIsOpen == false)
                 {
-                    ActivateWayPoint = false;
+                    EventSystem.current.SetSelectedGameObject(null);
+                    EventSystem.current.SetSelectedGameObject(phoneManager.firstHighlightedPhoneButton);
+                }
 
+
+
+                if (notesApp.activeInHierarchy == true)
+                {
+                    popUpIndex = 45;
                 }
 
             }
 
+            if (popUpIndex == 45)
+            {
+                onScreenInstructionUI.SetActive(false);
+                noteAppBackButton.interactable = false;
 
+                if (NoteContainer.uiToDisplayNote.gameObject.activeInHierarchy == true)
+                {
+                    popUpIndex = 46;
+                }
+            }
+
+            if (popUpIndex == 46)
+            {
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    popUpIndex = 47;
+                }
+            }
+            if (popUpIndex == 47)
+            {
+                noteAppBackButton.interactable = true;
+
+                if (notesApp.activeInHierarchy == false)   //This is the end of the Notes App Tutorial
+                {
+                    phoneManager.phoneIsUseable = true;
+
+                    mainCam.SetActive(true);
+                    tutCamPhone.SetActive(false);
+                    interactor.enabled = true;
+
+                    noteTutorial = true;
+
+                    onScreenInstructionUI.SetActive(true);
+
+                    village1_Block_1.SetActive(false);
+                    popUpIndex = 19;
+                }
+            }
+
+
+
+
+            if (popUpIndex == 48)  //This is the Start of the Stat App Tutorial
+            {
+                interactor.enabled = false;
+
+
+                statAppButton.interactable = true;
+                camAppButton.interactable = true;
+
+                onScreenInstructionUI.SetActive(false);
+
+                mainCam.SetActive(false);
+                tutCamPhone.SetActive(true);
+                phoneManager.SetPhoneState(false); // open Phone
+
+                phoneManager.firstHighlightedPhoneButton = statAppButton.gameObject;
+                phoneManager.phoneIsUseable = false;
+
+                if (PhoneMainMenu.appIsOpen == false)
+                {
+                    EventSystem.current.SetSelectedGameObject(null);
+                    EventSystem.current.SetSelectedGameObject(phoneManager.firstHighlightedPhoneButton);
+                }
+
+
+                if (statAllocationApp.activeInHierarchy == true)
+                {
+
+                    popUpIndex++;
+                }
+
+            }
+
+            if (popUpIndex == 49)
+            {
+                //statAppBackButton.interactable = false;
+
+                if (xpManager.playerIncreasedHungerStat == true || xpManager.playerIncreasedStaminaStat == true || xpManager.playerIncreasedThristStat == true)
+                {
+                    statAppBackButton.interactable = true;
+                    popUpIndex++;
+
+                }
+            }
+
+            if (popUpIndex == 50)
+            {
+                if (statAllocationApp.activeInHierarchy == false)  //This is the end of the Stat App Tutorial
+                {
+                    phoneManager.phoneIsUseable = true;
+
+                    mainCam.SetActive(true);
+                    tutCamPhone.SetActive(false);
+
+                    phoneManager.SetPhoneState(true); // Close Phone
+
+
+                    statTutorial = true;
+                    interactor.enabled = true;
+
+
+                    playerAudio.clip = voiceOverForFollowingPathToReachVillage;
+
+                    playerAudio.loop = false;
+                    playerAudio.Play();
+
+                    StartCoroutine(DisplaySubs("I better follow along this road path to reach the village.", 3.5f));
+
+
+
+                    popUpIndex = 19;  //Set PopUpIndex To Old Index (Before Stat Tutorial Began)
+
+
+
+                }
+            }
 
         }
 
-        if (popUpIndex == 27)
+
+    }
+        IEnumerator FirstCutsceneAnimation()
         {
-            ActivateWayPoint = false;
+
+           if (voiceOverFirstCutScene_1_Has_Played == false)
+           {
+               Quest_Canvas.SetActive(false);
+               Right_Bus_Door.enabled = false;
+               Left_Bus_Door.enabled = false;
+               yield return new WaitForSeconds(0.2f);
+            playerObjRef.GetComponent<PlayerCon>().enabled = false;
+
+               FirstCutScene.Play(FirstCutSceneContainer, 0, 0.0f);
+               playerAudio.PlayOneShot(voiceOverFirstCutScene_1);
+               subtitleObj.SetActive(true);
+
+               subTextBox.text = "It Appears I lost consciousness on the bus, and Over-looked the bus stop in the village...";
+               yield return new WaitForSeconds(5);
+               //subTextBox.GetComponent<TextMeshPro>().text = "";
+
+               voiceOverFirstCutScene_1_Has_Played = true;
+           }
+           
+           if(voiceOverFirstCutScene_1_Has_Played == true)
+           {
+             playerAudio.PlayOneShot(voiceOverFirstCutScene_2);
+            staticSubTextBox.text = "This journey was quite lengthy!";
+             yield return new WaitForSeconds(2);
+            staticSubTextBox.text = "Considering the Travel from the city to here spaned several days...";
+             yield return new WaitForSeconds(4);
+            staticSubTextBox.text = "As I had to reach this location by the means of a boat!";
+             yield return new WaitForSeconds(3);
+            staticSubtitleObj.SetActive(false);
+            
+
+            //yield return new WaitForSeconds(7);
+
+            Right_Bus_Door.enabled = true;
+            Left_Bus_Door.enabled = true;
+
+            yield return new WaitForSeconds(3.5f);
+            playerAudio.PlayOneShot(voiceOver1AfterFirstCutScene);
+            staticSubtitleObj.SetActive(true);
+
+            staticSubTextBox.text = "Ohh right!, I remember now...";
+            yield return new WaitForSeconds(2.5f);
+            playerAudio.PlayOneShot(voiceOver2AfterFirstCutScene);
+            staticSubTextBox.text = "Someone gave me an anonymous tip in which Dave's Shack can hold the answer that I might need!";
+            yield return new WaitForSeconds(7.5f);
+            staticSubtitleObj.SetActive(false);
+       
+            Debug.Log("First Cut Scene Completed!");
+            FirstCutSceneCamera.enabled = false;
+            Quest_Canvas.SetActive(true);
+           }
+       
 
         }
 
 
-
-
-        //Notes
-
-        if (popUpIndex == 44) //This is the Start of the Notes App Tutorial
+    public void SwitchSubs()
+    {
+        if(subActive == false)
         {
-
-            interactor.enabled = false;
-     
-            mainCam.SetActive(false);
-            tutCamPhone.SetActive(true);
-
-
-            phoneManager.SetPhoneState(false); // open Phone
-
-            phoneManager.firstHighlightedPhoneButton = noteAppButton.gameObject;
-            phoneManager.phoneIsUseable = false;
-
-            if (PhoneMainMenu.appIsOpen == false)
-            {
-                EventSystem.current.SetSelectedGameObject(null);
-                EventSystem.current.SetSelectedGameObject(phoneManager.firstHighlightedPhoneButton);
-            }
-
-
-
-            if (notesApp.activeInHierarchy == true)
-            {
-                popUpIndex = 45;
-            }
-
+            subtitleObj.SetActive(true);
+            subActive = true;
+            subButtonText.text = "Turn Subs OFF";
+            return;
         }
-
-        if(popUpIndex == 45)
+        if (subActive == true)
         {
-            onScreenInstructionUI.SetActive(false);
-            noteAppBackButton.interactable = false;
-
-            if(NoteContainer.uiToDisplayNote.gameObject.activeInHierarchy == true) 
-            {
-                popUpIndex = 46;
-            }
+            subtitleObj.SetActive(false);
+            subActive = false;
+            subButtonText.text = "Turn Subs On";
+            return;
         }
+    }
 
-        if (popUpIndex == 46)
-        {
-            if(Input.GetKeyDown(KeyCode.Return))
-            {
-                popUpIndex = 47;
-            }
-        }
-        if (popUpIndex == 47)       
-        {
-            noteAppBackButton.interactable = true;
+    public static IEnumerator DisplaySubs(string message, float delay)
+    {
+        staticSubtitleObj.SetActive(true);
+        staticSubTextBox.text = message;
+        yield return new WaitForSeconds(delay);
+        staticSubtitleObj.SetActive(false);
 
-            if (notesApp.activeInHierarchy == false)   //This is the end of the Notes App Tutorial
-            {
-                phoneManager.phoneIsUseable = true;
-
-                mainCam.SetActive(true);
-                tutCamPhone.SetActive(false);
-                interactor.enabled = true;
-
-                noteTutorial = true;
-
-                onScreenInstructionUI.SetActive(true);
-
-                village1_Block_1.SetActive(false);
-                popUpIndex = 19;
-            }
-        }
-
-
-
-
-        if (popUpIndex == 48)  //This is the Start of the Stat App Tutorial
-        {
-            interactor.enabled = false;
-
-
-            statAppButton.interactable = true;
-            camAppButton.interactable = true;
-
-            onScreenInstructionUI.SetActive(false);
-
-            mainCam.SetActive(false);
-            tutCamPhone.SetActive(true);
-            phoneManager.SetPhoneState(false); // open Phone
-
-            phoneManager.firstHighlightedPhoneButton = statAppButton.gameObject;
-            phoneManager.phoneIsUseable = false;
-
-            if (PhoneMainMenu.appIsOpen == false)
-            {
-                EventSystem.current.SetSelectedGameObject(null);
-                EventSystem.current.SetSelectedGameObject(phoneManager.firstHighlightedPhoneButton);
-            }
-
-
-            if (statAllocationApp.activeInHierarchy == true)
-            {
-
-                popUpIndex++;
-            }
-
-        }
-
-        if(popUpIndex == 49)
-        {
-            //statAppBackButton.interactable = false;
-
-            if (xpManager.playerIncreasedHungerStat == true || xpManager.playerIncreasedStaminaStat == true || xpManager.playerIncreasedThristStat == true)
-            {
-                statAppBackButton.interactable = true;
-                popUpIndex++;
-
-            }
-        }
-
-        if (popUpIndex == 50)
-        {
-            if (statAllocationApp.activeInHierarchy == false)  //This is the end of the Stat App Tutorial
-            {
-                phoneManager.phoneIsUseable = true;
-
-                mainCam.SetActive(true);
-                tutCamPhone.SetActive(false);
-
-                phoneManager.SetPhoneState(true); // Close Phone
-
-
-                statTutorial = true;
-                interactor.enabled = true;
-
-
-                playerAudio.clip = voiceOverForFollowingPathToReachVillage;
-
-                playerAudio.loop = false;
-                playerAudio.Play();
-
-
-                popUpIndex = 19;  //Set PopUpIndex To Old Index (Before Stat Tutorial Began)
-             
-
-
-            }
-        }
     }
 
 }

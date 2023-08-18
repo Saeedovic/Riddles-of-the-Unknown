@@ -24,13 +24,16 @@ public class KeyItemInteractable : PointOfInterest, IInteractableObject
             }
 
             hasBeenCollected = true;
-            gameObject.SetActive(false);
 
             playerAudio.clip = AudioClipForPickingUpKey;
 
             playerAudio.loop = false;
             playerAudio.volume = 1;
             playerAudio.Play();
+
+            StartCoroutine(TutorialManager.DisplaySubs("Hmmmm.... Another key There has to be a use for this key somewhere. I better investigate..", 6.5f));
+            gameObject.SetActive(false);
+
 
 
 

@@ -36,6 +36,7 @@ public class UnlockableRock : PointOfInterest, IInteractableObject
             // check for which object is the key
             if (user.inventoryHandler.InventorySlots[i].storedItem == keyType)
             {
+                this.gameObject.name = "Explosive on Rock";
                 // use the key, make sure key-holding status is set to false if we have no more keys 
                 user.inventoryHandler.InventorySlots[i].DiscardItem();
 
@@ -78,6 +79,12 @@ public class UnlockableRock : PointOfInterest, IInteractableObject
 
         playerAudio.loop = false;
         playerAudio.Play();
+
+        StartCoroutine(TutorialManager.DisplaySubs("Damn.. I need to find something to blow up this rock...", 2.5f));
+        yield return new WaitForSeconds(2.7f);
+        StartCoroutine(TutorialManager.DisplaySubs("Maybe if I explore a bit more I could find something that might help me out with this.", 4.5f));
+
+
 
         yield return new WaitForSeconds(boxDisplayTime);
 

@@ -31,6 +31,9 @@ public class FlashlightController : MonoBehaviour
             playerAudio.loop = false;
             playerAudio.Play();
 
+            StartCoroutine(TutorialManager.DisplaySubs("There we go!, Much Better.", 1.5f));
+
+
             flashLight.SetActive(true);
             flashLightIsOn = true;
             TorchUI.useTorchPopUp.SetActive(false);

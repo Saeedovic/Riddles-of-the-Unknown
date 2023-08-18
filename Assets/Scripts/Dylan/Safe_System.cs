@@ -37,8 +37,7 @@ public class Safe_System : MonoBehaviour
 
     public Transform Safe_Dial;
 
-
-
+    public GameObject playerObjRef;
 
     public int First_Digit_Amount;
     [SerializeField] public int Second_Digit_Amount;
@@ -81,9 +80,13 @@ public class Safe_System : MonoBehaviour
     {
         if(Safe_Panel.activeInHierarchy == true)
         {
+            playerObjRef.SetActive(false);
             Safe_Guide_Text.SetActive(true);
         }else if(Safe_Panel.activeInHierarchy == false)
         {
+            playerObjRef.SetActive(true);
+
+
             Safe_Guide_Text.SetActive(false);
         }
 

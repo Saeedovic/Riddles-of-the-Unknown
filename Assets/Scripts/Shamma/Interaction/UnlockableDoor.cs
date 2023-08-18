@@ -78,6 +78,9 @@ public class UnlockableDoor : PointOfInterest, IInteractableObject
         playerAudio.loop = false;
         playerAudio.Play();
 
+        StartCoroutine(TutorialManager.DisplaySubs("I need to find the key to unlock this door...It must be here somewhere!", 4f));
+
+
         yield return new WaitForSeconds(boxDisplayTime);
 
         keyNeededTextbox.SetActive(false);

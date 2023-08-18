@@ -35,8 +35,11 @@ public class DayNightCycler : MonoBehaviour
             {
             playerAudio.PlayOneShot(voiceOverBeautifulSky);
                 audio1HasPLayed = true;
+
+                StartCoroutine(TutorialManager.DisplaySubs("Wow..., being on this island is wonderful!, the sky looks beautiful not like in the city.", 4.5f));
+
             }
-      
+
             Debug.Log("Its night Time");
            
             StartCoroutine(UseTorch());
@@ -52,8 +55,11 @@ public class DayNightCycler : MonoBehaviour
         {
             playerAudio.PlayOneShot(voiceOverItsGettingDark);
             audio2HasPLayed = true;
+            StartCoroutine(TutorialManager.DisplaySubs("It's getting dark!, Exploring will be very challenging!", 3.5f));
+
+
         }
-    
+
         yield return new WaitForSeconds(4);
 
         if(torchTutorialDone == false) 

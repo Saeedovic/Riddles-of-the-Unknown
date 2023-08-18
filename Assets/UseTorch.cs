@@ -48,6 +48,7 @@ public class UseTorch : MonoBehaviour
         playerAudio.loop = false;
         playerAudio.Play();
 
+       // StartCoroutine(TutorialManager.DisplaySubs("There we go!, Much Better.", 1.5f));
 
         yield return new WaitForSeconds(2);
 
