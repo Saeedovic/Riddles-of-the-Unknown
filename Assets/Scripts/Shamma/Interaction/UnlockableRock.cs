@@ -90,15 +90,23 @@ public class UnlockableRock : PointOfInterest, IInteractableObject
                                                    explosivesPositioning.position, 
                                                    explosivesPositioning.rotation, 
                                                    this.transform);
+        explosivesObj.SetActive(true);
 
         yield return new WaitForSeconds(detontationTimer);
 
+        explosionSequenceActive = false;
         // play explosive effect 
 
         GameObject.Instantiate(explosionVFX, vfxPositioning.position, vfxPositioning.rotation);
-        explosionVFX.GetComponent<ParticleSystem>().Play();
+        explosionVFX.GetComponent<Exploder>().enabled = true;
 
         explosivesObj.SetActive(false);
+
+        yield return null;
+
+        playerAudio.clip = AudioClipForRockExploding;
+        playerAudio.Play();
+
         gameObject.SetActive(false); // probably want to replace this with an animation of the rocks breaking apart
     }
 
