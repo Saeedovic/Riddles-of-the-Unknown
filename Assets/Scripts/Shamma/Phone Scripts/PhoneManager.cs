@@ -157,7 +157,7 @@ public class PhoneManager : MonoBehaviour
 
 
 
-    void SetFullscreen(bool isFullscreen)
+    public void SetFullscreen(bool isFullscreen)
     {
         if (phoneIsOut)
         {

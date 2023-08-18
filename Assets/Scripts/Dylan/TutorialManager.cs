@@ -494,8 +494,12 @@ public class TutorialManager : MonoBehaviour
 
                 tutCamPhone.SetActive(true);
 
+
                 phoneManager.firstHighlightedPhoneButton = camAppButton.gameObject;
+                phoneManager.SetPhoneState(false); // open Phone
                 phoneManager.phoneIsUseable = false;
+
+
 
                 if (PhoneMainMenu.appIsOpen == false)
                 {
@@ -508,6 +512,8 @@ public class TutorialManager : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.K))
                 {
                     phoneObjRef.SetActive(true);
+                    phoneManager.SetPhoneState(true); // close Phone
+
                 }
 
                 if (cameraApp.activeInHierarchy == true)  //Add condition to check if player is in radius of Village
@@ -528,6 +534,7 @@ public class TutorialManager : MonoBehaviour
 
                 if (cameraApp.activeInHierarchy == true && Input.GetKeyDown(KeyCode.P))
                 {
+                    phoneManager.GetComponent<PhoneManager>().SetFullscreen(true); 
                     camAppFullScreenBackButton.interactable = false;
                     camAppBackButton.interactable = true;
 
