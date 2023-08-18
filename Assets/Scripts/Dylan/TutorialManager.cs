@@ -379,6 +379,7 @@ public class TutorialManager : MonoBehaviour
 
             if (popUpIndex == 0) // WASD MOVEMENT
             {
+                phoneManager.phoneIsUseable = false;
                 if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
                 {
                     popUpIndex++;
