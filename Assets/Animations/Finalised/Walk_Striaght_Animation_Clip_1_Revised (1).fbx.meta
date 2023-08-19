@@ -42,7 +42,7 @@ ModelImporter:
       name: Walk_Striaght_Animation_Clip_1_Revised
       takeName: Walk_Striaght_Animation_Clip_1_Revised
       internalID: 0
-      firstFrame: 69
+      firstFrame: 68
       lastFrame: 150
       wrapMode: 0
       orientationOffsetY: 0
@@ -51,10 +51,10 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 0
+      loopBlend: 1
       loopBlendOrientation: 1
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 1
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0

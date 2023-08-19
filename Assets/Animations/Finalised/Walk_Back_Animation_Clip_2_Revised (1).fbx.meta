@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 5a9d093c3e3748c4cac365f965a503e7
+guid: dee381c0a40e10b43a3382f0a52d93da
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable:
   - first:
-      74: 3800211322273354211
-    second: Running_Forward_Clip_Revised
+      74: -909312839423729311
+    second: Walk_Back_Animation_Clip_2_Revised
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -22,8 +22,8 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Running_Forward_Clip_Revised' has import animation
-      warnings that might lower retargeting quality:\nNote: Activate translation
+    animationImportWarnings: "\nClip 'Walk_Back_Animation_Clip_2_Revised' has import
+      animation warnings that might lower retargeting quality:\nNote: Activate translation
       DOF on avatar to improve retargeting quality.\n\t'Spine3' is inbetween humanoid
       transforms and has rotation animation that will be discarded.\n"
     animationRetargetingWarnings: 
@@ -39,22 +39,22 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Running_Forward_Clip_Revised
-      takeName: Running_Forward_Clip_Revised
+      name: Walk_Back_Animation_Clip_2_Revised
+      takeName: Walk_Back_Animation_Clip_2_Revised
       internalID: 0
-      firstFrame: 1
-      lastFrame: 29
+      firstFrame: 17
+      lastFrame: 137
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
-      cycleOffset: 2.85
+      cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 1
+      loopTime: 0
+      loopBlend: 0
       loopBlendOrientation: 1
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
@@ -292,13 +292,13 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: Running_Forward_Clip_Revised(Clone)
+    - name: Walk_Back_Animation_Clip_2_Revised (1)(Clone)
       parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Reference
-      parentName: Running_Forward_Clip_Revised(Clone)
+      parentName: Walk_Back_Animation_Clip_2_Revised (1)(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
