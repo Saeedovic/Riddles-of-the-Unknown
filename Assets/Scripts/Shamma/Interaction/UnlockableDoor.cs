@@ -1,3 +1,4 @@
+using OD.Effect.HDRP;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +19,7 @@ public class UnlockableDoor : PointOfInterest, IInteractableObject
     public AudioClip AudioClipForDoorOpening;
     public AudioClip NeedKeyVoiceOver;
 
-
+    OnScanHighlight onScanHighlight;
 
 
 
@@ -48,16 +49,17 @@ public class UnlockableDoor : PointOfInterest, IInteractableObject
                 CabinDoor.Play(doorOpen, 0, 0.0f);
                 DoorBoxCollider.enabled = false;
 
+               // onScanHighlight.highlightMaterial = null;
+
 
                 playerAudio.clip = AudioClipForDoorOpening;
 
                 playerAudio.loop = false;
                 playerAudio.Play();
 
-
+                SetScannabilityOff();
                 Debug.Log("door was opened!");
                 noKeyfound = false;
-               // gameObject.SetActive(false);
 
                 break;
             }

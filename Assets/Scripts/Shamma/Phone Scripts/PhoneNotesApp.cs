@@ -50,6 +50,9 @@ public class PhoneNotesApp : PhoneAppScreen
                 if (!firstNoteAdded)
                 {
                     playerAudio.PlayOneShot(voiceOverFirstNotePicked);
+
+                    StartCoroutine(TutorialManager.DisplaySubs("Ah my first note let's read its content.", 2.5f));
+
                     firstNoteAdded = true;
                 }
 

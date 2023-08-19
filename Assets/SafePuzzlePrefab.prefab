@@ -2151,13 +2151,18 @@ MonoBehaviour:
   SafeCam: {fileID: 1046919560}
   DefaultCam: {fileID: 0}
   Safe_Dial: {fileID: 6245710042376974543}
+  playerObjRef: {fileID: 0}
+  flashLightRef: {fileID: 0}
   First_Digit_Amount: 0
   Second_Digit_Amount: 0
   Third_Digit_Amount: 0
   Safe_Code: 234
   playerAudio: {fileID: 0}
   AudioClipForSafeDial: {fileID: 8300000, guid: 36f130a5383a3a74ea04787899a4d69e, type: 3}
-  AudioClipForSafeDoorOpening: {fileID: 8300000, guid: eaa060d6f788fd449b07b2a3cfc7a0cc, type: 3}
+  voiceOverUnlockedSafe: {fileID: 8300000, guid: 7e20a4022ee6f3b47928ad27611f9bd3, type: 3}
+  AudioSafeOpening: {fileID: 8300000, guid: eaa060d6f788fd449b07b2a3cfc7a0cc, type: 3}
+  voiceOverForgotCodeCheckNotes: {fileID: 8300000, guid: 4d1fe92449bade942b9c581f7ec60a3b, type: 3}
+  tutorialManager: {fileID: 0}
 --- !u!1 &164106525759347941
 GameObject:
   m_ObjectHideFlags: 0

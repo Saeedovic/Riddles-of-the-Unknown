@@ -174,8 +174,10 @@ public class TutorialManager : MonoBehaviour
     UnlockableDoor unlockableCaveDoor;
 
 
+
     public GameObject CabinWKeyDoor;
     public GameObject CaveWKeyDoor;
+
 
 
 
@@ -219,7 +221,7 @@ public class TutorialManager : MonoBehaviour
     bool FirstHalf = false;
     bool SecondHalf = false;
 
-
+    public GameObject disablePhoneObjRef;
 
 
 
@@ -249,7 +251,15 @@ public class TutorialManager : MonoBehaviour
 
     public PlayerCameraController playerCameraController;
 
+    bool phoneIsOff = false;
+    bool notephoneIsOff = false;
+    bool stathoneIsOff = false;
 
+    bool stat2ndHalf = false;
+
+
+
+    [SerializeField] bool CutSceneEnabled = false;
 
 
 
@@ -293,8 +303,19 @@ public class TutorialManager : MonoBehaviour
 
     private void Start()
     {
-        FirstCutSceneCamera.enabled = true;     // NEEDS TO BE TRUE
-        StartCoroutine(FirstCutsceneAnimation());    //NEEDS TO BE UN COMMENTED
+
+        if (CutSceneEnabled == true)
+        {
+            FirstCutSceneCamera.enabled = true;     // NEEDS TO BE TRUE
+            StartCoroutine(FirstCutsceneAnimation());    //NEEDS TO BE UN COMMENTED
+
+        }
+
+        if (CutSceneEnabled == false)
+        {
+            FirstCutSceneCamera.enabled = false ;
+
+        }
 
         mainCam.SetActive(true);
         tutCamWatch.SetActive(false);
@@ -395,8 +416,6 @@ public class TutorialManager : MonoBehaviour
             }
             if (popUpIndex == 2)
             {
-               // StartCoroutine(DisplaySubs("Ohh right, I remember now. ", 2.5f));
-
                 if (Input.GetKey(KeyCode.LeftShift))
                 {
                     playerAudio.clip = voiceOverSmartWatch;
@@ -496,7 +515,7 @@ public class TutorialManager : MonoBehaviour
 
 
                 phoneManager.firstHighlightedPhoneButton = camAppButton.gameObject;
-                phoneManager.SetPhoneState(false); // open Phone
+               // phoneManager.SetPhoneState(false); // open Phone
                 phoneManager.phoneIsUseable = false;
 
 
@@ -508,13 +527,13 @@ public class TutorialManager : MonoBehaviour
                 }
 
 
-
+                /*
                 if (Input.GetKeyDown(KeyCode.K))
                 {
                     phoneObjRef.SetActive(true);
                     phoneManager.SetPhoneState(true); // close Phone
 
-                }
+                }*/
 
                 if (cameraApp.activeInHierarchy == true)  //Add condition to check if player is in radius of Village
                 {
@@ -529,12 +548,11 @@ public class TutorialManager : MonoBehaviour
 
             if (popUpIndex == 8) //Take a Picture - 4   
             {
-
                 camAppBackButton.interactable = false;
 
                 if (cameraApp.activeInHierarchy == true && Input.GetKeyDown(KeyCode.P))
                 {
-                    phoneManager.GetComponent<PhoneManager>().SetFullscreen(true); 
+                  //  phoneManager.GetComponent<PhoneManager>().SetFullscreen(true); 
                     camAppFullScreenBackButton.interactable = false;
                     camAppBackButton.interactable = true;
 
@@ -551,23 +569,12 @@ public class TutorialManager : MonoBehaviour
 
             if (popUpIndex == 9) //Take a Picture - 5
             {
-
-
-
                 if (cameraApp.activeInHierarchy == true && app.ecopointScanned == true)
                 {
                     camAppFullScreenBackButton.interactable = true;
 
                     popUpIndex++;
                 }
-
-                //if Statement to check if they close phone, they shouldnt be allwoed to
-
-
-
-                //Make GoBack Button Uninteractable
-
-
             }
 
             if (popUpIndex == 10) //Take a Picture - 6
@@ -648,13 +655,20 @@ public class TutorialManager : MonoBehaviour
                 onScreenInstructionUI.SetActive(false);
 
                 interactionBox.SetActive(false);
-                //phoneObjRef.SetActive(false);
-                // phoneManager.SetPhoneState(true); //close phone
+                //phoneObjRef.SetActive(false); //Close
+
+                if(phoneIsOff == false)
+                {
+                phoneManager.SetPhoneState(true); //close phone
+                    phoneIsOff = true;
+                }
+
+
 
                 interactor.enabled = false;
                 mainCam.SetActive(false);
                 tutCamPhone.SetActive(true);
-                //phoneObjRef.SetActive(true);
+                //phoneObjRef.SetActive(true); //Open
 
                 phoneManager.SetPhoneState(false); // open Phone
 
@@ -751,6 +765,7 @@ public class TutorialManager : MonoBehaviour
 
             if (popUpIndex == 16)  //This Is the End Of the inventory Tutorial
             {
+                phoneManager.CheckPhoneIsOut = false;
                 onScreenInstructionUI.SetActive(true);
                 camAppButton.interactable = true;
                 interactor.enabled = true;
@@ -967,6 +982,7 @@ public class TutorialManager : MonoBehaviour
             if (popUpIndex == 20)
             {
                 ActivateWayPoint = true;
+                
 
                 if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 10)
                 {
@@ -1074,7 +1090,7 @@ public class TutorialManager : MonoBehaviour
 
                         }
 
-                        if (KeyItemInteractable.hasBeenCollected)
+                        if (CabinKey.hasBeenCollected)
                         {
                             popUpIndex = 23;
                         }
@@ -1132,7 +1148,7 @@ public class TutorialManager : MonoBehaviour
                     qManager.UpdateQuestText();
                 }
 
-                if (CaveDoorObj.activeInHierarchy == false)
+                if (unlockableCaveDoor.DoorBoxCollider.enabled == false)
                 {
                     qManager.currentQuestIndex = 13; // This is Quest 9
                     qManager.UpdateQuestText();
@@ -1152,11 +1168,12 @@ public class TutorialManager : MonoBehaviour
 
                     }
 
-                    if (KeyItemInteractable.hasBeenCollected)
+                    if (ExplosiveKey.hasBeenCollected)
                     {
                         popUpIndex = 25;
                     }
                 }
+               
 
             }
 
@@ -1193,7 +1210,7 @@ public class TutorialManager : MonoBehaviour
                     qManager.UpdateQuestText();
                 }
 
-                if (unlockableCaveDoor.DoorBoxCollider.enabled == false)
+                if (Cave2WallBlockObj.activeInHierarchy == false)
                 {
                     qManager.currentQuestIndex = 16; // This is Quest 9
                     qManager.UpdateQuestText();
@@ -1225,14 +1242,12 @@ public class TutorialManager : MonoBehaviour
 
             if (popUpIndex == 44) //This is the Start of the Notes App Tutorial
             {
-
                 interactor.enabled = false;
 
                 mainCam.SetActive(false);
                 tutCamPhone.SetActive(true);
 
-
-                phoneManager.SetPhoneState(false); // open Phone
+                phoneManager.SetPhoneState(false);
 
                 phoneManager.firstHighlightedPhoneButton = noteAppButton.gameObject;
                 phoneManager.phoneIsUseable = false;
@@ -1287,6 +1302,10 @@ public class TutorialManager : MonoBehaviour
                     onScreenInstructionUI.SetActive(true);
 
                     village1_Block_1.SetActive(false);
+
+                    phoneManager.SetPhoneState(true);
+                    phoneManager.CheckPhoneIsOut = false;
+
                     popUpIndex = 19;
                 }
             }
@@ -1296,17 +1315,20 @@ public class TutorialManager : MonoBehaviour
 
             if (popUpIndex == 48)  //This is the Start of the Stat App Tutorial
             {
-                interactor.enabled = false;
-
-
-                statAppButton.interactable = true;
-                camAppButton.interactable = true;
-
+                disablePhoneObjRef.SetActive(false);
                 onScreenInstructionUI.SetActive(false);
 
+                statAppButton.interactable = true;
+
+
+                interactor.enabled = false;
                 mainCam.SetActive(false);
                 tutCamPhone.SetActive(true);
-                phoneManager.SetPhoneState(false); // open Phone
+                
+               
+                phoneManager.phoneIsUseable = true;
+                phoneManager.SetPhoneState(false);  //then set it to Active
+
 
                 phoneManager.firstHighlightedPhoneButton = statAppButton.gameObject;
                 phoneManager.phoneIsUseable = false;
@@ -1428,8 +1450,6 @@ public class TutorialManager : MonoBehaviour
             FirstCutSceneCamera.enabled = false;
             Quest_Canvas.SetActive(true);
            }
-       
-
         }
 
 

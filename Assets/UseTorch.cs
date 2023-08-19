@@ -16,11 +16,16 @@ public class UseTorch : MonoBehaviour
 
     public AudioClip voiceOverIShouldTakeOutMyTorch;
 
+    public GameObject switchObj;
+
 
     private void Start()
     {
         flashCont = TorchPrefab.GetComponent<FlashlightController>();
         TorchUI = sun.GetComponent<DayNightCycler>();
+
+        switchObj.SetActive(false);
+
     }
 
     void OnTriggerEnter(Collider collider)
@@ -48,7 +53,13 @@ public class UseTorch : MonoBehaviour
         playerAudio.loop = false;
         playerAudio.Play();
 
-       // StartCoroutine(TutorialManager.DisplaySubs("There we go!, Much Better.", 1.5f));
+        StartCoroutine(TutorialManager.DisplaySubs("It seems these caves are a bit dark glad I bought that torch with me.", 4.5f));
+
+        switchObj.SetActive(true);
+        gameObject.SetActive(false);
+
+
+        // StartCoroutine(TutorialManager.DisplaySubs("There we go!, Much Better.", 1.5f));
 
         yield return new WaitForSeconds(2);
 
@@ -62,6 +73,11 @@ public class UseTorch : MonoBehaviour
 
         playerAudio.loop = false;
         playerAudio.Play();
+
+        StartCoroutine(TutorialManager.DisplaySubs("Uhh, It's quite dark in here probably need to use my torch.", 3.5f));
+
+        switchObj.SetActive(true);
+        gameObject.SetActive(false);
 
 
         yield return new WaitForSeconds(2);

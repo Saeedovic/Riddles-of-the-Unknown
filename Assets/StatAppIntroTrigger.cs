@@ -11,21 +11,26 @@ public class StatAppIntroTrigger : MonoBehaviour
 
     public AudioClip WishIWasMoreFit;
 
+    PhoneManager phoneManager;
+    [SerializeField] GameObject PhoneManagerObjRef;
+
+
+
 
     // Start is called before the first frame update
     void Start()
     {
         tManager = tutObjRef.GetComponent<TutorialManager>();
-      
+        phoneManager = PhoneManagerObjRef.GetComponent<PhoneManager>();
+
+
     }
 
     void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.tag == "Player")
         {
-            StartCoroutine(BetterStatsVoiceOver());
-            tManager.popUpIndex = 48;
-            this.gameObject.SetActive(false);
+           StartCoroutine(BetterStatsVoiceOver());
         }
     }
 
@@ -38,7 +43,14 @@ public class StatAppIntroTrigger : MonoBehaviour
         playerAudio.loop = false;
         playerAudio.Play();
 
-        yield return new WaitForSeconds(4);
+        StartCoroutine(TutorialManager.DisplaySubs("I wish I was more fit to walk these long paths.", 3.5f));
+
+
+        yield return new WaitForSeconds(2);
+       // phoneManager.SetPhoneState(true);
+
+            tManager.popUpIndex = 48;
+            this.gameObject.SetActive(false);
 
         
     }

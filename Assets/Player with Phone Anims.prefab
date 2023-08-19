@@ -9706,6 +9706,7 @@ MonoBehaviour:
   DrinkWaterWarning: {fileID: 0}
   EatFoodWarning: {fileID: 0}
   GameOverPanel: {fileID: 0}
+  In_Game_UI: {fileID: 0}
   playAgain: {fileID: 0}
   exit: {fileID: 0}
   currentStamina: 100
@@ -9719,6 +9720,9 @@ MonoBehaviour:
   stamina: {fileID: 5995194015534577732}
   hunger: {fileID: 5995194014272261686}
   thrist: {fileID: 5995194014866580527}
+  playerAudio: {fileID: 0}
+  voiceOverHungerWarning: {fileID: 0}
+  voiceOverThirstWarning: {fileID: 0}
 --- !u!114 &5995194013963816703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9810,6 +9814,9 @@ MonoBehaviour:
   AudioForWatch: {fileID: 8300000, guid: 680dc83c83d8c1c49825efb0d048592a, type: 3}
   leftHandRig: {fileID: 1849535739876856671}
   rigWeightSmoothVelocity: 0.5
+  playerAudio: {fileID: 0}
+  AudioClipForWatch: {fileID: 0}
+  soundPlayed: 0
 --- !u!82 &5995194013963816690
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9820,7 +9827,7 @@ AudioSource:
   m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: d5b04f2887fee7542ba75b2498b5cec8, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 0729792f4c804e04689b475dffb1f93c, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -17355,9 +17362,11 @@ MonoBehaviour:
   mouseShouldBeUseable: 0
   phoneIsUseable: 0
   fullscreenIsSettable: 0
+  blackOuter: {fileID: 0}
   cameraAppOpen: 0
   rightHandRig: {fileID: 3713109814766546806}
   rigWeightSmoothVelocity: 0.5
+  CheckPhoneIsOut: 0
 --- !u!1 &5995194015179974741
 GameObject:
   m_ObjectHideFlags: 0
@@ -18269,7 +18278,6 @@ MonoBehaviour:
   AudioForSnapShot: {fileID: 8300000, guid: d351a48988a01724e89aa748ff37a1a9, type: 3}
   pictureTaken: 0
   ecopointScanned: 0
-  blackOuter: {fileID: 6426408868665578323}
   playerModel:
   - {fileID: 3034475977478241257}
   - {fileID: 3748544359806061082}
@@ -23481,7 +23489,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8d1658eef936aa84dbed6cc0dcd3a471, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.2599998
+      value: 1.26
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8d1658eef936aa84dbed6cc0dcd3a471, type: 3}
       propertyPath: m_LocalScale.y
@@ -23489,15 +23497,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8d1658eef936aa84dbed6cc0dcd3a471, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.2599998
+      value: 1.26
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8d1658eef936aa84dbed6cc0dcd3a471, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.000043526292
+      value: 0.000043537464
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8d1658eef936aa84dbed6cc0dcd3a471, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.49999988
+      value: -0.50000507
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8d1658eef936aa84dbed6cc0dcd3a471, type: 3}
       propertyPath: m_LocalPosition.z

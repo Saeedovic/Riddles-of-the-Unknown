@@ -12,6 +12,7 @@ public class SafeInteractable : PointOfInterest, IInteractableObject
 
     public Button closeButton;
 
+    public GameObject playerObjRef;
 
     bool safePuzzleActive = false;
     public static bool safeHasBeenCracked = false;
@@ -30,6 +31,8 @@ public class SafeInteractable : PointOfInterest, IInteractableObject
         SafeCam.SetActive(true);
         SafeCanvas.SetActive(true);
 
+
+        playerObjRef.SetActive(false);
 
         safePuzzleActive = true;
         Cursor.lockState = CursorLockMode.None;
@@ -50,6 +53,8 @@ public class SafeInteractable : PointOfInterest, IInteractableObject
         DefaultCam.SetActive(true);
         SafeCanvas.SetActive(false);
 
+        playerObjRef.SetActive(true);
+
 
         safePuzzleActive = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -64,8 +69,10 @@ public class SafeInteractable : PointOfInterest, IInteractableObject
     {
         if (!safePuzzleActive && !safeHasBeenCracked)
             return true;
-        else 
-            return false;
+        else
+            playerObjRef.SetActive(true);
+
+        return false;
     }
 
     public void OnDeHighlight() { }

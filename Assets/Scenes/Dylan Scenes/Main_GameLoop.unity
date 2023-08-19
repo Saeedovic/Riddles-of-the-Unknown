@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 6.6408286, g: 4.4688206, b: 5.2425027, a: 1}
+  m_IndirectSpecularColor: {r: 6.641037, g: 4.4686584, b: 5.239937, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -28082,7 +28082,7 @@ MonoBehaviour:
   boxDisplayTime: 2
   explosivesModel: {fileID: 919132149155446097, guid: 43c7a14216e2841899c7988a2dec1380, type: 3}
   explosivesPositioning: {fileID: 629728288}
-  explosionVFX: {fileID: 7789239835090727921, guid: 34d01d6467471074a861d3c12751067f, type: 3}
+  explosionVFX: {fileID: 5227655528429659159, guid: 52b8b41653be1d94cab4d8e6f336d7a2, type: 3}
   vfxPositioning: {fileID: 1121051082}
   detontationTimer: 5
   lengthBetweenBeeps: 3.01
@@ -31258,6 +31258,63 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.01, z: 1}
   m_Center: {x: -0.74, y: -0.003, z: -0.71}
+--- !u!1001 &5227655528360127159
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5227655528429659156, guid: 52b8b41653be1d94cab4d8e6f336d7a2, type: 3}
+      propertyPath: m_RootOrder
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 5227655528429659156, guid: 52b8b41653be1d94cab4d8e6f336d7a2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5227655528429659156, guid: 52b8b41653be1d94cab4d8e6f336d7a2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5227655528429659156, guid: 52b8b41653be1d94cab4d8e6f336d7a2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5227655528429659156, guid: 52b8b41653be1d94cab4d8e6f336d7a2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5227655528429659156, guid: 52b8b41653be1d94cab4d8e6f336d7a2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5227655528429659156, guid: 52b8b41653be1d94cab4d8e6f336d7a2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5227655528429659156, guid: 52b8b41653be1d94cab4d8e6f336d7a2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5227655528429659156, guid: 52b8b41653be1d94cab4d8e6f336d7a2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5227655528429659156, guid: 52b8b41653be1d94cab4d8e6f336d7a2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5227655528429659156, guid: 52b8b41653be1d94cab4d8e6f336d7a2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5227655528429659159, guid: 52b8b41653be1d94cab4d8e6f336d7a2, type: 3}
+      propertyPath: m_Name
+      value: ExplosionEffect
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 52b8b41653be1d94cab4d8e6f336d7a2, type: 3}
 --- !u!1001 &5456095068395590285
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -32,7 +32,7 @@ public class TestInteractable : PointOfInterest, IInteractableObject
         tutorialManager.popUpIndex++;
         tutorialManager.collectableCount++;
 
-        tutorialManager.phoneObjRef.SetActive(false);
+       // tutorialManager.phoneObjRef.SetActive(false);
 
         tutorialManager.ActivateWayPoint = true;
 

@@ -43,16 +43,15 @@ public class VolumetricComponent : ExploderComponent {
 	}
 
 	private void initParticleSystem() {
-		ParticleSystem particleSystem = GetComponent<ParticleSystem>();
-        particleSystem.maxParticles = maxParticles;
-        particleSystem.emissionRate = 0;
-        particleSystem.startSpeed = 0;
-        particleSystem.startSize = 1.0f;
-        particleSystem.simulationSpace = ParticleSystemSimulationSpace.World;
-        particleSystem.startLifetime = duration;
+		GetComponent<ParticleSystem>().maxParticles = maxParticles;
+		GetComponent<ParticleSystem>().emissionRate = 0;
+		GetComponent<ParticleSystem>().startSpeed = 0;
+		GetComponent<ParticleSystem>().startSize = 1.0f;
+		GetComponent<ParticleSystem>().simulationSpace = ParticleSystemSimulationSpace.World;
+		GetComponent<ParticleSystem>().startLifetime = duration;
 
-        particleSystem.Emit(startEmission);
-		curCount = particleSystem.GetParticles(particles);
+		GetComponent<ParticleSystem>().Emit(startEmission);
+		curCount = GetComponent<ParticleSystem>().GetParticles(particles);
 
 		for (int i = 0; i < curCount; i++) {
 			directions[i] = Random.onUnitSphere;
@@ -60,7 +59,7 @@ public class VolumetricComponent : ExploderComponent {
 			particles[i].color = colorOverLifetime.Evaluate(0);
 		}
 
-		particleSystem.SetParticles(particles, curCount);
+		GetComponent<ParticleSystem>().SetParticles(particles, curCount);
 	}
 
 	protected void emitNewParticles() {

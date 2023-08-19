@@ -37,7 +37,8 @@ public class Safe_System : MonoBehaviour
 
     public Transform Safe_Dial;
 
-    public GameObject playerObjRef;
+    public GameObject flashLightRef;
+
 
     public int First_Digit_Amount;
     [SerializeField] public int Second_Digit_Amount;
@@ -52,15 +53,23 @@ public class Safe_System : MonoBehaviour
 
     public AudioSource playerAudio;
     public AudioClip AudioClipForSafeDial;
-    public AudioClip AudioClipForSafeDoorOpening;
+    public AudioClip voiceOverUnlockedSafe;
+    public AudioClip AudioSafeOpening;
+    public AudioClip voiceOverForgotCodeCheckNotes;
+
+    bool dialogueSaid = false;
+
+    TutorialManager tManager;
+    public GameObject tutorialManager;
 
 
+    bool firstDialogueWhenUnlockingSafe = false;
 
 
     private void Start()
     {
         //Safe_Code = Random.Range(100, 900);
-
+        tManager = tutorialManager.GetComponent<TutorialManager>(); 
         First_Digit_Amount = Random.Range(minDigit, maxDigit);
         Second_Digit_Amount = Random.Range(minDigit, maxDigit);
         Third_Digit_Amount = Random.Range(minDigit, maxDigit);
@@ -78,21 +87,31 @@ public class Safe_System : MonoBehaviour
 
     private void Update()
     {
-        if(Safe_Panel.activeInHierarchy == true)
+        if(SafeCam.activeInHierarchy == true)
         {
-            playerObjRef.SetActive(false);
+           if(tManager.popUpIndex == 20 && dialogueSaid == false)
+           {
+                playerAudio.clip = voiceOverForgotCodeCheckNotes;
+
+                playerAudio.loop = false;
+                playerAudio.volume = 1;
+                playerAudio.Play();
+
+                StartCoroutine(TutorialManager.DisplaySubs("If I am not mistaken the code was.... Uggh I don't remember, I better check my notes app.", 5.5f));
+                dialogueSaid = true;
+
+            }
+            DefaultCam.GetComponent<PlayerCameraController>().enabled = false;
             Safe_Guide_Text.SetActive(true);
-        }else if(Safe_Panel.activeInHierarchy == false)
+
+        }
+        if(SafeCam.activeInHierarchy == false)
         {
-            playerObjRef.SetActive(true);
-
-
+            DefaultCam.GetComponent<PlayerCameraController>().enabled = true;
             Safe_Guide_Text.SetActive(false);
         }
 
-
-
-        if(First_Digit_Amount > 99)
+        if (First_Digit_Amount > 99)
         {
             First_Digit_Text.text = "0";
             First_Digit_Amount = 0;
@@ -233,12 +252,13 @@ public class Safe_System : MonoBehaviour
     {
         safeDoor.Play(doorOpen, 0, 0.0f);
 
-        playerAudio.clip = AudioClipForSafeDoorOpening;
+        playerAudio.clip = AudioSafeOpening;
 
         playerAudio.loop = false;
         playerAudio.Play();
 
-       
+        playerAudio.PlayOneShot(voiceOverUnlockedSafe);
+        StartCoroutine(TutorialManager.DisplaySubs("Nice!!!!! the safe has been unlocked. Let me take a look at what's inside.", 4.5f));
 
         yield return new WaitForSeconds(2);
         SafeObjMeshCollider.convex = false;

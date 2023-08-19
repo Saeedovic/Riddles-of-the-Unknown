@@ -31,13 +31,9 @@ public class KeyItemInteractable : PointOfInterest, IInteractableObject
             playerAudio.volume = 1;
             playerAudio.Play();
 
-            StartCoroutine(TutorialManager.DisplaySubs("Hmmmm.... Another key There has to be a use for this key somewhere. I better investigate..", 6.5f));
             gameObject.SetActive(false);
 
-
-
-
-            Debug.Log("you've picked up a key");
+    
         }
         else
         {

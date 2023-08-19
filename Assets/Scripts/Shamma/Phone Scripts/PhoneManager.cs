@@ -26,7 +26,7 @@ public class PhoneManager : MonoBehaviour
 
     public bool mouseShouldBeUseable = false;
     public static bool isFullscreen { get; private set; }
-    public static bool phoneIsOut { get; private set; }
+    public static bool phoneIsOut;
     [HideInInspector] public bool phoneIsUseable;
     [HideInInspector] public bool fullscreenIsSettable;
 
@@ -42,6 +42,8 @@ public class PhoneManager : MonoBehaviour
     public static OnEnterFullscreen onEnterFullscreen;
     public delegate void OnExitFullscreen();
     public static OnExitFullscreen onExitFullscreen;
+
+    public bool CheckPhoneIsOut;
     
 
 
@@ -71,6 +73,10 @@ public class PhoneManager : MonoBehaviour
     {
         if (!mouseShouldBeUseable)
         {
+            CheckPhoneIsOut = phoneIsOut;
+
+
+
             if (phoneIsOut)
             {
                 // prevent phone buttons from being unfocused and requiring you close and reopen phone.
@@ -85,7 +91,7 @@ public class PhoneManager : MonoBehaviour
             {
                 AudioSource.PlayClipAtPoint(AudioForOpeningPhone, transform.position);
 
-                SetPhoneState(phoneIsOut);
+                SetPhoneState(phoneIsOut); //checks if phone is either on/off and sets it to the opposite
 
                 // make sure first app button is highlighted
                 if (phoneIsOut && !PhoneMainMenu.appIsOpen)
@@ -96,7 +102,7 @@ public class PhoneManager : MonoBehaviour
             }
 
             // control fullscreen state
-            if (Input.GetKeyDown(KeyCode.P) && phoneIsOut && fullscreenIsSettable)
+            if (Input.GetKeyDown(KeyCode.P) && phoneIsOut && fullscreenIsSettable && cameraAppOpen)
             {
                 SetFullscreen(isFullscreen);
             }

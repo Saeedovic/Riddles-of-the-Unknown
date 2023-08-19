@@ -7,6 +7,9 @@ public class CrouchTrigger : MonoBehaviour
 
     public GameObject CrouchUIPopUp;
 
+    public AudioSource playerAudio;
+    public AudioClip AudioClipForCrouching;
+
     private void Start()
     {
     
@@ -20,6 +23,15 @@ public class CrouchTrigger : MonoBehaviour
         if (collider.gameObject.tag == "Player")
         {
             CrouchUIPopUp.SetActive(true);
+
+
+            playerAudio.clip = AudioClipForCrouching;
+
+            playerAudio.loop = false;
+            playerAudio.volume = 1;
+            playerAudio.Play();
+
+            StartCoroutine(TutorialManager.DisplaySubs("I'll need to crouch here to be able to pass through.", 2.5f));
         }
     }
 
