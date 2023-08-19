@@ -890,6 +890,8 @@ public class TutorialManager : MonoBehaviour
                     {
                         EcoPointScanText.SetActive(false);
 
+                        StartCoroutine(NeedToGoTo2ndVillage());
+
                         wpSystem.locationIndex++; //2nd Village
                         qManager.currentQuestIndex = 5; //Goes to the Next Quest
                         qManager.UpdateQuestText();
@@ -965,7 +967,7 @@ public class TutorialManager : MonoBehaviour
                     playerAudio.loop = false;
                     playerAudio.Play();
 
-                    StartCoroutine(DisplaySubs("Yes!! Here are the codes to the safe. Now I can head back and crack that sucker open and see what's inside..", 3.5f));
+                    StartCoroutine(DisplaySubs("Yes!! Here are the codes to the safe. Now I can head back and crack that sucker open and see what's inside..", 5.5f));
 
 
                     EcoPointScanText.SetActive(false);
@@ -1451,6 +1453,22 @@ public class TutorialManager : MonoBehaviour
             Quest_Canvas.SetActive(true);
            }
         }
+
+
+    IEnumerator NeedToGoTo2ndVillage()
+    {
+        Time.timeScale = 0;
+        interactor.enabled = false;
+        
+       
+        yield return new WaitForSeconds(19.5f);
+
+        Time.timeScale = 1;
+        interactor.enabled = true;
+
+    }
+
+
 
 
     public void SwitchSubs()

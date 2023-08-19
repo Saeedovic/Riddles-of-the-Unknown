@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DayNightCycler : MonoBehaviour
 {
-    public bool dayNightCycleActive = true;
+    public bool dayCycleActive = true;
     [SerializeField] float timeFactor = 1;
 
     public GameObject SunObj;
