@@ -33,10 +33,12 @@ public class DayNightCycler : MonoBehaviour
         {
             if (!audio1HasPLayed)
             {
-            playerAudio.PlayOneShot(voiceOverBeautifulSky);
+           // playerAudio.PlayOneShot(voiceOverBeautifulSky);
+                PlayerAudioCaller.Instance.PlayAudio(voiceOverBeautifulSky, playerAudio);
+                StartCoroutine(TutorialManager.DisplaySubs("Wow..., being on this island is wonderful!, the sky looks beautiful not like in the city.", 4.5f));
+
                 audio1HasPLayed = true;
 
-                StartCoroutine(TutorialManager.DisplaySubs("Wow..., being on this island is wonderful!, the sky looks beautiful not like in the city.", 4.5f));
 
             }
 
@@ -53,9 +55,11 @@ public class DayNightCycler : MonoBehaviour
         //Add Voice that says mmm Its Quite Dark, Good thing i Have a Torch
         if (!audio2HasPLayed)
         {
-            playerAudio.PlayOneShot(voiceOverItsGettingDark);
-            audio2HasPLayed = true;
+           // playerAudio.PlayOneShot(voiceOverItsGettingDark);
+            PlayerAudioCaller.Instance.PlayAudio(voiceOverItsGettingDark, playerAudio);
             StartCoroutine(TutorialManager.DisplaySubs("It's getting dark!, Exploring will be very challenging!", 3.5f));
+
+            audio2HasPLayed = true;
 
 
         }

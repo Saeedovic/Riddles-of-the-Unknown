@@ -28,10 +28,19 @@ public class FlashlightController : MonoBehaviour
         {
             playerAudio.clip = voiceOverMuchBetter;
 
-            playerAudio.loop = false;
-            playerAudio.Play();
+           // playerAudio.loop = false;
+           // playerAudio.Play();
 
-            StartCoroutine(TutorialManager.DisplaySubs("There we go!, Much Better.", 1.5f));
+            if(playerAudio.clip = voiceOverMuchBetter)
+            {
+               // playerAudio.loop = false;
+               PlayerAudioCaller.Instance.PlayAudio(voiceOverMuchBetter, playerAudio);
+
+
+               StartCoroutine(TutorialManager.DisplaySubs("There we go!, Much Better.", 1.5f));
+
+            }
+
 
 
             flashLight.SetActive(true);

@@ -30,6 +30,8 @@ public class PlayerAudioCaller : MonoBehaviour
     {
         if (!player.isPlaying)// && !isPlaying)
         {
+          //  player.loop = false;
+
             isPlaying = true;
             player.clip = clip;
             player.Play();
