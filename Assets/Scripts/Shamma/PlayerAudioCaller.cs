@@ -8,6 +8,7 @@ public class PlayerAudioCaller : MonoBehaviour
     public static bool isPlaying {  get; private set; } 
 
     public static PlayerAudioCaller Instance;
+    List<AudioClip> currentClips;
 
     // singleton pattern
     void Start()
@@ -22,25 +23,32 @@ public class PlayerAudioCaller : MonoBehaviour
     // here to make calling the func a bit smoother than always calling startcoroutine
     public void PlayAudio(AudioClip clip, AudioSource player)
     {
+        currentClips.Add(clip);
         StartCoroutine(PlayWhenReady(clip, player));
     }
 
-    // keep waiting to play till the current audio clip has finished
+    // keep waiting to play till the current audio clip has finished.
+    // play first clip in the list, then remove it, and play the next clip if there is any
     IEnumerator PlayWhenReady(AudioClip clip, AudioSource player)
     {
         if (!player.isPlaying)// && !isPlaying)
         {
             isPlaying = true;
-            player.clip = clip;
+            player.clip = currentClips[0];
             player.Play();
 
-            yield return new WaitForSeconds(clip.length);
+            yield return new WaitForSeconds(currentClips[0].length); // let clip play out!
 
-            isPlaying = false;
-            yield break;
+            currentClips.RemoveAt(0); 
+
+            if (currentClips.Count == 0)
+            {
+                isPlaying = false;
+                yield break;
+            }
         }
 
         yield return null;
-        StartCoroutine(PlayWhenReady(clip, player));
+        StartCoroutine(PlayWhenReady(clip, player)); // loop till clips are all cleared
     }
 }

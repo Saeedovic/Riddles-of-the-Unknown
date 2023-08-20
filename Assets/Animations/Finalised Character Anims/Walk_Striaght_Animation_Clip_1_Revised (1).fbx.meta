@@ -42,8 +42,8 @@ ModelImporter:
       name: Walk_Striaght_Animation_Clip_1_Revised
       takeName: Walk_Striaght_Animation_Clip_1_Revised
       internalID: 0
-      firstFrame: 68
-      lastFrame: 150
+      firstFrame: 102
+      lastFrame: 142.7
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
