@@ -21,7 +21,7 @@ public class PhoneManager : MonoBehaviour
     GameObject objLastSelected;
     GameObject objCurrentlySelected;
 
-
+    [SerializeField] GameObject phoneModelObject;
     public AudioClip AudioForOpeningPhone;
 
     public bool mouseShouldBeUseable = false;
@@ -144,6 +144,7 @@ public class PhoneManager : MonoBehaviour
         if (!phoneActive)
         {
             phoneScreen.SetActive(true);
+            phoneModelObject.SetActive(true);
             onOpenPhone?.Invoke();
            //PhoneMainMenu.RefreshPhone();
 
@@ -159,6 +160,7 @@ public class PhoneManager : MonoBehaviour
 
             ForceFullscreenOff();
             phoneScreen.SetActive(false);
+            phoneModelObject.SetActive(false);
             onClosePhone?.Invoke();
 
             StopCoroutine(SetHandForPhoneOn());
