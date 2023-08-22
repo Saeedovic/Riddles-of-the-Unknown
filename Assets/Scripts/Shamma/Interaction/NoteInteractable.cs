@@ -17,6 +17,9 @@ public class NoteInteractable : PointOfInterest, IInteractableObject
     //[SerializeField] AudioClip endInteractionAudio;
 
 
+
+
+
     private void Start()
     {
         if (_notesApp == null)
@@ -25,15 +28,7 @@ public class NoteInteractable : PointOfInterest, IInteractableObject
         }
 
         uiToDisplayNote.gameObject.SetActive(false);
-
-        if (NoteContainer.uiToDisplayNote == null)
-        {
-            NoteContainer.uiToDisplayNote = uiToDisplayNote;
-        }
-        if (NoteContainer.textboxForNote == null)
-        {
-            NoteContainer.textboxForNote = textboxForNote;
-        }
+        noteInfo.Intialize(uiToDisplayNote, textboxForNote);
     }
 
 

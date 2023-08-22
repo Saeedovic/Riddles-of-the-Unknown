@@ -91,23 +91,24 @@ public class Safe_System : MonoBehaviour
         {
            if(tManager.popUpIndex == 20 && dialogueSaid == false)
            {
-                playerAudio.clip = voiceOverForgotCodeCheckNotes;
+              //  playerAudio.clip = voiceOverForgotCodeCheckNotes;
 
-                playerAudio.loop = false;
-                playerAudio.volume = 1;
-                playerAudio.Play();
-
-                StartCoroutine(TutorialManager.DisplaySubs("If I am not mistaken the code was.... Uggh I don't remember, I better check my notes app.", 5.5f));
+               // playerAudio.loop = false;
+               // playerAudio.volume = 1;
+               // playerAudio.Play();
+             // PlayerAudioCaller.Instance.PlayAudio(voiceOverForgotCodeCheckNotes, playerAudio);
+                playerAudio.PlayOneShot(voiceOverForgotCodeCheckNotes);
+              StartCoroutine(TutorialManager.DisplaySubs("If I am not mistaken the code was.... Uggh I don't remember, I better check my notes app.", 5.5f));
                 dialogueSaid = true;
 
             }
-            DefaultCam.GetComponent<PlayerCameraController>().enabled = false;
+           // DefaultCam.GetComponent<PlayerCameraController>().enabled = false;
             Safe_Guide_Text.SetActive(true);
 
         }
         if(SafeCam.activeInHierarchy == false)
         {
-            DefaultCam.GetComponent<PlayerCameraController>().enabled = true;
+           // DefaultCam.GetComponent<PlayerCameraController>().enabled = true;
             Safe_Guide_Text.SetActive(false);
         }
 
@@ -258,9 +259,13 @@ public class Safe_System : MonoBehaviour
         playerAudio.Play();
 
         playerAudio.PlayOneShot(voiceOverUnlockedSafe);
+
         StartCoroutine(TutorialManager.DisplaySubs("Nice!!!!! the safe has been unlocked. Let me take a look at what's inside.", 4.5f));
 
         yield return new WaitForSeconds(2);
+
+        flashLightRef.GetComponent<PlayerCon>().enabled = true;
+        flashLightRef.GetComponent<FlashlightController>().enabled = true;
         SafeObjMeshCollider.convex = false;
 
 

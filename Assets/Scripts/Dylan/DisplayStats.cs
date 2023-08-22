@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Collections;
 
 public class DisplayStats : MonoBehaviour
 {
@@ -178,10 +179,15 @@ public class DisplayStats : MonoBehaviour
             watchManager.SetWatchState(false);
             EatFoodWarning.SetActive(true);
 
-            playerAudio.PlayOneShot(voiceOverHungerWarning);
+           // playerAudio.PlayOneShot(voiceOverHungerWarning);
 
-            StartCoroutine(TutorialManager.DisplaySubs("Maaaaan I'm hungry. Let me see if I got anything in the inventory app", 4.5f));
+            PlayerAudioCaller.Instance.PlayAudio(voiceOverHungerWarning, playerAudio);
 
+            if (playerAudio.clip == voiceOverHungerWarning && playerAudio.isPlaying)
+            {
+                StartCoroutine(TutorialManager.DisplaySubs("Maaaaan I'm hungry. Let me see if I got anything in the inventory app.", 4.5f));
+
+            }
             hungerWarningHasBeenMade = true;
 
             if (Input.GetKeyDown(KeyCode.J))
@@ -196,9 +202,18 @@ public class DisplayStats : MonoBehaviour
             watchManager.SetWatchState(false);
             DrinkWaterWarning.SetActive(true);
 
-            playerAudio.PlayOneShot(voiceOverThirstWarning);
+            //playerAudio.PlayOneShot(voiceOverThirstWarning);
 
-            StartCoroutine(TutorialManager.DisplaySubs("Got to stay hydrated or I might pass out!", 2.5f));
+            //StartCoroutine(TutorialManager.DisplaySubs("Got to stay hydrated or I might pass out!", 2.5f));
+
+            PlayerAudioCaller.Instance.PlayAudio(voiceOverThirstWarning, playerAudio);
+
+            if (playerAudio.clip == voiceOverThirstWarning && playerAudio.isPlaying)
+            {
+                StartCoroutine(TutorialManager.DisplaySubs("Got to stay hydrated or I might pass out.", 2.5f));
+
+            }
+
 
             thirstWarningHasBeenMade = true;
 
@@ -289,7 +304,31 @@ public class DisplayStats : MonoBehaviour
         }
     }
 
+    IEnumerator HungerWarningPopUp()
+    {
 
 
- 
+        PlayerAudioCaller.Instance.PlayAudio(voiceOverHungerWarning, playerAudio);
+       
+        StartCoroutine(TutorialManager.DisplaySubs("Maaaaan I'm hungry. Let me see if I got anything in the inventory app", 4.5f));
+  
+
+        yield return null;
+
+
+      
+    }
+
+    IEnumerator ThirstWarningPopUp()
+    {
+
+        PlayerAudioCaller.Instance.PlayAudio(voiceOverThirstWarning, playerAudio);
+
+        StartCoroutine(TutorialManager.DisplaySubs("Got to stay hydrated or I might pass out!", 2.5f));
+
+        yield return null;
+
+    }
+
+
 }

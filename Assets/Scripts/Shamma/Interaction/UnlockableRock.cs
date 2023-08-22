@@ -138,12 +138,16 @@ public class UnlockableRock : PointOfInterest, IInteractableObject
     {
         keyNeededTextbox.SetActive(true);
 
-        playerAudio.clip = NeedExplosiveVoiceOver;
+       // playerAudio.clip = NeedExplosiveVoiceOver;
 
-        playerAudio.loop = false;
-        playerAudio.Play();
+        //PlayerAudioCaller.Instance.PlayAudio(NeedExplosiveVoiceOver, playerAudio);
+        playerAudio.PlayOneShot(NeedExplosiveVoiceOver);
 
-        yield return new WaitForSeconds(boxDisplayTime);
+        StartCoroutine(TutorialManager.DisplaySubs("Damn I need to find something to blow up this rock maybe if I explore a bit more I could find something that might help me out with this.", 7.5f));
+        gameObject.layer = 0;
+        yield return new WaitForSeconds(7.5f);
+        gameObject.layer = 3;
+
 
         keyNeededTextbox.SetActive(false);
     }

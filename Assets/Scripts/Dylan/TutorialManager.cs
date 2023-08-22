@@ -86,7 +86,7 @@ public class TutorialManager : MonoBehaviour
 
     public GameObject interactionBox;
 
-    public AudioSource source;
+   // public AudioSource source;
 
     public AudioClip tiredClip;
     public AudioClip thirstyClip;
@@ -100,13 +100,16 @@ public class TutorialManager : MonoBehaviour
     public GameObject onScreenInstructionUI;
 
 
-    PhoneManager pManager;
+   // PhoneManager pManager;
 
 
     public GameObject EcoPointScanText;
     public GameObject SafeCabinTriggerPoint;
 
     public GameObject NeedSafeNoteKeyCodeNote;
+    SafeNoteInteractable safeNoteObjRef;
+    KeyCodeNoteInteractable keyCodeNoteObjRef;
+
     public GameObject KeyCodeNote;
 
     public GameObject CabinDoorObj;
@@ -218,6 +221,7 @@ public class TutorialManager : MonoBehaviour
     bool audio2HasPLayed = false;
     bool audio3HasPLayed = false;
     bool audio4HasPLayed = false;
+    bool FoundKeyCodeNote = false;
 
     bool audioforFood = false;
 
@@ -257,12 +261,6 @@ public class TutorialManager : MonoBehaviour
     public PlayerCameraController playerCameraController;
 
     bool phoneIsOff = false;
-    bool notephoneIsOff = false;
-    bool stathoneIsOff = false;
-
-    bool stat2ndHalf = false;
-
-    public GameObject SkeletonNoteObj;
 
     [SerializeField] bool CutSceneEnabled = false;
 
@@ -288,8 +286,10 @@ public class TutorialManager : MonoBehaviour
 
         unlockableCabinDoor = CabinWKeyDoor.GetComponent<UnlockableDoor>();
         unlockableCaveDoor = CaveWKeyDoor.GetComponent<UnlockableDoor>();
+        safeNoteObjRef = NeedSafeNoteKeyCodeNote.GetComponent<SafeNoteInteractable>();
+        keyCodeNoteObjRef = KeyCodeNote.GetComponent<KeyCodeNoteInteractable>();
 
-        playerCameraController.GetComponent<PlayerCameraController>().enabled = false;
+        //playerCameraController.GetComponent<PlayerCameraController>().enabled = false;
 
 
         collectableCounterObj.SetActive(false);
@@ -342,8 +342,10 @@ public class TutorialManager : MonoBehaviour
 
         if (FirstCutSceneCamera.enabled == false)
         {
-            playerObjRef.GetComponent<PlayerCon>().enabled = true;
-            playerCameraController.GetComponent<PlayerCameraController>().enabled = true;
+            Debug.Log(phoneAudio.clip);
+            Debug.Log(playerAudio.clip);
+
+            
             collectableCountText.text = collectableCount.ToString("0");
 
 
@@ -472,12 +474,15 @@ public class TutorialManager : MonoBehaviour
                 {
                     phoneManager.phoneIsUseable = true;
 
-                    phoneAudio.clip = phone_Ringing;
+                  //  phoneAudio.clip = phone_Ringing;
 
                     phoneAudio.loop = true;
+                    
+                    //PlayerAudioCaller.Instance.PlayAudio(phone_Ringing, phoneAudio);
                     phoneAudio.Play();
 
-                   // PlayerAudioCaller.Instance.PlayAudio(phone_Ringing, playerAudio);
+
+                    // PlayerAudioCaller.Instance.PlayAudio(phone_Ringing, playerAudio);
 
 
 
@@ -496,21 +501,25 @@ public class TutorialManager : MonoBehaviour
 
             if (popUpIndex == 6) //Take a Picture - 2
             {
+
+
                 if (!audio1HasPLayed)
                 {
-                    playerAudio.PlayOneShot(voiceOverUghMyDamnPhone);
+                     playerAudio.clip = voiceOverUghMyDamnPhone;
+                     Debug.Log(playerAudio.clip);
+                      Debug.Log(playerAudio.isPlaying);
+                    playerAudio.Play();
 
                     StartCoroutine(DisplaySubs("Ugh!, My Damn Phone!", 1.5f));
 
                     audio1HasPLayed = true;
 
-                    
-
                 }
+
                 if (Input.GetKeyDown(KeyCode.K))
                 {
-                    phoneAudio.loop = false;
-                    phoneAudio.Stop();
+                    //phoneAudio.Stop();
+                    phoneAudio.enabled = false;
 
                     popUps[6].SetActive(false);
 
@@ -739,16 +748,15 @@ public class TutorialManager : MonoBehaviour
             {
                 if(audioforFood == false)
                 {
+                    PlayerAudioCaller.Instance.PlayAudio(voiceOverAfterEatingFood, playerAudio);
+                }
 
-                PlayerAudioCaller.Instance.PlayAudio(voiceOverAfterEatingFood, playerAudio);
-
-                if (playerAudio.clip == voiceOverAfterEatingFood)
+                if (playerAudio.clip == voiceOverAfterEatingFood && playerAudio.isPlaying)
                 {
                     StartCoroutine(DisplaySubs("I hope these foods don't get me sick.", 2.5f));
-                        audioforFood = true;
+                    audioforFood = true;
                 }
 
-                }
                 inventoryAppBackButton.interactable = false;
 
 
@@ -859,27 +867,28 @@ public class TutorialManager : MonoBehaviour
             {
                 WaterScan.SetActive(false);
 
+                
                 if (WaterIntro == false)
                 {
-                   // playerAudio.clip = voiceOverAfterDrinkingWater;
+                    
+                        playerAudio.clip = voiceOverAfterDrinkingWater;
 
-                  //  playerAudio.loop = false;
-                   // playerAudio.Play();
+                        playerAudio.loop = false;
+                        playerAudio.Play();
 
-                    PlayerAudioCaller.Instance.PlayAudio(voiceOverAfterDrinkingWater, playerAudio);
+                       // PlayerAudioCaller.Instance.PlayAudio(voiceOverAfterDrinkingWater, playerAudio);
 
-                    if(playerAudio.clip == voiceOverAfterDrinkingWater)
+                    if (playerAudio.clip == voiceOverAfterDrinkingWater && playerAudio.isPlaying)
                     {
-                     StartCoroutine(DisplaySubs("I feel much more Energetic after that!", 2.5f));
-                    WaterBottleIntro.SetActive(true);
+                        StartCoroutine(DisplaySubs("I feel much more Energetic after that!", 2.5f));
+                        WaterBottleIntro.SetActive(true);
 
-                    WaterIntro = true;
+                        WaterIntro = true;
                     }
-
-
-
-
                 }
+                
+
+
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
                     WaterBottleIntro.SetActive(false);
@@ -894,19 +903,16 @@ public class TutorialManager : MonoBehaviour
                 {
                     if (!audio2HasPLayed)
                     {
-                      //  playerAudio.PlayOneShot(voiceOverForReachingVillage1);
-
+                       //  playerAudio.PlayOneShot(voiceOverForReachingVillage1);
                         PlayerAudioCaller.Instance.PlayAudio(voiceOverForReachingVillage1, playerAudio);
-
-                        if(playerAudio.clip == voiceOverForReachingVillage1)
-                        {
-                          StartCoroutine(DisplaySubs("Alright now. I am pretty sure Dave's other shack is here and I will need to look around.", 5.5f));
-                          audio2HasPLayed = true;
-                        }
-
-
-
                     }
+
+                    if (playerAudio.clip == voiceOverForReachingVillage1 && playerAudio.isPlaying)
+                    {
+                        StartCoroutine(DisplaySubs("Alright now. I am pretty sure Dave's other shack is here and I will need to look around.", 5.5f));
+                        audio2HasPLayed = true;
+                    }
+
 
                     ActivateWayPoint = false;
 
@@ -961,7 +967,7 @@ public class TutorialManager : MonoBehaviour
 
             if (popUpIndex == 19)
             {
-                if (NoteContainer.uiToDisplayNote.gameObject.activeInHierarchy == false && noteTutorial == false)
+                if(safeNoteObjRef.publicNoteInfo.uiToDisplayNote.gameObject.activeInHierarchy == false && noteTutorial == false)
                 {
                     noteAppButton.interactable = true;
 
@@ -980,17 +986,15 @@ public class TutorialManager : MonoBehaviour
 
                     if (!audio3HasPLayed)
                     {
-                       // playerAudio.PlayOneShot(voiceOverSeeVillage2);
-
+                       //playerAudio.PlayOneShot(voiceOverSeeVillage2);
                         PlayerAudioCaller.Instance.PlayAudio(voiceOverSeeVillage2, playerAudio);
+                    }
 
-                        if(playerAudio.clip == voiceOverSeeVillage2)
-                        {
+                    if (playerAudio.clip == voiceOverSeeVillage2 && playerAudio.isPlaying)
+                    {
                         StartCoroutine(DisplaySubs("I see the other village. Lets head over there and investigate.", 3.5f));
 
                         audio3HasPLayed = true;
-
-                        }
 
                     }
 
@@ -1011,22 +1015,12 @@ public class TutorialManager : MonoBehaviour
 
                 }
 
-                if (KeyCodeNote.activeInHierarchy == false) //IF the Selected Note has been interacted with then...
+                if (keyCodeNoteObjRef.publicNoteInfo.uiToDisplayNote.gameObject.activeInHierarchy == true) //IF the Selected Note has been interacted with then...
                 {
+                    Debug.Log("Note Has Been Collected");
 
-                    // playerAudio.clip = voiceOverFoundKeyCode;
-
-                    // playerAudio.loop = false;
-                    // playerAudio.Play();
-
-                    PlayerAudioCaller.Instance.PlayAudio(voiceOverFoundKeyCode, playerAudio);
-
-                    if(playerAudio.clip == voiceOverFoundKeyCode)
-                    {
-                    StartCoroutine(DisplaySubs("Yes!! Here are the codes to the safe. Now I can head back and crack that sucker open and see what's inside..", 5.5f));
-
-                    }
-                    
+                    StartCoroutine(DisplaySubs("Yes!! Here are the codes to the safe now I can head back and crack that sucker open and see what's inside.", 7.5f));
+                     
                     EcoPointScanText.SetActive(false);
 
                     wpSystem.locationIndex++; //Safe Location
@@ -1124,19 +1118,15 @@ public class TutorialManager : MonoBehaviour
                     {
                         if (!audio4HasPLayed)
                         {
-                           // playerAudio.PlayOneShot(voiceOverLetsSeeWhatsInside);
 
                             PlayerAudioCaller.Instance.PlayAudio(voiceOverLetsSeeWhatsInside, playerAudio);
+                        }
 
-                            if(playerAudio.clip == voiceOverLetsSeeWhatsInside)
-                            {
-
+                        if (playerAudio.clip == voiceOverLetsSeeWhatsInside && playerAudio.isPlaying)
+                        {
                             StartCoroutine(DisplaySubs("Lets see what's inside here..", 1.5f));
 
-                            audio4HasPLayed = true;
-                            }
-
-
+                           audio4HasPLayed = true;
                         }
 
                         qManager.currentQuestIndex = 10; // This is Quest 9
@@ -1159,6 +1149,8 @@ public class TutorialManager : MonoBehaviour
 
                         if (CabinKey.hasBeenCollected)
                         {
+                            StartCoroutine(DisplaySubs("Hmmmm.... Another key There has to be a use for this key somewhere. I better investigate..", 6f));
+
                             popUpIndex = 23;
                         }
 
@@ -1237,6 +1229,8 @@ public class TutorialManager : MonoBehaviour
 
                     if (ExplosiveKey.hasBeenCollected)
                     {
+                        StartCoroutine(DisplaySubs("These sticks of dynamite might come in handy.Better save it for later.", 3.5f));
+
                         popUpIndex = 25;
                     }
                 }
@@ -1287,17 +1281,6 @@ public class TutorialManager : MonoBehaviour
                     if (Vector3.Distance(wpSystem.wayPoint[wpSystem.locationIndex].transform.position, playerObjRef.transform.position) <= 40)
                     {
                         ActivateWayPoint = false;
-
-
-                        if(SkeletonNoteObj.activeInHierarchy == false)
-                        {
-
-                        }
-
-
-
-
-
                     }
 
                 }
@@ -1349,7 +1332,7 @@ public class TutorialManager : MonoBehaviour
                 onScreenInstructionUI.SetActive(false);
                 noteAppBackButton.interactable = false;
 
-                if (NoteContainer.uiToDisplayNote.gameObject.activeInHierarchy == true)
+                if (NoteContainer.isInInteraction == true  || safeNoteObjRef.publicNoteInfo.uiToDisplayNote.enabled == false)
                 {
                     popUpIndex = 46;
                 }
@@ -1439,6 +1422,8 @@ public class TutorialManager : MonoBehaviour
 
             if (popUpIndex == 50)
             {
+                playerAudio.clip = voiceOverForFollowingPathToReachVillage;
+
                 if (statAllocationApp.activeInHierarchy == false)  //This is the end of the Stat App Tutorial
                 {
                     phoneManager.phoneIsUseable = true;
@@ -1453,14 +1438,12 @@ public class TutorialManager : MonoBehaviour
                     interactor.enabled = true;
 
 
-                   // playerAudio.clip = voiceOverForFollowingPathToReachVillage;
+                    //  playerAudio.PlayOneShot(voiceOverForFollowingPathToReachVillage);
 
-                   // playerAudio.loop = false;
-                   // playerAudio.Play();
+                    playerAudio.PlayOneShot(voiceOverForFollowingPathToReachVillage);
 
-                    PlayerAudioCaller.Instance.PlayAudio(voiceOverForFollowingPathToReachVillage, playerAudio);
 
-                    if(playerAudio.clip == voiceOverForFollowingPathToReachVillage)
+                    if (playerAudio.clip == voiceOverForFollowingPathToReachVillage)
                     {
                     StartCoroutine(DisplaySubs("I better follow along this road path to reach the village.", 3.5f));
 
@@ -1489,9 +1472,11 @@ public class TutorialManager : MonoBehaviour
                Right_Bus_Door.enabled = false;
                Left_Bus_Door.enabled = false;
                yield return new WaitForSeconds(0.2f);
-            playerObjRef.GetComponent<PlayerCon>().enabled = false;
+              playerObjRef.GetComponent<PlayerCon>().enabled = false;
+            playerCameraController.GetComponent<PlayerCameraController>().enabled = false;
 
-               FirstCutScene.Play(FirstCutSceneContainer, 0, 0.0f);
+
+            FirstCutScene.Play(FirstCutSceneContainer, 0, 0.0f);
              playerAudio.PlayOneShot(voiceOverFirstCutScene_1);
               // PlayerAudioCaller.Instance.PlayAudio(voiceOverFirstCutScene_1, playerAudio);
                subtitleObj.SetActive(true);
@@ -1539,27 +1524,12 @@ public class TutorialManager : MonoBehaviour
        
             Debug.Log("First Cut Scene Completed!");
             FirstCutSceneCamera.enabled = false;
+
+            playerObjRef.GetComponent<PlayerCon>().enabled = true;
+            playerCameraController.GetComponent<PlayerCameraController>().enabled = true;
             Quest_Canvas.SetActive(true);
            }
         }
-
-
-
-    /*
-    IEnumerator NeedToGoTo2ndVillage()
-    {
-        Time.timeScale = 0;
-        interactor.enabled = false;
-        
-       
-        yield return new WaitForSeconds(19.5f);
-
-        Time.timeScale = 1;
-        interactor.enabled = true;
-
-    }*/
-
-
 
 
     public void SwitchSubs()
@@ -1582,7 +1552,7 @@ public class TutorialManager : MonoBehaviour
 
     public static IEnumerator DisplaySubs(string message, float delay)
     {
-        staticSubtitleObj.SetActive(true);
+        staticSubtitleObj.SetActive(true);  //Enables Subs Box
         staticSubTextBox.text = message;
         yield return new WaitForSeconds(delay);
         staticSubtitleObj.SetActive(false);

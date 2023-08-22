@@ -8,74 +8,40 @@ public class DayNightCycler : MonoBehaviour
     [SerializeField] float timeFactor = 1;
 
     public GameObject SunObj;
+    public static GameObject useTorchPopUpStatic;
     public GameObject useTorchPopUp;
 
-    bool torchTutorialDone = false;
+    public static bool torchTutorialDoneStatic = false;
+    public  bool torchTutorialDone = false;
+ 
+
+    public FlashlightController flashlightController;
 
 
-    public AudioSource playerAudio;
-
-    public AudioClip voiceOverItsGettingDark;
-
-    public AudioClip voiceOverBeautifulSky;
-
-    bool audio1HasPLayed = false;
-    bool audio2HasPLayed = false;
-
-
-
+    private void Start()
+    {
+        useTorchPopUpStatic = useTorchPopUp;
+        torchTutorialDoneStatic = torchTutorialDone;
+    }
 
     void Update()
     {
-        transform.Rotate(0.01f * timeFactor, 0, 0);
-
-        if(SunObj.transform.localRotation.eulerAngles.x > 170)
-        {
-            if (!audio1HasPLayed)
-            {
-           // playerAudio.PlayOneShot(voiceOverBeautifulSky);
-                PlayerAudioCaller.Instance.PlayAudio(voiceOverBeautifulSky, playerAudio);
-                StartCoroutine(TutorialManager.DisplaySubs("Wow..., being on this island is wonderful!, the sky looks beautiful not like in the city.", 4.5f));
-
-                audio1HasPLayed = true;
-
-
-            }
-
-            Debug.Log("Its night Time");
-           
-            StartCoroutine(UseTorch());
-        }
+       transform.Rotate(0.01f * timeFactor, 0, 0);
     }
 
-    IEnumerator UseTorch()
+    public static IEnumerator UseTorch()
     {
-        
-        yield return new WaitForSeconds(5);
-        //Add Voice that says mmm Its Quite Dark, Good thing i Have a Torch
-        if (!audio2HasPLayed)
-        {
-           // playerAudio.PlayOneShot(voiceOverItsGettingDark);
-            PlayerAudioCaller.Instance.PlayAudio(voiceOverItsGettingDark, playerAudio);
-            StartCoroutine(TutorialManager.DisplaySubs("It's getting dark!, Exploring will be very challenging!", 3.5f));
-
-            audio2HasPLayed = true;
-
-
-        }
-
         yield return new WaitForSeconds(4);
 
-        if(torchTutorialDone == false) 
+        if(torchTutorialDoneStatic == false) 
         {
-
-            useTorchPopUp.SetActive(true);
+            useTorchPopUpStatic.SetActive(true);
 
             if (Input.GetKeyDown(KeyCode.F))
             {
-                useTorchPopUp.SetActive(false);
+                useTorchPopUpStatic.SetActive(false);
 
-                torchTutorialDone = true;
+                torchTutorialDoneStatic = true;
 
             }
         }

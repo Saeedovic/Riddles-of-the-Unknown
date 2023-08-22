@@ -58,6 +58,7 @@ public class UnlockableDoor : PointOfInterest, IInteractableObject
                 playerAudio.Play();
 
                 SetScannabilityOff();
+                gameObject.layer = 0;
                 Debug.Log("door was opened!");
                 noKeyfound = false;
 

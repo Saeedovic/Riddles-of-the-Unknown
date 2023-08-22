@@ -47,15 +47,16 @@ public class PhoneNotesApp : PhoneAppScreen
         {
             if (notes[i] == null)
             {
-                if (!firstNoteAdded)
+              /*  if (!firstNoteAdded)
                 {
-                    playerAudio.PlayOneShot(voiceOverFirstNotePicked);
+                    
+                    PlayerAudioCaller.Instance.PlayAudio(voiceOverFirstNotePicked, playerAudio);
 
                     StartCoroutine(TutorialManager.DisplaySubs("Ah my first note let's read its content.", 2.5f));
 
                     firstNoteAdded = true;
                 }
-
+              */
                 notes[i] = newNote;
                 allButtonsForCheckingNotes[i].image.sprite = noteCollectedIcon;
                 // set the ui button to the note image here.

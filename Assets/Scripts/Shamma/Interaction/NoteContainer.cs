@@ -10,31 +10,55 @@ public class NoteContainer
     [SerializeField] Sprite noteDisplayTexture;
     [SerializeField] string noteText;
     [SerializeField] float textSize = 40f;
+    [SerializeField] public bool cantBeClosed = false;
     //public int slotInNotesApp;
 
-    public static Image uiToDisplayNote;
-    public static TextMeshProUGUI textboxForNote;
+    public  Image uiToDisplayNote;
+    public  TextMeshProUGUI textboxForNote;
 
     public static PlayerCameraController playerCam;
     public static PlayerCon playerRef;
     //public static PhoneNotesApp notesApp;
     float normalTimeScale;
-    public static bool isInInteraction { get; private set; }
+    public static bool isInInteraction;
 
+    public void Intialize(Image UItoDisplayNote, TextMeshProUGUI TextToDisplay)
+    {
+        this.uiToDisplayNote = UItoDisplayNote;
+        this.textboxForNote = TextToDisplay;
+    }
+
+
+    public void DisableMovement()
+    {
+        playerCam.enabled = false;
+        playerRef.enabled = false;
+    }
+
+    public void EnableMovement()
+    {
+        Time.timeScale = normalTimeScale;
+        playerRef.enabled = true;
+        playerCam.enabled = true;
+    }
 
     public void DisplayNote()
     {
-        playerCam.enabled = false;
+        //  playerCam.enabled = false;
 
+        //IsCloseableStatic = IsCloseable;
+        playerRef.GetComponent<FlashlightController>().enabled = false;
         normalTimeScale = Time.timeScale;
         Time.timeScale = 0f;
-
+        
         uiToDisplayNote.gameObject.SetActive(true);
         SetUpNoteImage();
 
         isInInteraction = true;
         playerRef.StartCoroutine(WaitForContinue());
     }
+
+
 
     void SetUpNoteImage()
     {
@@ -44,24 +68,35 @@ public class NoteContainer
         textboxForNote.fontSize = textSize;
     }
 
+    public void CloseNote()
+    {
+        // unpause
+
+        playerCam.enabled = true;
+        playerRef.GetComponent<FlashlightController>().enabled = true;
+
+        Time.timeScale = normalTimeScale;
+
+        // stop displaying note
+        uiToDisplayNote.gameObject.SetActive(false);
+        isInInteraction = false;
+    }
+
+
+
     IEnumerator WaitForContinue()
     {
         yield return null;
 
-        if (Input.GetMouseButtonDown(0) || Input.GetKey(KeyCode.Return))
+        if (Input.GetKey(KeyCode.Return) && (cantBeClosed == false || PhoneMainMenu.appIsOpen))
         {
-            // unpause
-            playerCam.enabled = true;
-            Time.timeScale = normalTimeScale;
+            CloseNote();
 
-            // stop displaying note
-            uiToDisplayNote.gameObject.SetActive(false);
-            isInInteraction = false;
             //AudioSource.PlayClipAtPoint(endInteractionAudio, playerCam.transform.position);
 
             yield break;
         }
-
+        //IsCloseable = true;  //i Added this line cause if i dotn i cant interact with the notes in the App!
         playerRef.StartCoroutine(WaitForContinue());
     }
 

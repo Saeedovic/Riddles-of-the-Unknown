@@ -12,7 +12,12 @@ public class SafeInteractable : PointOfInterest, IInteractableObject
 
     public Button closeButton;
 
-    public GameObject playerObjRef;
+    public GameObject PlayerMeshRef;
+
+    public GameObject PlayerObjRef;
+
+    NoteContainer movement;
+
 
     bool safePuzzleActive = false;
     public static bool safeHasBeenCracked = false;
@@ -31,8 +36,10 @@ public class SafeInteractable : PointOfInterest, IInteractableObject
         SafeCam.SetActive(true);
         SafeCanvas.SetActive(true);
 
+        PlayerObjRef.GetComponent<PlayerCon>().enabled = false;
+        PlayerObjRef.GetComponent<FlashlightController>().enabled = false;
 
-        playerObjRef.SetActive(false);
+        PlayerMeshRef.SetActive(false);
 
         safePuzzleActive = true;
         Cursor.lockState = CursorLockMode.None;
@@ -53,7 +60,11 @@ public class SafeInteractable : PointOfInterest, IInteractableObject
         DefaultCam.SetActive(true);
         SafeCanvas.SetActive(false);
 
-        playerObjRef.SetActive(true);
+        PlayerObjRef.GetComponent<PlayerCon>().enabled = true;
+        
+
+        PlayerMeshRef.SetActive(true);
+        PlayerObjRef.GetComponent<FlashlightController>().enabled = true;
 
 
         safePuzzleActive = false;
@@ -70,7 +81,7 @@ public class SafeInteractable : PointOfInterest, IInteractableObject
         if (!safePuzzleActive && !safeHasBeenCracked)
             return true;
         else
-            playerObjRef.SetActive(true);
+            PlayerMeshRef.SetActive(true);
 
         return false;
     }

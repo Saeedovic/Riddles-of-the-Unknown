@@ -21,17 +21,10 @@ public class CabinKey : PointOfInterest, IInteractableObject
             {
                 user.inventoryHandler.UpdateKeyObjectValue(true);
             }
-
-            hasBeenCollected = true;
-
-            playerAudio.clip = AudioClipForPickingUpKey;
-
-            playerAudio.loop = false;
-            playerAudio.volume = 1;
-            playerAudio.Play();
-
-            StartCoroutine(TutorialManager.DisplaySubs("Hmmmm.... Another key There has to be a use for this key somewhere. I better investigate..", 6f));
-            gameObject.SetActive(false);
+            if(hasBeenCollected == false)
+            {
+            StartCoroutine(PickUpKey());
+            }
 
             Debug.Log("you've picked up a key");
         }
@@ -54,5 +47,16 @@ public class CabinKey : PointOfInterest, IInteractableObject
     public bool riverCheck()
     {
         return true;
+    }
+
+    IEnumerator PickUpKey()
+    {
+        PlayerAudioCaller.Instance.PlayAudio(AudioClipForPickingUpKey, playerAudio);
+
+        hasBeenCollected = true;
+        gameObject.SetActive(false);
+
+        yield return new WaitForSecondsRealtime(3.5f);
+
     }
 }

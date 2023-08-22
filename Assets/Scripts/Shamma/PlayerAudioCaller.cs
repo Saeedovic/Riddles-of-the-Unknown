@@ -8,7 +8,7 @@ public class PlayerAudioCaller : MonoBehaviour
     public static bool isPlaying {  get; private set; } 
 
     public static PlayerAudioCaller Instance;
-    List<AudioClip> currentClips;
+    public List<AudioClip> currentClips;
 
     // singleton pattern
     void Start()
@@ -17,6 +17,10 @@ public class PlayerAudioCaller : MonoBehaviour
             Instance = this;
         else
             Destroy(this);
+
+        currentClips = new List<AudioClip>();
+
+
     }
 
     // to be called by any scripts that trigger player dialogue.
@@ -31,7 +35,7 @@ public class PlayerAudioCaller : MonoBehaviour
     // play first clip in the list, then remove it, and play the next clip if there is any
     IEnumerator PlayWhenReady(AudioClip clip, AudioSource player)
     {
-        if (!player.isPlaying)// && !isPlaying)
+        if (!player.isPlaying && player.clip != currentClips[0])// && !isPlaying)
         {
           //  player.loop = false;
 

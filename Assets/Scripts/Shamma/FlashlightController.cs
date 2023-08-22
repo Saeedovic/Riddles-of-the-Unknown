@@ -13,6 +13,8 @@ public class FlashlightController : MonoBehaviour
     public AudioSource playerAudio;
     public AudioClip voiceOverMuchBetter;
 
+    bool useTorchTut = false;
+
 
 
 
@@ -26,22 +28,14 @@ public class FlashlightController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F) && flashLightIsOn == false)
         {
-            playerAudio.clip = voiceOverMuchBetter;
-
-           // playerAudio.loop = false;
-           // playerAudio.Play();
-
-            if(playerAudio.clip = voiceOverMuchBetter)
+            //Only play the Audio File and Sub after Any dialogue that is currently being played
+            
+            if (useTorchTut == false)
             {
-               // playerAudio.loop = false;
-               PlayerAudioCaller.Instance.PlayAudio(voiceOverMuchBetter, playerAudio);
-
-
-               StartCoroutine(TutorialManager.DisplaySubs("There we go!, Much Better.", 1.5f));
-
+                playerAudio.clip = voiceOverMuchBetter;
+                playerAudio.PlayOneShot(voiceOverMuchBetter);
+                useTorchTut = true;
             }
-
-
 
             flashLight.SetActive(true);
             flashLightIsOn = true;
@@ -51,6 +45,11 @@ public class FlashlightController : MonoBehaviour
         {
             flashLight.SetActive(false);
             flashLightIsOn = false;
+        }
+
+        if (playerAudio.clip == voiceOverMuchBetter && playerAudio.isPlaying)
+        {
+            StartCoroutine(TutorialManager.DisplaySubs("There we go!, Much Better.", 1.5f));
         }
     }
 }
