@@ -41,7 +41,7 @@ public class WatchManager : MonoBehaviour
         if (!watchActive)
         {
             //AudioSource.PlayClipAtPoint(AudioForWatch, transform.position);
-            watchObj.SetActive(true);
+            //watchObj.SetActive(true);
 
             if (!soundPlayed)
             {
@@ -59,7 +59,7 @@ public class WatchManager : MonoBehaviour
         else
         {
            // AudioSource.PlayClipAtPoint(AudioForWatch, transform.position);
-            watchObj.SetActive(false);
+            //watchObj.SetActive(false);
 
             StopCoroutine(SetHandForWatchOn());
             StartCoroutine(SetHandForWatchOff());
