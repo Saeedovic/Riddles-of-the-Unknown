@@ -319,7 +319,7 @@ public class TutorialManager : MonoBehaviour
         if (CutSceneEnabled == false)
         {
             FirstCutSceneCamera.enabled = false ;
-
+           // ExplosiveKey.hasBeenCollected = true;
         }
 
         mainCam.SetActive(true);
@@ -516,7 +516,7 @@ public class TutorialManager : MonoBehaviour
 
                 }
 
-                if (Input.GetKeyDown(KeyCode.K))
+                if (PhoneManager.Instance.CheckPhoneIsOut == true)  //
                 {
                     //phoneAudio.Stop();
                     phoneAudio.enabled = false;

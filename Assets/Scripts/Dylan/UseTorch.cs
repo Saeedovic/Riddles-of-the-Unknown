@@ -15,10 +15,14 @@ public class UseTorch : MonoBehaviour
 
     public AudioClip voiceOverIShouldTakeOutMyTorch;
 
+    public AudioClip caveAudioClip;
+
     public GameObject switchObj;
     public TutorialManager tManager;
 
     public GameObject TorchUIFixed;
+
+   // public PlayerCon playerConRef;
 
     public bool ifTorchIsOn = false;
     public bool ifTorchIsOff = false;
@@ -29,6 +33,7 @@ public class UseTorch : MonoBehaviour
         flashCont = TorchPrefab.GetComponent<FlashlightController>();
         TorchUI = GetComponent<TorchTrigger>();
         tManager.GetComponent<TutorialManager>();
+      //  playerConRef.GetComponent<PlayerCon>(); 
 
         switchObj.SetActive(false);
 
@@ -46,8 +51,12 @@ public class UseTorch : MonoBehaviour
         {
             TorchUIFixed.SetActive(false);
             StartCoroutine(TorchIsOn());
-
         }
+
+       // playerAudio.clip = playerConRef.AudioClipForGameEnvironment;
+       // playerAudio.clip = caveAudioClip;
+       // playerAudio.loop = true;
+       // playerAudio.Play();
     }
 
     IEnumerator TorchIsOn()

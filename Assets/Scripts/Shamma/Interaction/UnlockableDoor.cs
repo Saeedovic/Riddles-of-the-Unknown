@@ -9,7 +9,7 @@ public class UnlockableDoor : PointOfInterest, IInteractableObject
     [SerializeField] GameObject keyNeededTextbox;
     [SerializeField] float boxDisplayTime = 2f;
     bool noKeyfound = true;
-    bool hasBeenOpened = false;
+    bool hasNotBeenOpened = true;
 
     [SerializeField] private Animator CabinDoor;
     [SerializeField] private string doorOpen = "CabinDoorOpen";
@@ -59,7 +59,7 @@ public class UnlockableDoor : PointOfInterest, IInteractableObject
                 playerAudio.Play();
 
                 SetScannabilityOff();
-                hasBeenOpened = true;
+                hasNotBeenOpened = false;
 
                 Debug.Log("door was opened!");
                 noKeyfound = false;
@@ -91,7 +91,7 @@ public class UnlockableDoor : PointOfInterest, IInteractableObject
         keyNeededTextbox.SetActive(false);
     }
 
-    public bool IsInteractable() { return hasBeenOpened; }
+    public bool IsInteractable() { return hasNotBeenOpened; }
 
     public void OnDeHighlight() { }
 

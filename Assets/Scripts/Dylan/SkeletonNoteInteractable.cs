@@ -31,8 +31,12 @@ public class SkeletonNoteInteractable : PointOfInterest, IInteractableObject
     [SerializeField] bool CutSceneEnabled;
 
     [SerializeField] private Animator Player;
+    [SerializeField] private Animator CameraAnimatorPlayer;
+
     [SerializeField] private string Pick_Up_Animation = "Pickup_Clip_Revised";
     [SerializeField] private string Idle_Animation = "Idle";
+    [SerializeField] private string Camera_Animation = "Skeleton_CutScene";
+
     public MeshRenderer noteMesh;
 
     public PlayerCameraController playerCameraController;
@@ -94,11 +98,11 @@ public class SkeletonNoteInteractable : PointOfInterest, IInteractableObject
 
     IEnumerator TriggerCutScene()
     {
+        gameObject.layer = 0;
         // Deactivate Watch & Phone
         playerObjRef.GetComponent<WatchManager>().SetWatchState(true);
-      //  phoneFuncRef.GetComponent<PhoneManager>().SetPhoneState(true);
-
-
+        //  phoneFuncRef.GetComponent<PhoneManager>().SetPhoneState(true);
+       // gameObject.SetActive(false);
         WaypointMarker.SetActive(false);
         playerObjRef.transform.position = new Vector3(502.289825f, 115.629646f, 184.796478f);
 
@@ -110,6 +114,7 @@ public class SkeletonNoteInteractable : PointOfInterest, IInteractableObject
         //Disable movement & Camera Movement
         noteInfo.DisableMovement();
 
+        CameraAnimatorPlayer.Play(Camera_Animation, 0, 0.0f);
 
         //Trigger PickUp Animation
         Player.Play(Pick_Up_Animation, 0, 0.0f);

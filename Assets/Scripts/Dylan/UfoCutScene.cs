@@ -18,10 +18,15 @@ public class UfoCutScene : PointOfInterest, IInteractableObject
 
     [SerializeField] private Animator Player;
     [SerializeField] private string TouchShip_Clip_Animation = "TouchShip_Clip_Revised";
+
     public MeshCollider UfoMesh;
     public Material SciiColour;
 
     public GameObject WaypointMarker;
+
+    public GameObject camShakeRef;
+
+    public GameObject UfoLight;
     
 
 
@@ -66,11 +71,12 @@ public class UfoCutScene : PointOfInterest, IInteractableObject
         WaypointMarker.SetActive(false);
         gameObject.layer = 0;
         UfoMesh.enabled = false;
-        playerObjRef.transform.position = new Vector3(453.96701f, 114.077034f, 177.065231f);   //Set pos Of PLayer
+        playerObjRef.transform.position = new Vector3(454.175995f, 114.067719f, 177.220596f);   //Set pos Of PLayer
 
         playerObjRef.transform.eulerAngles = new Vector3(playerObjRef.transform.eulerAngles.x, 254.634f, playerObjRef.transform.eulerAngles.z);  // Set Roatation of PLayer
 
         //Change Camera
+
         CutSceneCam.SetActive(true);
 
         //Disable movement & Camera Movement
@@ -82,10 +88,12 @@ public class UfoCutScene : PointOfInterest, IInteractableObject
         //Trigger PickUp Animation
         Player.Play(TouchShip_Clip_Animation, 0, 0.0f);
 
+
         //Disable Phone Obj From Hand
         phoneObjRef.SetActive(false);
         yield return new WaitForSeconds(3.367f);
-        gameObject.GetComponent<MeshRenderer>().material = SciiColour;
+        UfoLight.SetActive(true);
+        camShakeRef.GetComponent<CameraShake>().enabled = true;
 
         //Add Light Up Effect
 

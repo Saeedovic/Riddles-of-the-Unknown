@@ -63,6 +63,8 @@ public class PhoneNotesApp : PhoneAppScreen
                 allButtonsForCheckingNotes[i].image.sprite = noteCollectedIcon;
                 // set the ui button to the note image here.
 
+                PhoneMainMenu.onAppClose += notes[i].CloseNote;
+
                 Debug.Log("you got a new note!");
                 return;
             }
