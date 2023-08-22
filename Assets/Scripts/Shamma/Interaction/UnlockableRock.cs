@@ -88,8 +88,7 @@ public class UnlockableRock : PointOfInterest, IInteractableObject
         // add the explosives model, then wait for the detonation timer to expire
         GameObject explosivesObj = GameObject.Instantiate(explosivesModel, 
                                                    explosivesPositioning.position, 
-                                                   explosivesPositioning.rotation, 
-                                                   this.transform);
+                                                   explosivesPositioning.rotation);
         explosivesObj.SetActive(true);
 
         yield return new WaitForSeconds(detontationTimer);
