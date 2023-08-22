@@ -15,9 +15,11 @@ public class PlayerCon : MonoBehaviour
     [SerializeField] float regularHeight = 2f;
     [SerializeField] float crouchHeight = 1f;
     [SerializeField] float crouchAdjustSpeed = 1f;
-    
+
     public KeyCode runKey = KeyCode.LeftShift;
     public KeyCode crouchKey = KeyCode.C;
+
+    [SerializeField] Rig[] fingerRigs;
 
     private CharacterController controller;
     private Vector3 forceOfGravity;
@@ -187,6 +189,15 @@ public class PlayerCon : MonoBehaviour
             isRunning = false;
         }
 
+        if ((Mathf.Abs(horizInput) > 0.5f || Mathf.Abs(vertInput) > 0.5f) && PhoneManager.phoneIsOut)
+        {
+            SetFingerRigState(fingerRigs, true);
+        }
+        else
+        {
+            SetFingerRigState(fingerRigs, false);
+        }
+
         //Debug.Log(horizInput + ", " + vertInput);
         return currentSpeed;
     }
@@ -224,8 +235,19 @@ public class PlayerCon : MonoBehaviour
     }
 
 
-    public void SetFingerRigState(Rig rig)
+    public void SetFingerRigState(Rig[] rig, bool activate)
     {
-
+        for (int i = 0; i < rig.Length; i++)
+        {
+            if (activate)
+            {
+                rig[i].weight = 1;
+            }
+            else
+            {
+                rig[i].weight = 0;
+            }
+            
+        }
     }
 }
