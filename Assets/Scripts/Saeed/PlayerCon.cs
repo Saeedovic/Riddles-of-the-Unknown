@@ -20,6 +20,7 @@ public class PlayerCon : MonoBehaviour
     public KeyCode crouchKey = KeyCode.C;
 
     [SerializeField] Rig[] fingerRigs;
+    [SerializeField] float rigWeightSmoothVelocity;
 
     private CharacterController controller;
     private Vector3 forceOfGravity;
@@ -96,27 +97,12 @@ public class PlayerCon : MonoBehaviour
         animator.SetBool("isWalkingRight", isWalkingRight);
         animator.SetBool("isWalkingBack", isWalkingBack);
         animator.SetBool("isRunning", isRunning);
+        animator.SetBool("isCrouching", isCrouching);
         //animator.SetFloat("moveSpeed", (move.x * move.z) * currentSpeed);
-
 
 
         PlayMovementSoundEffect();
         
-
-        if (Input.GetKey(crouchKey) && controller.isGrounded && !isRunning)
-        {
-            currentSpeed /= crouchDivider;
-            controller.height = Mathf.Lerp(controller.height, crouchHeight, Time.deltaTime * crouchAdjustSpeed);
-            isCrouching = true;
-        }
-        else
-        {
-            controller.height = Mathf.Lerp(controller.height, regularHeight, Time.deltaTime * crouchAdjustSpeed);
-            isCrouching = false;
-        }
-
-       
-
         // apply movement vector to char
         controller.Move(move * currentSpeed * Time.deltaTime);
 
@@ -135,6 +121,7 @@ public class PlayerCon : MonoBehaviour
 
     float DetermineRunState(float currentSpeed, float horizInput, float vertInput)
     {
+        // not proud of the number of if elses here but we were a bit pressed for time in this project lol
         if (Input.GetKey(runKey) && (vertInput > 0 || horizInput > 0))
         {
             currentSpeed *= runMultiplier;
@@ -189,14 +176,26 @@ public class PlayerCon : MonoBehaviour
             isRunning = false;
         }
 
-        if ((Mathf.Abs(horizInput) > 0.5f || Mathf.Abs(vertInput) > 0.5f) && PhoneManager.phoneIsOut)
+
+        if (Input.GetKey(crouchKey) && controller.isGrounded && !isRunning)
         {
-            SetFingerRigState(fingerRigs, true);
+            currentSpeed /= crouchDivider;
+            controller.height = Mathf.Lerp(controller.height, crouchHeight, Time.deltaTime * crouchAdjustSpeed);
+            isCrouching = true;
         }
         else
         {
-            SetFingerRigState(fingerRigs, false);
+            controller.height = Mathf.Lerp(controller.height, regularHeight, Time.deltaTime * crouchAdjustSpeed);
+            isCrouching = false;
         }
+
+
+
+        if ((Mathf.Abs(horizInput) > 0.5f || Mathf.Abs(vertInput) > 0.5f) && PhoneManager.phoneIsOut)
+            SetFingerRigState(fingerRigs, true);
+        else
+            SetFingerRigState(fingerRigs, false);
+        
 
         //Debug.Log(horizInput + ", " + vertInput);
         return currentSpeed;
@@ -240,14 +239,9 @@ public class PlayerCon : MonoBehaviour
         for (int i = 0; i < rig.Length; i++)
         {
             if (activate)
-            {
-                rig[i].weight = 1;
-            }
+                rig[i].weight = Mathf.MoveTowards(rig[i].weight, 1, rigWeightSmoothVelocity);
             else
-            {
-                rig[i].weight = 0;
-            }
-            
+                rig[i].weight = Mathf.MoveTowards(rig[i].weight, 0, rigWeightSmoothVelocity);
         }
     }
 }
