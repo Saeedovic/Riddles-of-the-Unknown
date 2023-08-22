@@ -43,6 +43,11 @@ public class PhoneManager : MonoBehaviour
     public delegate void OnExitFullscreen();
     public static OnExitFullscreen onExitFullscreen;
 
+    public delegate void OnOpenPhone();
+    public static OnOpenPhone onOpenPhone;
+    public delegate void OnClosePhone();
+    public static OnClosePhone onClosePhone;
+
     public bool CheckPhoneIsOut;
     
 
@@ -139,6 +144,7 @@ public class PhoneManager : MonoBehaviour
         if (!phoneActive)
         {
             phoneScreen.SetActive(true);
+            onOpenPhone?.Invoke();
            //PhoneMainMenu.RefreshPhone();
 
             StopCoroutine(SetHandForPhoneOff());
@@ -150,8 +156,10 @@ public class PhoneManager : MonoBehaviour
             {
                 PhoneMainMenu.activeAppScreen.OnCloseApp();
             }
+
             ForceFullscreenOff();
             phoneScreen.SetActive(false);
+            onClosePhone?.Invoke();
 
             StopCoroutine(SetHandForPhoneOn());
             StartCoroutine(SetHandForPhoneOff());

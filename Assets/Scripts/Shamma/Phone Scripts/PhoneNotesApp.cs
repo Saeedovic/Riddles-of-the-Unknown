@@ -58,6 +58,8 @@ public class PhoneNotesApp : PhoneAppScreen
                 }
               */
                 notes[i] = newNote;
+                PhoneManager.onClosePhone += notes[i].CloseNote; // sub closing notes to closing the phone
+
                 allButtonsForCheckingNotes[i].image.sprite = noteCollectedIcon;
                 // set the ui button to the note image here.
 

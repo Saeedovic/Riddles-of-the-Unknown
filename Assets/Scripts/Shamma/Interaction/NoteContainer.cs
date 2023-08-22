@@ -80,6 +80,8 @@ public class NoteContainer
         // stop displaying note
         uiToDisplayNote.gameObject.SetActive(false);
         isInInteraction = false;
+
+        playerRef.StopCoroutine(WaitForContinue());
     }
 
 
