@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class UfoCutScene : PointOfInterest, IInteractableObject
 {
@@ -19,6 +21,9 @@ public class UfoCutScene : PointOfInterest, IInteractableObject
     [SerializeField] private Animator Player;
     [SerializeField] private string TouchShip_Clip_Animation = "TouchShip_Clip_Revised";
 
+    [SerializeField] private Animator MovePlayerAnimator;
+    [SerializeField] private string MovePlayerAnimator_Container = "UfoPlayerMove";
+
     public MeshCollider UfoMesh;
     public Material SciiColour;
 
@@ -27,7 +32,19 @@ public class UfoCutScene : PointOfInterest, IInteractableObject
     public GameObject camShakeRef;
 
     public GameObject UfoLight;
-    
+
+    public GameObject movePlayer;
+
+    [SerializeField] private string CreditsScene = "Credits";
+
+    public AudioSource playerAudioSource;
+    public AudioSource alienShipAudioSource;
+    public AudioClip alienShipAudioClip;
+
+    public GameObject BlackScreenPanel;
+
+    public GameObject GameUI;
+
 
 
 
@@ -68,42 +85,46 @@ public class UfoCutScene : PointOfInterest, IInteractableObject
 
     IEnumerator TriggerEndGameCutScene()
     {
-        WaypointMarker.SetActive(false);
+        playerAudioSource.volume = 0;
+        GameUI.SetActive(false);
+        playerObjRef.GetComponent<PlayerCon>().enabled = false;
+        mouseObjRef.GetComponent<PlayerCameraController>().enabled = false;
         gameObject.layer = 0;
         UfoMesh.enabled = false;
-        playerObjRef.transform.position = new Vector3(454.175995f, 114.067719f, 177.220596f);   //Set pos Of PLayer
 
-        playerObjRef.transform.eulerAngles = new Vector3(playerObjRef.transform.eulerAngles.x, 254.634f, playerObjRef.transform.eulerAngles.z);  // Set Roatation of PLayer
+        //Disable Phone Obj From Hand
+        phoneObjRef.SetActive(false);
 
         //Change Camera
 
         CutSceneCam.SetActive(true);
 
-        //Disable movement & Camera Movement
-        // noteInfo.DisableMovement();
-        playerObjRef.GetComponent<PlayerCon>().enabled = false;
-        mouseObjRef.GetComponent<PlayerCameraController>().enabled = false;
-
+        playerObjRef.transform.position = new Vector3(455.347992f, 114.056999f, 177.804993f);   //Set pos Of PLayer
+        playerObjRef.transform.eulerAngles = new Vector3(playerObjRef.transform.eulerAngles.x, 254.634f, playerObjRef.transform.eulerAngles.z);  // Set Roatation of PLayer
 
         //Trigger PickUp Animation
         Player.Play(TouchShip_Clip_Animation, 0, 0.0f);
 
+        
+        movePlayer.GetComponent<MovePlayerAhead>().enabled = true;
 
-        //Disable Phone Obj From Hand
-        phoneObjRef.SetActive(false);
-        yield return new WaitForSeconds(3.367f);
+        yield return new WaitForSeconds(1f);
+
+        movePlayer.GetComponent<MovePlayerAhead>().enabled = false;
+
+        yield return new WaitForSeconds(2.367f);
         UfoLight.SetActive(true);
         camShakeRef.GetComponent<CameraShake>().enabled = true;
 
-        //Add Light Up Effect
+        alienShipAudioSource.PlayOneShot(alienShipAudioClip);  //Alien Ship Take Off Audio
 
-        //Add Sound Of UFO Engine Starting
+        yield return new WaitForSeconds(9f);
 
-        //End Game
+        BlackScreenPanel.SetActive(true);
 
+        yield return new WaitForSeconds(6f);
 
-
-
+        Application.Quit();
         yield return null;
     }
 

@@ -24,7 +24,7 @@ public class TorchTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player" && SunObj.transform.localRotation.eulerAngles.x > 170)
+        if(other.gameObject.tag == "Player" && SunObj.transform.localRotation.eulerAngles.x > 170 && audio1HasPLayed == false)
         {
          flashCont.GetComponent<FlashlightController>().enabled = true;
 
@@ -33,9 +33,12 @@ public class TorchTrigger : MonoBehaviour
 
              playerAudio.PlayOneShot(voiceOverItsGettingDark);
              StartCoroutine(TutorialManager.DisplaySubs("It's getting dark!, Exploring will be very challenging!", 3.5f));
-             StartCoroutine(DayNightCycler.UseTorch());
-             audio1HasPLayed = true;
 
+                if(flashCont.flashLightIsOn == false)
+                {
+                    StartCoroutine(DayNightCycler.UseTorch());
+                    audio1HasPLayed = true;
+                }
          }
 
          Debug.Log("Its night Time");

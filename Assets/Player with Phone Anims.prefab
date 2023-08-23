@@ -9534,6 +9534,8 @@ MonoBehaviour:
   crouchAdjustSpeed: 1
   runKey: 304
   crouchKey: 99
+  fingerRigs: []
+  rigWeightSmoothVelocity: 0
   isRunning: 0
   walkingAudioSource: {fileID: 5995194013963816604}
   walkingAudio: {fileID: 8300000, guid: 6bec9a92fcfcf0e46baa10ea7e63d0f9, type: 3}
@@ -23489,7 +23491,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8d1658eef936aa84dbed6cc0dcd3a471, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.26
+      value: 1.2600003
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8d1658eef936aa84dbed6cc0dcd3a471, type: 3}
       propertyPath: m_LocalScale.y
@@ -23497,11 +23499,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8d1658eef936aa84dbed6cc0dcd3a471, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.26
+      value: 1.2600003
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8d1658eef936aa84dbed6cc0dcd3a471, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.000043537464
+      value: 0.000049963586
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8d1658eef936aa84dbed6cc0dcd3a471, type: 3}
       propertyPath: m_LocalPosition.y
@@ -23509,7 +23511,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8d1658eef936aa84dbed6cc0dcd3a471, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.39999205
+      value: -0.40000117
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8d1658eef936aa84dbed6cc0dcd3a471, type: 3}
       propertyPath: m_LocalRotation.w

@@ -349,7 +349,7 @@ public class TutorialManager : MonoBehaviour
             collectableCountText.text = collectableCount.ToString("0");
 
 
-            if (phoneObjRef.activeInHierarchy == true || playerWatch.activeInHierarchy == true)
+            if (phoneObjRef.activeInHierarchy == true || playerWatch.activeInHierarchy == true)   //Need to Check If Phone OR watch Is out (This needs to be redone..Third Person will work then.)
             {
                 ThirdPersonCam.enabled = false;
             }
@@ -366,20 +366,20 @@ public class TutorialManager : MonoBehaviour
 
 
 
-            if (phoneObjRef.activeInHierarchy == true && cameraApp.activeInHierarchy == false && statAllocationApp.activeInHierarchy == false && inventoryApp.activeInHierarchy == false)
+            if (phoneObjRef.activeInHierarchy == true && cameraApp.activeInHierarchy == false && statAllocationApp.activeInHierarchy == false && inventoryApp.activeInHierarchy == false && notesApp.activeInHierarchy == false)
             {
                 phoneControlsGUIText.SetActive(true);
-            }
-            else
+            }else
             {
                 phoneControlsGUIText.SetActive(false);
             }
+            
             if (cameraApp.activeInHierarchy == true && fullScreenCam.activeInHierarchy != true)
             {
                 phoneControlsGUIText.SetActive(false);
                 controlToAccessEcoPointText.SetActive(true);
             }
-            if (fullScreenCam.activeInHierarchy == true || cameraApp.activeInHierarchy != true || statAllocationApp.activeInHierarchy == true || inventoryApp.activeInHierarchy == true)
+            if (fullScreenCam.activeInHierarchy == true || cameraApp.activeInHierarchy != true || statAllocationApp.activeInHierarchy == true || inventoryApp.activeInHierarchy == true || notesApp.activeInHierarchy == true)
             {
                 controlToAccessEcoPointText.SetActive(false);
             }
@@ -1449,7 +1449,7 @@ public class TutorialManager : MonoBehaviour
 
                     }
 
-
+                    phoneControlsGUIText.SetActive(true);
 
 
                     popUpIndex = 19;  //Set PopUpIndex To Old Index (Before Stat Tutorial Began)

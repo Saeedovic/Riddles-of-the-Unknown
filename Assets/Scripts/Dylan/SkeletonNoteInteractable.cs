@@ -41,7 +41,7 @@ public class SkeletonNoteInteractable : PointOfInterest, IInteractableObject
 
     public PlayerCameraController playerCameraController;
 
-    public GameObject WaypointMarker;
+    public GameObject GameUI;
 
 
 
@@ -103,7 +103,7 @@ public class SkeletonNoteInteractable : PointOfInterest, IInteractableObject
         playerObjRef.GetComponent<WatchManager>().SetWatchState(true);
         //  phoneFuncRef.GetComponent<PhoneManager>().SetPhoneState(true);
        // gameObject.SetActive(false);
-        WaypointMarker.SetActive(false);
+        GameUI.SetActive(false);
         playerObjRef.transform.position = new Vector3(502.289825f, 115.629646f, 184.796478f);
 
         playerObjRef.transform.eulerAngles = new Vector3(playerObjRef.transform.eulerAngles.x, 260, playerObjRef.transform.eulerAngles.z);
@@ -147,7 +147,7 @@ public class SkeletonNoteInteractable : PointOfInterest, IInteractableObject
             noteInfo.EnableMovement();
 
             phoneObjRef.SetActive(true);
-            WaypointMarker.SetActive(true);
+            GameUI.SetActive(true);
             gameObject.SetActive(false);  
         }
 
