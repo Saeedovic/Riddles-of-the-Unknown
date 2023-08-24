@@ -349,39 +349,62 @@ public class TutorialManager : MonoBehaviour
             collectableCountText.text = collectableCount.ToString("0");
 
 
-            if (phoneObjRef.activeInHierarchy == true || playerWatch.activeInHierarchy == true)   //Need to Check If Phone OR watch Is out (This needs to be redone..Third Person will work then.)
+            if (PhoneManager.phoneIsOut == true || WatchManager.watchIsOut == true)   //Need to Check If Phone OR watch Is out (This needs to be redone..Third Person will work then.)
             {
                 ThirdPersonCam.enabled = false;
             }
 
-            if (Input.GetKeyDown(KeyCode.U) && ThirdPersonCam.enabled == false)
+            if (Input.GetKeyDown(KeyCode.Tab) && ThirdPersonCam.enabled == false)
             {
                 ThirdPersonCam.enabled = true;
 
             }
-            else if (Input.GetKeyDown(KeyCode.U) && ThirdPersonCam.enabled == true)
+            else if (Input.GetKeyDown(KeyCode.Tab) && ThirdPersonCam.enabled == true)
             {
                 ThirdPersonCam.enabled = false;
             }
 
 
 
-            if (phoneObjRef.activeInHierarchy == true && cameraApp.activeInHierarchy == false && statAllocationApp.activeInHierarchy == false && inventoryApp.activeInHierarchy == false && notesApp.activeInHierarchy == false)
-            {
-                phoneControlsGUIText.SetActive(true);
-            }else
+            if (PhoneManager.phoneIsOut == false && cameraApp.activeInHierarchy == false && statAllocationApp.activeInHierarchy == false && inventoryApp.activeInHierarchy == false && notesApp.activeInHierarchy == false)  //iF PHONE IS ON
             {
                 phoneControlsGUIText.SetActive(false);
+
+                Debug.Log("phone text NOT active");
+
+
             }
-            
+
+
+
             if (cameraApp.activeInHierarchy == true && fullScreenCam.activeInHierarchy != true)
             {
                 phoneControlsGUIText.SetActive(false);
                 controlToAccessEcoPointText.SetActive(true);
+
+                Debug.Log("Cam in Full Screen");
+
+
+
             }
-            if (fullScreenCam.activeInHierarchy == true || cameraApp.activeInHierarchy != true || statAllocationApp.activeInHierarchy == true || inventoryApp.activeInHierarchy == true || notesApp.activeInHierarchy == true)
+            if (phoneObjRef.activeInHierarchy == true && fullScreenCam.activeInHierarchy == true || statAllocationApp.activeInHierarchy == true || inventoryApp.activeInHierarchy == true || notesApp.activeInHierarchy == true)  //iF PHONE IS Off
             {
+                Debug.Log("phone text IS active");
+
                 controlToAccessEcoPointText.SetActive(false);
+                onScreenInstructionUI.SetActive(true);
+                phoneControlsGUIText.SetActive(true);
+            }
+
+            if(PhoneMainMenu.activeAppScreen == null && PhoneManager.phoneIsOut)  //If phone is Active and None of the Apps are on 
+            {
+                phoneControlsGUIText.SetActive(true);
+            }
+            else
+            {
+                phoneControlsGUIText.SetActive(false);
+                onScreenInstructionUI.SetActive(true);
+
             }
 
 
@@ -450,7 +473,7 @@ public class TutorialManager : MonoBehaviour
                 mainCam.SetActive(false);
                 tutCamWatch.SetActive(true);
 
-                if (Input.GetKeyDown(KeyCode.J))
+                if (WatchManager.watchIsOut == false)
                 {
                     playerCont.enabled = true;
 
@@ -461,7 +484,7 @@ public class TutorialManager : MonoBehaviour
 
                     interactor.enabled = true;
                     popUps[5].SetActive(false);
-                    watchManager.SetWatchState(true);
+                   // watchManager.SetWatchState(true);
 
                     popUpIndex++;
 
@@ -579,7 +602,7 @@ public class TutorialManager : MonoBehaviour
             {
                 camAppBackButton.interactable = false;
 
-                if (cameraApp.activeInHierarchy == true && Input.GetKeyDown(KeyCode.P))
+                if (cameraApp.activeInHierarchy == true && Input.GetKeyDown(KeyCode.Q))
                 {
                   //  phoneManager.GetComponent<PhoneManager>().SetFullscreen(true); 
                     camAppFullScreenBackButton.interactable = false;
@@ -686,12 +709,13 @@ public class TutorialManager : MonoBehaviour
                 interactionBox.SetActive(false);
                 //phoneObjRef.SetActive(false); //Close
 
-                if(phoneIsOff == false)
+                
+                if(phoneIsOff == false)  //refreshing the phone 
                 {
-                phoneManager.SetPhoneState(true); //close phone
+                    phoneManager.SetPhoneState(true); //close phone
                     phoneIsOff = true;
                 }
-
+                
 
 
                 interactor.enabled = false;
@@ -1302,14 +1326,21 @@ public class TutorialManager : MonoBehaviour
 
             if (popUpIndex == 44) //This is the Start of the Notes App Tutorial
             {
+                phoneIsOff = false;
                 interactor.enabled = false;
 
                 mainCam.SetActive(false);
                 tutCamPhone.SetActive(true);
 
-                phoneManager.SetPhoneState(false);
+                if(phoneIsOff == false)
+                {
+                    phoneManager.SetPhoneState(true);
+
+                }
+
 
                 phoneManager.firstHighlightedPhoneButton = noteAppButton.gameObject;
+                phoneManager.SetPhoneState(false);
                 phoneManager.phoneIsUseable = false;
 
                 if (PhoneMainMenu.appIsOpen == false)
@@ -1448,8 +1479,6 @@ public class TutorialManager : MonoBehaviour
                     StartCoroutine(DisplaySubs("I better follow along this road path to reach the village.", 3.5f));
 
                     }
-
-                    phoneControlsGUIText.SetActive(true);
 
 
                     popUpIndex = 19;  //Set PopUpIndex To Old Index (Before Stat Tutorial Began)

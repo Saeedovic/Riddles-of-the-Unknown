@@ -92,7 +92,7 @@ public class PhoneManager : MonoBehaviour
             }
 
             // open or close phone
-            if (Input.GetKeyDown(KeyCode.K) && phoneIsUseable)
+            if (Input.GetKeyDown(KeyCode.Alpha2) && phoneIsUseable)
             {
                 AudioSource.PlayClipAtPoint(AudioForOpeningPhone, transform.position);
 
@@ -107,7 +107,7 @@ public class PhoneManager : MonoBehaviour
             }
 
             // control fullscreen state
-            if (Input.GetKeyDown(KeyCode.P) && phoneIsOut && fullscreenIsSettable && cameraAppOpen)
+            if (Input.GetKeyDown(KeyCode.Q) && phoneIsOut && fullscreenIsSettable && cameraAppOpen)
             {
                 SetFullscreen(isFullscreen);
             }

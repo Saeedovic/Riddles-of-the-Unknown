@@ -29,7 +29,7 @@ public class WatchManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J) && watchShouldBeUseable)
+        if (Input.GetKeyDown(KeyCode.Alpha1) && watchShouldBeUseable)
         {
             SetWatchState(watchIsOut);
         }
