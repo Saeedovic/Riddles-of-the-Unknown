@@ -14,5 +14,7 @@ public class PlayTestSceneManager : MonoBehaviour
     {
         Application.Quit();
     }
+
+ 
 }
 
