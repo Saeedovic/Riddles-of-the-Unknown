@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// deactivate nature sounds and activate caves sounds
 public class UseTorch : MonoBehaviour
 {
     FlashlightController flashCont;
@@ -12,9 +13,9 @@ public class UseTorch : MonoBehaviour
 
     public AudioSource playerAudio;
     public AudioClip voiceOverGladIGotMyTorch;
-
     public AudioClip voiceOverIShouldTakeOutMyTorch;
 
+    public AudioSource playerBackgroundAudio;
     public AudioClip caveAudioClip;
 
     public GameObject switchObj;
@@ -45,12 +46,15 @@ public class UseTorch : MonoBehaviour
         {
             StartCoroutine(TorchIsOff());
             
+            SetBackgroundNoiseSFX();
         }
 
         if (collider.gameObject.tag == "Player" && flashCont.flashLightIsOn == true)
         {
             TorchUIFixed.SetActive(false);
             StartCoroutine(TorchIsOn());
+
+            SetBackgroundNoiseSFX();
         }
 
        // playerAudio.clip = playerConRef.AudioClipForGameEnvironment;
@@ -102,5 +106,18 @@ public class UseTorch : MonoBehaviour
 
 
 
+    }
+
+
+    void SetBackgroundNoiseSFX()
+    {
+        if (playerBackgroundAudio.clip != caveAudioClip)
+        {
+            playerBackgroundAudio.Stop();
+
+            playerBackgroundAudio.clip = caveAudioClip;
+            playerBackgroundAudio.loop = true;
+            playerBackgroundAudio.Play();
+        }
     }
 }

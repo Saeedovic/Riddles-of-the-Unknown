@@ -3,7 +3,16 @@ guid: a627250f60b00ca42bfb0cd493790806
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - TorchPrefab: {instanceID: 0}
+  - playerAudio: {instanceID: 0}
+  - voiceOverGladIGotMyTorch: {instanceID: 0}
+  - voiceOverIShouldTakeOutMyTorch: {instanceID: 0}
+  - playerBackgroundAudio: {instanceID: 0}
+  - caveAudioClip: {fileID: 8300000, guid: 20c68a626c963654fb9864250b8dc689, type: 3}
+  - switchObj: {instanceID: 0}
+  - tManager: {instanceID: 0}
+  - TorchUIFixed: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

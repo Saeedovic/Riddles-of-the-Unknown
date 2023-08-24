@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// activate caves sounds and deactivate nature sounds 
 public class EnableTorchTrigger : MonoBehaviour
 {
 
     public GameObject torchTriggerCave1;
     public GameObject torchTriggerCave2;
 
-  //  public AudioSource playerAudio;
+    public AudioSource playerAudio;
 
-  //  public AudioClip natureAudioClip;
+    public AudioClip natureAudioClip;
    
 
 
@@ -22,9 +23,14 @@ public class EnableTorchTrigger : MonoBehaviour
             torchTriggerCave1.SetActive(true);
             torchTriggerCave2.SetActive(true);
 
-         //   playerAudio.clip = natureAudioClip;
-          //  playerAudio.loop = true;
-          //  playerAudio.Play();
+            if (playerAudio.clip != natureAudioClip)
+            {
+                playerAudio.Stop();
+
+                playerAudio.clip = natureAudioClip;
+                playerAudio.loop = true;
+                playerAudio.Play();
+            }
         }
     }
 }
