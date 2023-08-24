@@ -19,7 +19,7 @@ public class TorchTrigger : MonoBehaviour
 
     void Start()
     {
-        flashCont.GetComponent<FlashlightController>().enabled = false;
+        flashCont.GetComponent<FlashlightController>().enabled = true;
     }
 
     void OnTriggerEnter(Collider other)
@@ -28,9 +28,8 @@ public class TorchTrigger : MonoBehaviour
         {
          flashCont.GetComponent<FlashlightController>().enabled = true;
 
-         if (!audio1HasPLayed)
+         if (flashCont.flashLightIsOn == false)
          {
-
              playerAudio.PlayOneShot(voiceOverItsGettingDark);
              StartCoroutine(TutorialManager.DisplaySubs("It's getting dark!, Exploring will be very challenging!", 3.5f));
 
