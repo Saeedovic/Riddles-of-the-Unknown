@@ -206,8 +206,6 @@ public class TutorialManager : MonoBehaviour
 
     public AudioClip phone_Ringing;
 
-    public AudioClip voiceOverSmartWatch;
-
     public AudioClip voiceOverFirstCutScene_1;
     public AudioClip voiceOverFirstCutScene_2;
     public AudioClip voiceOver1AfterFirstCutScene;
@@ -416,17 +414,16 @@ public class TutorialManager : MonoBehaviour
                 Time.timeScale = 0;
             }
 
-            if(pauseMenuPanel.activeInHierarchy == true && Input.GetMouseButtonDown(0))
+            if (pauseMenuPanel.activeInHierarchy == true || PhoneManager.Instance.mouseShouldBeUseable == true)
             {
-                Cursor.lockState = CursorLockMode.None;
-
-                PhoneManager.Instance.mouseShouldBeUseable = true;
-            }else if(pauseMenuPanel.activeInHierarchy == false)
+                
+                Cursor.lockState = CursorLockMode.None; // free up mouse for main menu use
+                Cursor.visible = true;
+            }
+            else if(pauseMenuPanel.activeInHierarchy == false || PhoneManager.Instance.mouseShouldBeUseable == false)
             {
                 Cursor.lockState = CursorLockMode.Locked;
-
-                PhoneManager.Instance.mouseShouldBeUseable = false;
-
+                Cursor.visible = false;
             }
 
 
@@ -471,10 +468,10 @@ public class TutorialManager : MonoBehaviour
                     playerCont.enabled = false;
 
 
-                    playerAudio.clip = voiceOverSmartWatch;
+                   // playerAudio.clip = voiceOverSmartWatch;
 
-                    playerAudio.loop = false;
-                    playerAudio.Play();
+                   // playerAudio.loop = false;
+                   // playerAudio.Play();
 
                     watchManager.SetWatchState(false);
 

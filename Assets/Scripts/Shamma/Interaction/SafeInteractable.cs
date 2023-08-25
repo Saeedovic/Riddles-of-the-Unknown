@@ -43,6 +43,7 @@ public class SafeInteractable : PointOfInterest, IInteractableObject
 
         safePuzzleActive = true;
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
         if (PhoneManager.phoneIsOut)
         {
@@ -69,8 +70,10 @@ public class SafeInteractable : PointOfInterest, IInteractableObject
 
         safePuzzleActive = false;
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
-        
+
+
         PhoneManager.Instance.mouseShouldBeUseable = false;
         PhoneManager.Instance.phoneIsUseable = true;
         WatchManager.watchShouldBeUseable = true;

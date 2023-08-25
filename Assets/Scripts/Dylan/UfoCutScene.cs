@@ -79,7 +79,7 @@ public class UfoCutScene : PointOfInterest, IInteractableObject
 
     public bool riverCheck()
     {
-        return true;
+        return false;
     }
 
     IEnumerator TriggerEndGameCutScene()

@@ -58,7 +58,7 @@ public class PlayTestSceneManager : MonoBehaviour
 
     public void MainMenu()
     {
-        SceneManager.LoadScene("Main_GameLoop");
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void SetVolume(float volume)
