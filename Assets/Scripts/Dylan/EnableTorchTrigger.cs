@@ -9,10 +9,13 @@ public class EnableTorchTrigger : MonoBehaviour
     public GameObject torchTriggerCave1;
     public GameObject torchTriggerCave2;
 
-    public AudioSource playerAudio;
-
+    public AudioSource natureAudioSource;
+    
     public AudioClip natureAudioClip;
-   
+
+    public TriggerCaveAudio caveAudioRef;
+
+
 
 
 
@@ -20,17 +23,18 @@ public class EnableTorchTrigger : MonoBehaviour
     {
         if (collider.gameObject.tag == "Player")
         {
-            torchTriggerCave1.SetActive(true);
-            torchTriggerCave2.SetActive(true);
+             torchTriggerCave1.SetActive(true);
+             torchTriggerCave2.SetActive(true);
 
-            if (playerAudio.clip != natureAudioClip)
-            {
-                playerAudio.Stop();
+             caveAudioRef.caveAudio.Stop();
+             Debug.Log("PLAY NATURE SOUND");
+             natureAudioSource.volume = 1.0f;
+             natureAudioSource.clip = natureAudioClip;
+             natureAudioSource.loop = true;
+             natureAudioSource.Play();
 
-                playerAudio.clip = natureAudioClip;
-                playerAudio.loop = true;
-                playerAudio.Play();
+
             }
         }
     }
-}
+

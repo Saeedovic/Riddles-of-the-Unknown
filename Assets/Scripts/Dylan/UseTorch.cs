@@ -15,9 +15,6 @@ public class UseTorch : MonoBehaviour
     public AudioClip voiceOverGladIGotMyTorch;
     public AudioClip voiceOverIShouldTakeOutMyTorch;
 
-    public AudioSource playerBackgroundAudio;
-    public AudioClip caveAudioClip;
-
     public GameObject switchObj;
     public TutorialManager tManager;
 
@@ -45,8 +42,6 @@ public class UseTorch : MonoBehaviour
         if (collider.gameObject.tag == "Player" && flashCont.flashLightIsOn == false)
         {
             StartCoroutine(TorchIsOff());
-            
-            SetBackgroundNoiseSFX();
         }
 
         if (collider.gameObject.tag == "Player" && flashCont.flashLightIsOn == true)
@@ -54,7 +49,6 @@ public class UseTorch : MonoBehaviour
             TorchUIFixed.SetActive(false);
             StartCoroutine(TorchIsOn());
 
-            SetBackgroundNoiseSFX();
         }
 
        // playerAudio.clip = playerConRef.AudioClipForGameEnvironment;
@@ -76,7 +70,7 @@ public class UseTorch : MonoBehaviour
         // StartCoroutine(TutorialManager.DisplaySubs("There we go!, Much Better.", 1.5f));
 
         yield return new WaitForSecondsRealtime(2);
-        gameObject.SetActive(false);
+         gameObject.SetActive(false);
 
         yield return new WaitForSecondsRealtime(2.5f);
         tManager.subtitleObj.SetActive(false);
@@ -106,18 +100,5 @@ public class UseTorch : MonoBehaviour
 
 
 
-    }
-
-
-    void SetBackgroundNoiseSFX()
-    {
-        if (playerBackgroundAudio.clip != caveAudioClip)
-        {
-            playerBackgroundAudio.Stop();
-
-            playerBackgroundAudio.clip = caveAudioClip;
-            playerBackgroundAudio.loop = true;
-            playerBackgroundAudio.Play();
-        }
     }
 }

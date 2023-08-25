@@ -264,7 +264,7 @@ public class TutorialManager : MonoBehaviour
 
     [SerializeField] bool CutSceneEnabled = false;
 
-
+    public GameObject pauseMenuPanel;
 
     private void Awake()
     {
@@ -290,7 +290,7 @@ public class TutorialManager : MonoBehaviour
         keyCodeNoteObjRef = KeyCodeNote.GetComponent<KeyCodeNoteInteractable>();
 
         //playerCameraController.GetComponent<PlayerCameraController>().enabled = false;
-
+        pauseMenuPanel.SetActive(false);
 
         collectableCounterObj.SetActive(false);
 
@@ -381,29 +381,51 @@ public class TutorialManager : MonoBehaviour
             {
                 phoneControlsGUIText.SetActive(false);
                 controlToAccessEcoPointText.SetActive(true);
-
-                Debug.Log("Cam in Full Screen");
-
-
-
             }
-            if (phoneObjRef.activeInHierarchy == true && fullScreenCam.activeInHierarchy == true || statAllocationApp.activeInHierarchy == true || inventoryApp.activeInHierarchy == true || notesApp.activeInHierarchy == true)  //iF PHONE IS Off
+
+            if (fullScreenCam.activeInHierarchy == true || cameraApp.activeInHierarchy != true || statAllocationApp.activeInHierarchy == true || inventoryApp.activeInHierarchy == true || notesApp.activeInHierarchy == true)
             {
                 Debug.Log("phone text IS active");
 
                 controlToAccessEcoPointText.SetActive(false);
-                onScreenInstructionUI.SetActive(true);
+                
                 phoneControlsGUIText.SetActive(true);
+
+                if(popUpIndex > 10)
+                {
+                    onScreenInstructionUI.SetActive(true);
+                }
             }
 
-            if(PhoneMainMenu.activeAppScreen == null && PhoneManager.phoneIsOut)  //If phone is Active and None of the Apps are on 
+            if (phoneObjRef.activeInHierarchy == true && cameraApp.activeInHierarchy == false && statAllocationApp.activeInHierarchy == false && inventoryApp.activeInHierarchy == false && notesApp.activeInHierarchy == false)
             {
                 phoneControlsGUIText.SetActive(true);
             }
             else
             {
                 phoneControlsGUIText.SetActive(false);
-                onScreenInstructionUI.SetActive(true);
+
+            }
+
+
+
+            
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                pauseMenuPanel.SetActive(true);
+                Time.timeScale = 0;
+            }
+
+            if(pauseMenuPanel.activeInHierarchy == true && Input.GetMouseButtonDown(0))
+            {
+                Cursor.lockState = CursorLockMode.None;
+
+                PhoneManager.Instance.mouseShouldBeUseable = true;
+            }else if(pauseMenuPanel.activeInHierarchy == false)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+
+                PhoneManager.Instance.mouseShouldBeUseable = false;
 
             }
 
@@ -422,9 +444,6 @@ public class TutorialManager : MonoBehaviour
 
                 }
             }
-
-
-
 
 
 
@@ -1332,13 +1351,6 @@ public class TutorialManager : MonoBehaviour
                 mainCam.SetActive(false);
                 tutCamPhone.SetActive(true);
 
-                if(phoneIsOff == false)
-                {
-                    phoneManager.SetPhoneState(true);
-
-                }
-
-
                 phoneManager.firstHighlightedPhoneButton = noteAppButton.gameObject;
                 phoneManager.SetPhoneState(false);
                 phoneManager.phoneIsUseable = false;
@@ -1503,6 +1515,7 @@ public class TutorialManager : MonoBehaviour
                yield return new WaitForSeconds(0.2f);
               playerObjRef.GetComponent<PlayerCon>().enabled = false;
             playerCameraController.GetComponent<PlayerCameraController>().enabled = false;
+            watchManager.GetComponent<WatchManager>().enabled = false;
 
 
             FirstCutScene.Play(FirstCutSceneContainer, 0, 0.0f);
@@ -1524,7 +1537,7 @@ public class TutorialManager : MonoBehaviour
 
             staticSubTextBox.text = "This journey was quite lengthy!";
              yield return new WaitForSeconds(2);
-            staticSubTextBox.text = "Considering the Travel from the city to here spaned several days...";
+            staticSubTextBox.text = "Considering the Travel from the city to here spanned several days...";
              yield return new WaitForSeconds(4);
             staticSubTextBox.text = "As I had to reach this location by the means of a boat!";
              yield return new WaitForSeconds(3);
@@ -1555,6 +1568,8 @@ public class TutorialManager : MonoBehaviour
             FirstCutSceneCamera.enabled = false;
 
             playerObjRef.GetComponent<PlayerCon>().enabled = true;
+            watchManager.GetComponent<WatchManager>().enabled = true;
+
             playerCameraController.GetComponent<PlayerCameraController>().enabled = true;
             Quest_Canvas.SetActive(true);
            }

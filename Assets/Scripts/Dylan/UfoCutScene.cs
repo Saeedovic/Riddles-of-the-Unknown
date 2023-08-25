@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class UfoCutScene : PointOfInterest, IInteractableObject
 {
@@ -45,7 +46,7 @@ public class UfoCutScene : PointOfInterest, IInteractableObject
 
     public GameObject GameUI;
 
-
+    public GameObject videoClip;
 
 
     public void Interact(PlayerInteractor user)
@@ -124,7 +125,8 @@ public class UfoCutScene : PointOfInterest, IInteractableObject
 
         yield return new WaitForSeconds(6f);
 
-        Application.Quit();
+        videoClip.SetActive(true);
+        videoClip.GetComponent<VideoPlayer>().enabled = true;
         yield return null;
     }
 

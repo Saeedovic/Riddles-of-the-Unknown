@@ -42,7 +42,6 @@ public class PlayerCon : MonoBehaviour
     [SerializeField] AudioClip runningAudio;
 
     public AudioSource playerAudio;
-    public AudioClip AudioClipForGameEnvironment;
 
     public bool soundPlayed;
 
@@ -63,19 +62,7 @@ public class PlayerCon : MonoBehaviour
 
      void Update()
     {
-        // other code
-        {
-            if (!soundPlayed)
-            {
-                playerAudio.clip = AudioClipForGameEnvironment;
-
-               playerAudio.Play();
-
-              
-                soundPlayed = true;
-            }
-        }
-
+        
         // get input and convert to local vector
 
         float horizontal = Input.GetAxis("Horizontal");

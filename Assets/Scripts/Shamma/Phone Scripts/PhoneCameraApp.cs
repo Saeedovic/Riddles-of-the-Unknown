@@ -229,7 +229,7 @@ public class PhoneCameraApp : PhoneAppScreen
 
         // set up all of the button configurations and their function calls
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(picTakingButtonInFullscreen.gameObject);
+        EventSystem.current.SetSelectedGameObject(ecopointButton.gameObject);
 
         picTakingButton.onClick.RemoveAllListeners();
         picTakingButtonInFullscreen.onClick.AddListener(TakeSnapshotFullscreen);
