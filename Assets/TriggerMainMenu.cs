@@ -2,21 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class TriggerMainMenu : MonoBehaviour
 {
-    
     private string MainMenu = "MainMenu";
+    VideoPlayer video;
 
-    // Use this for initialization
     void Start()
     {
-        StartCoroutine(CoFunc());
+        StartCoroutine(PlayCredits());
     }
 
-    IEnumerator CoFunc()
+    IEnumerator PlayCredits()
     {
-        yield return new WaitForSecondsRealtime(14);
+        video = GetComponent<VideoPlayer>();
+        video.enabled = true;
+
+        video.Play();
+
+        yield return new WaitForSecondsRealtime((float)video.length); // wait till clip's done
+
         SceneManager.LoadScene(MainMenu);
     }
 }

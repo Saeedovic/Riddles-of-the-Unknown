@@ -16,6 +16,10 @@ public class PlayTestSceneManager : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.None; // free up mouse for main menu use
+        Cursor.visible = true;
+
+
         resolutions = Screen.resolutions;
 
         resolutionDropdown.ClearOptions();

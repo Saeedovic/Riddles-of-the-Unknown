@@ -46,8 +46,6 @@ public class UfoCutScene : PointOfInterest, IInteractableObject
 
     public GameObject GameUI;
 
-    public GameObject videoClip;
-
 
     public void Interact(PlayerInteractor user)
     {
@@ -125,8 +123,7 @@ public class UfoCutScene : PointOfInterest, IInteractableObject
 
         yield return new WaitForSeconds(6f);
 
-        videoClip.SetActive(true);
-        videoClip.GetComponent<VideoPlayer>().enabled = true;
+        SceneManager.LoadScene("Credits"); // go to the credits sequence. 
         yield return null;
     }
 
